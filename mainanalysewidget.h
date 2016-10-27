@@ -5,6 +5,7 @@
 #include "fastqreader.h"
 #include "abstractanalysewidget.h"
 #include "statanalysewidget.h"
+#include "seqqualityanalysewidget.h"
 
 class MainAnalyseWidget : public QWidget
 {

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,12 +17,14 @@ SOURCES += main.cpp\
     fastqreader.cpp \
     abstractanalysewidget.cpp \
     mainanalysewidget.cpp \
-    statanalysewidget.cpp
+    statanalysewidget.cpp \
+    seqqualityanalysewidget.cpp
 
 HEADERS  += mainwindow.h \
     fastqreader.h \
     abstractanalysewidget.h \
     mainanalysewidget.h \
-    statanalysewidget.h
+    statanalysewidget.h \
+    seqqualityanalysewidget.h
 
 FORMS    += mainwindow.ui

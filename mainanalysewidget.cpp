@@ -20,8 +20,11 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
     setWindowTitle(info.fileName());
 
     addAnalyse(new StatAnalyseWidget(mReader));
+    addAnalyse(new SeqQualityAnalyseWidget(mReader));
 
     mListWidget->setMaximumWidth(100);
+
+    connect(mListWidget,SIGNAL(currentRowChanged(int)),mStackedWidget,SLOT(setCurrentIndex(int)));
 
 
 }
