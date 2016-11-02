@@ -4,16 +4,16 @@
 #include <QtWidgets>
 #include <QTableWidget>
 #include "abstractanalysewidget.h"
-#include "fastqreader.h"
+#include "fastqprocess.h"
 
 class StatAnalyseWidget : public AbstractAnalyseWidget
 {
     Q_OBJECT
 public:
-    explicit StatAnalyseWidget(FastqReader * reader, QWidget *parent = 0);
+    explicit StatAnalyseWidget(FastqProcess * reader, QWidget *parent = 0);
 
 public slots:
-    void fill();
+    void fill() Q_DECL_OVERRIDE;
 
 protected:
     void addField(const QString& label, const QString& value);

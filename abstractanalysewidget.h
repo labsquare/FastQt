@@ -2,19 +2,20 @@
 #define ABSTRACTANALYSEWIDGET_H
 
 #include <QWidget>
-#include "fastqreader.h"
+#include "fastqprocess.h"
 
 class AbstractAnalyseWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AbstractAnalyseWidget(FastqReader * reader, QWidget *parent = 0);
+    explicit AbstractAnalyseWidget(FastqProcess * reader, QWidget *parent = 0);
+    const FastqProcess * reader() const;
 
-
-    const FastqReader * reader() const;
+public Q_SLOTS:
+    virtual void fill() = 0;
 
 private:
-    FastqReader * mReader;
+    FastqProcess * mReader;
 
 
 };

@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     menuBar()->addMenu("File")->addAction("Open file");
 
-    addFile("/home/sacha/Bioinfo/data/Mucobiome/raw/out.extendedFrags.fastq");
+    addFile("/home/sacha/Bioinfo/data/Mucobiome/raw/small.fastq");
 
 }
 

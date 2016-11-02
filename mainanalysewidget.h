@@ -2,7 +2,7 @@
 #define ANALYSETABWIDGET_H
 
 #include <QtWidgets>
-#include "fastqreader.h"
+#include "fastqprocess.h"
 #include "abstractanalysewidget.h"
 #include "statanalysewidget.h"
 #include "seqqualityanalysewidget.h"
@@ -21,7 +21,7 @@ protected:
 
 
 private:
-    FastqReader * mReader;
+    FastqProcess * mReader;
     QList<AbstractAnalyseWidget*> mAnalyseWidgets;
     QListWidget * mListWidget;
     QStackedWidget * mStackedWidget;

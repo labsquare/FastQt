@@ -5,7 +5,7 @@
 #include <QTabWidget>
 #include <QFileInfo>
 #include "mainanalysewidget.h"
-#include "fastqreader.h"
+#include "fastqprocess.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

@@ -5,7 +5,10 @@
 class SeqQualityAnalyseWidget : public AbstractAnalyseWidget
 {
 public:
-    SeqQualityAnalyseWidget(FastqReader * reader, QWidget * parent = 0);
+    SeqQualityAnalyseWidget(FastqProcess * reader, QWidget * parent = 0);
+
+public slots:
+    void fill() Q_DECL_OVERRIDE;
 };
 
 #endif // SEQQUALITYANALYSEWIDGET_H

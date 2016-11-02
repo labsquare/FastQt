@@ -3,7 +3,7 @@
 
 #include <QtCharts>
 QT_CHARTS_USE_NAMESPACE
-SeqQualityAnalyseWidget::SeqQualityAnalyseWidget(FastqReader * reader, QWidget * parent):
+SeqQualityAnalyseWidget::SeqQualityAnalyseWidget(FastqProcess * reader, QWidget * parent):
     AbstractAnalyseWidget(reader,parent)
 {
 
@@ -11,48 +11,62 @@ SeqQualityAnalyseWidget::SeqQualityAnalyseWidget(FastqReader * reader, QWidget *
     setWindowIcon(QIcon::fromTheme("edit-undo"));
 
 
-    QBarSet *set0 = new QBarSet("Jane");
-    QBarSet *set1 = new QBarSet("John");
-    QBarSet *set2 = new QBarSet("Axel");
-    QBarSet *set3 = new QBarSet("Mary");
-    QBarSet *set4 = new QBarSet("Samantha");
+}
 
-    *set0 << 1 << 2 << 3 << 4 << 5 << 6;
-    *set1 << 5 << 0 << 0 << 4 << 0 << 7;
-    *set2 << 3 << 5 << 8 << 13 << 8 << 5;
-    *set3 << 5 << 6 << 7 << 3 << 4 << 5;
-    *set4 << 9 << 7 << 5 << 3 << 1 << 2;
+void SeqQualityAnalyseWidget::fill()
+{
 
-    QBarSeries *series = new QBarSeries();
-    series->append(set0);
-    series->append(set1);
-    series->append(set2);
-    series->append(set3);
-    series->append(set4);
+    QBoxPlotSeries *testSeries = new QBoxPlotSeries();
+    testSeries->setBoxOutlineVisible(false);
+    testSeries->setName("Acme Ltd");
+
+//    int index = 0;
+//    for (auto it : reader()->results().qualities)
+//    {
+
+//        QBoxSet * set = new QBoxSet;
+//        qSort(it.begin(), it.end());
 
 
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->setTitle("Simple barchart example");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+//        qreal min = it.first();
+//        qreal max = it.last();
 
-    QStringList categories;
-    categories << "Jan" << "Feb" << "Mar" << "Apr" << "May" << "Jun";
-    QBarCategoryAxis *axis = new QBarCategoryAxis();
-    axis->append(categories);
-    chart->createDefaultAxes();
-    chart->setAxisX(axis, series);
+//        int lower = it.size() / 4;
+//        int upper = lower * 3;
 
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
+//        qreal lowerQuart = it.at(lower);
+//        qreal upperQuart = it.at(upper);
+//        int median ;
+//        if (!it.size() % 2)
+//            median = it.at((it.size()+1) / 2) ;
+//        else
+//            median = (it.at(it.size()/2) + it.at((it.size()/2)+1)) / 2;
 
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+//        *set<<min<<lowerQuart<<median<<upperQuart<<max;
 
-   QVBoxLayout * mainLayout = new QVBoxLayout;
-   mainLayout->addWidget(chartView);
+//        testSeries->append(set);
+//    }
 
-   setLayout(mainLayout);
+
+
+
+//    for (int i=0; i< testSeries->boxSets().first()->count(); ++i)
+//    {
+//        qDebug()<<i;
+//    }
+
+//    QChart * chart = new QChart();
+//    chart->addSeries(testSeries);
+//    ////    chart->axisY()->setMin(0);
+//    ////    chart->axisY()->setMax(34.0);
+//    //    //chart->setAnimationOptions(QChart::SeriesAnimations);
+//    QChartView *chartView = new QChartView(chart);
+//    chartView->setRenderHint(QPainter::Antialiasing);
+
+//    QVBoxLayout * mainLayout = new QVBoxLayout;
+//    mainLayout->addWidget(chartView);
+
+//    setLayout(mainLayout);
 
 
 }

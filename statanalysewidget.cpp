@@ -1,6 +1,6 @@
 #include "statanalysewidget.h"
 
-StatAnalyseWidget::StatAnalyseWidget(FastqReader * reader,QWidget *parent)
+StatAnalyseWidget::StatAnalyseWidget(FastqProcess * reader,QWidget *parent)
     :AbstractAnalyseWidget(reader,parent)
 {
 
@@ -15,19 +15,14 @@ StatAnalyseWidget::StatAnalyseWidget(FastqReader * reader,QWidget *parent)
     setWindowTitle("Stat");
     setWindowIcon(QIcon::fromTheme("edit-undo"));
 
-    connect(reader,&FastqReader::done, this, &StatAnalyseWidget::fill);
 
 }
 
 void StatAnalyseWidget::fill()
 {
 
-
-
     addField("Total Sequences", QString::number(reader()->results().totalSequence));
-    addField("Sequences length", QString::number(reader()->results().sequenceLength));
-
-
+    addField("Sequences length", QString::number(reader()->results().meanSeqLength));
 
 }
 

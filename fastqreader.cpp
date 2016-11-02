@@ -1,70 +1,60 @@
 #include "fastqreader.h"
-#include <functional>
-FastqReader::FastqReader(const QString& filename, QObject *parent)
-    :mFilename(filename),QObject(parent)
-{
-    connect(&mWatcher,SIGNAL(finished()),this,SLOT(analyseDone()));
-}
 
-void FastqReader::run()
+FastqReader::FastqReader(QIODevice *device, QObject *parent) : QObject(parent)
 {
-    qDebug()<<Q_FUNC_INFO<<"run analyse";
-    QFuture<FastqData> future = QtConcurrent::run(this, &FastqReader::analyse);
-    mWatcher.setFuture(future);
+    mDevice = device;
+    mStream.setDevice(mDevice);
+    mLineNumber = 0;
+
 
 }
 
-const FastqData &FastqReader::results() const
+
+const QString &FastqReader::header()
 {
- return mResults;
+    return mHeader;
 }
 
-FastqData FastqReader::analyse()
+const QString &FastqReader::sequence()
 {
-    QFile file(mFilename);
-    FastqData data ;
+    return mSequence;
+}
 
-    if (file.open(QIODevice::ReadOnly|QIODevice::Text))
-    {
-        QTextStream stream(&file);
-        QString line;
+const QString &FastqReader::rawQualites()
+{
+    return mRawQualities;
+}
 
+const QVector<int> &FastqReader::qualities()
+{
+    return mQualities;
+}
 
-        data.sequenceLength = 0;
-        data.totalSequence = 0;
+bool FastqReader::next()
+{
 
-        int modulo = 0;
-        QVector<int> lengths;
+    if (mStream.atEnd())
+        return false;
 
-        while (stream.readLineInto(&line))
-        {
-            ++data.totalSequence;
+    mHeader = mStream.readLine();
+    mSequence = mStream.readLine();
+    mStream.readLine();
+    mRawQualities = mStream.readLine();
 
-            // modulo = 0  header
-            // modulo = 1  sequence
-            // modulo = 2  +
-            // modulo = 3  quality
-
-            if ( modulo % 4 == 1){
-                lengths.append(line.length());
-
-            }
-
-            ++modulo;
-        }
-
-        data.sequenceLength  = std::accumulate(lengths.begin(), lengths.end(),0) / data.totalSequence;
+    // compute quality
+    mQualities.clear();
+    std::for_each(mRawQualities.begin(), mRawQualities.end(),[this](QChar ascii){this->mQualities.append(ascii.toLatin1()-33);});
 
 
-    }
+    mLineNumber+=4;
 
-    return data;
+    return true;
 
 }
 
-void FastqReader::analyseDone()
+bool FastqReader::reset()
 {
-    qDebug()<<Q_FUNC_INFO<<"Analyse done";
-    mResults  = mWatcher.result();
-    emit done();
+    mLineNumber = 0;
+    return mStream.seek(0);
+
 }

@@ -6,7 +6,7 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
 
     mListWidget = new QListWidget;
     mStackedWidget = new QStackedWidget;
-    mReader = new FastqReader(filename);
+    mReader = new FastqProcess(filename);
 
     QSplitter * splitter = new QSplitter(Qt::Horizontal);
     splitter->addWidget(mListWidget);
