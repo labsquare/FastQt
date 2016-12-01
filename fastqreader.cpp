@@ -1,34 +1,15 @@
 #include "fastqreader.h"
 
-FastqReader::FastqReader(QIODevice *device, QObject *parent) : QObject(parent)
-{
-    mDevice = device;
-    mStream.setDevice(mDevice);
-    mLineNumber = 0;
 
+FastqReader::FastqReader(QIODevice *device)
+    :AbstractSequenceReader(device)
+{
+
+    mStream.setDevice(device);
 
 }
 
 
-const QString &FastqReader::header()
-{
-    return mHeader;
-}
-
-const QString &FastqReader::sequence()
-{
-    return mSequence;
-}
-
-const QString &FastqReader::rawQualites()
-{
-    return mRawQualities;
-}
-
-const QVector<int> &FastqReader::qualities()
-{
-    return mQualities;
-}
 
 bool FastqReader::next()
 {
@@ -36,25 +17,18 @@ bool FastqReader::next()
     if (mStream.atEnd())
         return false;
 
-    mHeader = mStream.readLine();
-    mSequence = mStream.readLine();
+    Sequence readSequence;
+
+    // read ID
+    readSequence.setId(mStream.readLine());
+    // read sequence
+    readSequence.setSequence(mStream.readLine());
+    // read unused +
     mStream.readLine();
-    mRawQualities = mStream.readLine();
+    // read qualities
+    readSequence.setQuality(mStream.readLine());
 
-    // compute quality
-    mQualities.clear();
-    std::for_each(mRawQualities.begin(), mRawQualities.end(),[this](QChar ascii){this->mQualities.append(ascii.toLatin1()-33);});
-
-
-    mLineNumber+=4;
+    setSequence(readSequence);
 
     return true;
-
-}
-
-bool FastqReader::reset()
-{
-    mLineNumber = 0;
-    return mStream.seek(0);
-
 }

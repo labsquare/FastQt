@@ -1,35 +1,18 @@
 #ifndef FASTQREADER_H
 #define FASTQREADER_H
-#include <QtCore>
 
-class FastqReader : public QObject
+#include "abstractsequencereader.h"
+
+class FastqReader : public AbstractSequenceReader
 {
-    Q_OBJECT
 public:
-    explicit FastqReader(QIODevice * device, QObject *parent = 0);
+    FastqReader(QIODevice * device);
 
-
-
-    const QString& header();
-    const QString& sequence();
-    const QString& rawQualites();
-    const QVector<int>& qualities();
-
-    bool next();
-    bool reset();
-
+     bool next() override;
 
 
 private:
-    QTextStream mStream;
-    QIODevice * mDevice;
-
-    QString mHeader;
-    QString mSequence;
-    QString mRawQualities;
-    QVector<int> mQualities;
-    int mLineNumber;
-
+     QTextStream mStream;
 
 };
 

@@ -53,21 +53,50 @@ FastqData FastqProcess::process()
 
         reader.reset();
 
-        int range = qFloor(maxLen / 10) +1;
-        QVector < QVector <int> > qq;
+        int range = qFloor(maxLen / 10) + 1;
+        QVector < QVector <qreal> > qq;
         qq.resize(range);
 
 
+        while (reader.next())
+        {
+            QVector <qreal> ranges = reader.makeQualitiesRange(10);
+            for (int i=0; i<ranges.size(); ++i)
+            {
+                qq[i].append(ranges.at(i));
+            }
+        }
+
+        for ( auto it : qq)
+        {
+            if (!it.isEmpty())
+            {
+                QualitySet set;
+                qSort(it);
+                set.min = it.first();
+                set.max = it.last();
+
+                int lower = it.size() / 4;
+                int upper = lower * 3;
+
+                set.first_quartile = it.at(lower);
+                set.last_quartile  = it.at(upper);
+                set.median = it.at(int(it.size()/2));
+
+                data.qualities.append(set);
+
+            }
 
 
 
 
-        qDebug()<<qq.size();
+
+        }
+
 
 
 
         return data;
-
     }
 
 }

@@ -5,7 +5,7 @@
 #include <QTabWidget>
 #include <QFileInfo>
 #include "mainanalysewidget.h"
-#include "fastqprocess.h"
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -16,10 +16,15 @@ public:
 
     void addFile(const QString& filename);
 
+public Q_SLOTS:
+    void run();
 
 private:
     QTabWidget * mTabWidget;
     QList<MainAnalyseWidget*> mainList;
+
+    QFuture<void> mRunFuture;
+
 };
 
 #endif // MAINWINDOW_H

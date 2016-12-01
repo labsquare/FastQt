@@ -1,37 +1,44 @@
 #include "statanalysewidget.h"
 
-StatAnalyseWidget::StatAnalyseWidget(FastqProcess * reader,QWidget *parent)
-    :AbstractAnalyseWidget(reader,parent)
+StatAnalyseWidget::StatAnalyseWidget(QWidget *parent)
+    :AbstractAnalyseWidget(parent)
 {
 
-    mView = new QTreeWidget;
-    mView->setColumnCount(2);
-    mView->setHeaderLabels(QStringList()<<"Measure"<<"Value");
-    QVBoxLayout * mainLayout = new QVBoxLayout;
-    mainLayout->addWidget(mView);
-
-    setLayout(mainLayout);
-
+    mEdit = new QPlainTextEdit;
+    setLayout(new QVBoxLayout);
+    layout()->addWidget(mEdit);
     setWindowTitle("Stat");
     setWindowIcon(QIcon::fromTheme("edit-undo"));
 
 
 }
 
-void StatAnalyseWidget::fill()
+void StatAnalyseWidget::analysisStarted()
 {
-
-    addField("Total Sequences", QString::number(reader()->results().totalSequence));
-    addField("Sequences length", QString::number(reader()->results().meanSeqLength));
+    qDebug()<<"yo";
+    mEdit->appendPlainText("Start analysis...");
 
 }
 
-void StatAnalyseWidget::addField(const QString &label, const QString &value)
+void StatAnalyseWidget::analysisUpdated(const Sequence &sequence)
 {
 
-    QTreeWidgetItem * item =  new QTreeWidgetItem;
-    item->setText(0, label);
-    item->setText(1, value);
-    mView->addTopLevelItem(item);
+    if (!done)
+    {
+        qDebug()<<&sequence;
+        done = true;
+    }
 
+    mEdit->appendPlainText(sequence.sequence());
 }
+
+
+
+void StatAnalyseWidget::analysisFinished()
+{
+    mEdit->appendPlainText("End analysis");
+}
+
+
+
+

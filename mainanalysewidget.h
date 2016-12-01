@@ -2,10 +2,11 @@
 #define ANALYSETABWIDGET_H
 
 #include <QtWidgets>
-#include "fastqprocess.h"
+#include <QtConcurrent>
+#include "fastqreader.h"
 #include "abstractanalysewidget.h"
+
 #include "statanalysewidget.h"
-#include "seqqualityanalysewidget.h"
 
 class MainAnalyseWidget : public QWidget
 {
@@ -13,19 +14,30 @@ class MainAnalyseWidget : public QWidget
 public:
     explicit MainAnalyseWidget(const QString& filename, QWidget *parent = 0);
 
-public slots:
-    void run();
+    void addAnalyse(AbstractAnalyseWidget * widget);
+    void runAllAnalysis();
+
+
+
+
+
+
+Q_SIGNALS:
+    void started();
+    void updated(const Sequence& sequence);
+    void finished();
 
 protected:
-    void addAnalyse(AbstractAnalyseWidget * widget);
+
+
 
 
 private:
-    FastqProcess * mReader;
-    QList<AbstractAnalyseWidget*> mAnalyseWidgets;
     QListWidget * mListWidget;
     QStackedWidget * mStackedWidget;
+    QString mFilename;
 
+    QList<AbstractAnalyseWidget*> mAnalyisis;
 
 
 };

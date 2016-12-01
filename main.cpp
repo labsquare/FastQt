@@ -1,20 +1,22 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include "statanalysewidget.h"
 #include <quazip/quagzipfile.h>
 #include "fastqreader.h"
+
+#include "sequence.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    qRegisterMetaType<Sequence>();
 
-    MainWindow w;
-    w.show();
+    Sequence A;
+    A.setSequence("AAAA");
 
+    MainWindow win;
 
-
-
+    win.show();
 
 
     return a.exec();

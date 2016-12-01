@@ -2,20 +2,21 @@
 #define ABSTRACTANALYSEWIDGET_H
 
 #include <QWidget>
-#include "fastqprocess.h"
-
+#include "sequence.h"
 class AbstractAnalyseWidget : public QWidget
 {
     Q_OBJECT
+
 public:
-    explicit AbstractAnalyseWidget(FastqProcess * reader, QWidget *parent = 0);
-    const FastqProcess * reader() const;
+    explicit AbstractAnalyseWidget(QWidget *parent = 0);
 
 public Q_SLOTS:
-    virtual void fill() = 0;
+    virtual void analysisStarted(){}
+    virtual void analysisUpdated(const Sequence& sequence){}
+    virtual void analysisFinished(){}
 
-private:
-    FastqProcess * mReader;
+
+
 
 
 };

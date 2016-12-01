@@ -1,14 +1,10 @@
 #include "abstractanalysewidget.h"
 
-AbstractAnalyseWidget::AbstractAnalyseWidget(FastqProcess * reader,QWidget *parent)
-    : QWidget(parent)
-{
-    mReader = reader;
 
-    connect(mReader, &FastqProcess::done, this, &AbstractAnalyseWidget::fill);
+
+AbstractAnalyseWidget::AbstractAnalyseWidget(QWidget *parent)
+    :QWidget(parent)
+{
+
 }
 
-const FastqProcess *AbstractAnalyseWidget::reader() const
-{
-    return mReader;
-}
