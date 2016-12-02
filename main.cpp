@@ -11,8 +11,6 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<Sequence>();
 
-    Sequence A;
-    A.setSequence("AAAA");
 
     MainWindow win;
 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui charts concurrent
+QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,7 +32,10 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     mainanalysewidget.cpp \
     abstractanalysewidget.cpp \
-    statanalysewidget.cpp
+    statanalysewidget.cpp \
+    analysisrunner.cpp \
+    analysis.cpp \
+    basicstatsanalysis.cpp
 
 #HEADERS  += mainwindow.h \
 #    abstractanalysewidget.h \
@@ -49,6 +52,9 @@ HEADERS =    sequence.h \
     mainwindow.h \
     mainanalysewidget.h \
     abstractanalysewidget.h \
-    statanalysewidget.h
+    statanalysewidget.h \
+    analysisrunner.h \
+    analysis.h \
+    basicstatsanalysis.h
 
 FORMS    += mainwindow.ui

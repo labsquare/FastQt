@@ -7,8 +7,9 @@ class FastqReader : public AbstractSequenceReader
 {
 public:
     FastqReader(QIODevice * device);
-
      bool next() override;
+
+     int percentCompleted();
 
 
 private:

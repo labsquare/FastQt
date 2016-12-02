@@ -32,3 +32,10 @@ bool FastqReader::next()
 
     return true;
 }
+
+int FastqReader::percentCompleted()
+{
+
+    return (double)(mStream.pos()) / mStream.device()->size() * 100;
+
+}

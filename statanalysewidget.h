@@ -4,7 +4,6 @@
 #include <QtWidgets>
 #include <QTableWidget>
 #include "abstractanalysewidget.h"
-#include "fastqprocess.h"
 
 class StatAnalyseWidget : public AbstractAnalyseWidget
 {

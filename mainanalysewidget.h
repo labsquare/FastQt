@@ -3,10 +3,8 @@
 
 #include <QtWidgets>
 #include <QtConcurrent>
-#include "fastqreader.h"
-#include "abstractanalysewidget.h"
-
-#include "statanalysewidget.h"
+#include "analysisrunner.h"
+#include "basicstatsanalysis.h"
 
 class MainAnalyseWidget : public QWidget
 {
@@ -14,30 +12,30 @@ class MainAnalyseWidget : public QWidget
 public:
     explicit MainAnalyseWidget(const QString& filename, QWidget *parent = 0);
 
-    void addAnalyse(AbstractAnalyseWidget * widget);
-    void runAllAnalysis();
+
+public Q_SLOTS:
+    void launch();
+    void analysisStarted();
+    void analysisUpdated(int seqCount, int percent);
+    void analysisFinished();
 
 
-
-
-
-
-Q_SIGNALS:
-    void started();
-    void updated(const Sequence& sequence);
-    void finished();
-
-protected:
-
-
-
+protected :
+    void clearResults();
 
 private:
-    QListWidget * mListWidget;
-    QStackedWidget * mStackedWidget;
-    QString mFilename;
 
-    QList<AbstractAnalyseWidget*> mAnalyisis;
+    QStackedLayout * mMainLayout;
+
+    QLabel * mProgressLabel;
+    QSplitter * mResultWidget;
+    QString mFilename;
+    AnalysisRunner mRunner;
+
+
+    QListWidget * mListWidget;
+    QStackedWidget * mStackWidget;
+
 
 
 };

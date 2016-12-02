@@ -11,10 +11,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     menuBar()->addMenu("File")->addAction("Open file");
 
-    addFile("/home/sacha/Bioinfo/data/Mucobiome/raw/small.fastq");
+    addFile("/home/sacha/Bioinfo/projects/mucobiome/test.fastq");
 
     addToolBar("test")->addAction("run", this, SLOT(run()));
 
+        resize(600,400);
 
 }
 
@@ -38,11 +39,7 @@ void MainWindow::addFile(const QString &filename)
 void MainWindow::run()
 {
 
-    for (MainAnalyseWidget * widget : mainList)
-    {
-        QtConcurrent::run(widget, &MainAnalyseWidget::runAllAnalysis);
-    }
-
+    mainList.first()->launch();
 
 }
 

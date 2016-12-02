@@ -5,82 +5,85 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
 {
 
     mFilename       = filename;
-    mListWidget     = new QListWidget;
-    mStackedWidget  = new QStackedWidget;
+    mRunner.setFilename(filename);
 
 
-    QSplitter * splitter     = new QSplitter(Qt::Horizontal);
-    QVBoxLayout * mainLayout = new QVBoxLayout;
+    mProgressLabel    = new QLabel("Bonjour");
+    mListWidget       = new QListWidget;
+    mStackWidget      = new QStackedWidget;
+    mResultWidget     = new QSplitter(Qt::Horizontal);
 
-    splitter->addWidget(mListWidget);
-    splitter->addWidget(mStackedWidget);
-    mainLayout->addWidget(splitter);
+    mProgressLabel->setAlignment(Qt::AlignCenter);
+    mResultWidget->addWidget(mListWidget);
+    mResultWidget->addWidget(mStackWidget);
 
-    setLayout(mainLayout);
+    mMainLayout = new QStackedLayout;
+    mMainLayout->addWidget(mProgressLabel);
+    mMainLayout->addWidget(mResultWidget);
 
-    QFileInfo info(filename);
-    setWindowTitle(info.fileName());
-    mListWidget->setMaximumWidth(100);
+    setLayout(mMainLayout);
 
+    setWindowTitle(mFilename);
 
-    addAnalyse(new StatAnalyseWidget);
+    connect(&mRunner, &AnalysisRunner::started, this, &MainAnalyseWidget::analysisStarted);
+    connect(&mRunner, &AnalysisRunner::updated, this, &MainAnalyseWidget::analysisUpdated);
+    connect(&mRunner, &AnalysisRunner::finished, this, &MainAnalyseWidget::analysisFinished);
 
-    connect(mListWidget,SIGNAL(currentRowChanged(int)),mStackedWidget,SLOT(setCurrentIndex(int)));
+    connect(mListWidget,&QListWidget::currentRowChanged, mStackWidget, &QStackedWidget::setCurrentIndex);
+
+    mRunner.addAnalysis(new BasicStatsAnalysis);
+
 
 }
 
-void MainAnalyseWidget::runAllAnalysis()
+
+
+
+void MainAnalyseWidget::launch()
 {
-    QFile file(mFilename);
-    if (file.open(QIODevice::ReadOnly))
+    mMainLayout->setCurrentWidget(mProgressLabel);
+    mRunner.start(QThread::HighPriority);
+
+}
+
+void MainAnalyseWidget::analysisStarted()
+{
+
+}
+
+void MainAnalyseWidget::analysisUpdated(int seqCount, int percent)
+{
+
+    mProgressLabel->setText(QString("%1 Sequences procceed ( %2 )\%").arg(seqCount).arg(percent));
+}
+
+void MainAnalyseWidget::analysisFinished()
+{
+    clearResults();
+
+    for (Analysis* a : mRunner.analysisList())
     {
-        emit started();
-
-        FastqReader reader(&file);
-
-        bool done = false;
-
-        while (reader.next())
-        {
-            Sequence seq = reader.sequence();
-
-            if (!done)
-            {
-                done = true;
-                qDebug()<<(&seq);
-            }
-
-
-            emit updated(seq);
-
-            seq.setSequence("AAA");
-
-        }
-
-        emit finished();
+        mListWidget->addItem(new QListWidgetItem(a->icon(),a->name()));
+        mStackWidget->addWidget(a->createResultWidget());
     }
 
+
+    mMainLayout->setCurrentWidget(mResultWidget);
+
+
 }
-void MainAnalyseWidget::addAnalyse(AbstractAnalyseWidget *widget)
+
+void MainAnalyseWidget::clearResults()
 {
+    mListWidget->clear();
 
-    mAnalyisis.append(widget);
-    mListWidget->addItem(new QListWidgetItem(widget->windowIcon(),widget->windowTitle()));
-    mStackedWidget->addWidget(widget);
-
-    connect(this,&MainAnalyseWidget::started, widget, &AbstractAnalyseWidget::analysisStarted);
-    connect(this,&MainAnalyseWidget::updated, widget, &AbstractAnalyseWidget::analysisUpdated);
-    connect(this,&MainAnalyseWidget::finished, widget, &AbstractAnalyseWidget::analysisFinished);
+    for(int i = mStackWidget->count(); i >= 0; i--)
+    {
+        QWidget* widget = mStackWidget->widget(i);
+        mStackWidget->removeWidget(widget);
+        delete widget;
+    }
 }
 
-//void MainAnalyseWidget::addAnalyse(AbstractAnalyseWidget *widget)
-//{
 
 
-////    mAnalyseWidgets.append(widget);
-////    mListWidget->addItem(new QListWidgetItem(widget->windowIcon(),widget->windowTitle()));
-////    mStackedWidget->addWidget(widget);
-
-
-
-//}
