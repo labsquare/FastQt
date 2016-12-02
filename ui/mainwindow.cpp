@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addToolBar("test")->addAction("run", this, SLOT(run()));
 
-        resize(600,400);
+    resize(600,400);
 
 }
 
@@ -30,9 +30,6 @@ void MainWindow::addFile(const QString &filename)
     MainAnalyseWidget * w = new MainAnalyseWidget(filename);
     mainList.append(w);
     mTabWidget->addTab(w, w->windowIcon(), w->windowTitle());
-
-
-
 
 }
 

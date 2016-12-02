@@ -58,6 +58,12 @@ void AnalysisRunner::setFilename(const QString &filename)
     mFilename = filename;
 }
 
+void AnalysisRunner::reset()
+{
+    for (Analysis * a : analysisList())
+        a->reset();
+}
+
 const QList<Analysis*> &AnalysisRunner::analysisList() const
 {
     return mAnalysisList;

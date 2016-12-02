@@ -41,3 +41,8 @@ void Sequence::setQuality(const QString &quality)
 {
     mQuality = quality;
 }
+
+int Sequence::size() const
+{
+    return mSequence.size();
+}

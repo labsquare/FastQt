@@ -14,6 +14,7 @@ public:
     virtual void run() override;
     void addAnalysis(Analysis* analysis);
     void setFilename(const QString& filename);
+    void reset();
 
     const QList<Analysis*>& analysisList() const;
 

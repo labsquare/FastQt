@@ -8,8 +8,8 @@ class Analysis
 public:
     Analysis();
     virtual void processSequence(const Sequence& sequence) = 0;
-
-    virtual QWidget* createResultWidget(){ new QPushButton("salut");}
+    virtual void reset() = 0;
+    virtual QWidget* createResultWidget() = 0;
 
 
     const QString& name() const {return mName;}

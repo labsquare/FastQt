@@ -3,21 +3,53 @@
 BasicStatsAnalysis::BasicStatsAnalysis()
     :Analysis()
 {
-    mTotal = 0;
     setName("Basic Stat");
 }
+// ==============================================================
+void BasicStatsAnalysis::reset()
+{
+    mEncoding.clear();
+    mReadCount = 0;
+    mMinLength = 0;
+    mMaxLength = 0;
+}
+// ==============================================================
 
 void BasicStatsAnalysis::processSequence(const Sequence &sequence)
 {
 
-    mTotal+=1;
+
+    mReadCount++;
+    mMinLength = qMin(mMinLength, sequence.size());
+    mMaxLength = qMax(mMaxLength, sequence.size());
+
 
 }
+// ==============================================================
 
 QWidget *BasicStatsAnalysis::createResultWidget()
 {
 
-    return new QSpinBox();
+    QTableView * view = new QTableView;
+    KeyValueModel * model = new KeyValueModel(view);
+    view->setModel(model);
+
+
+    model->addValue(QObject::tr("Total Sequences"), mReadCount);
+    model->addValue(QObject::tr("Sequence length"), QString("%1-%2").arg(mMinLength).arg(mMaxLength));
+
+    view->horizontalHeader()->hide();
+    view->verticalHeader()->hide();
+
+    view->setAlternatingRowColors(true);
+    view->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+
+    view->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
+    view->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
+
+
+    return view;
 
 
 }

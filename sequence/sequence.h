@@ -18,6 +18,8 @@ public:
     const QString &quality() const;
     void setQuality(const QString &quality);
 
+    int size() const;
+
 private:
     QString mId;
     QString mSequence;
