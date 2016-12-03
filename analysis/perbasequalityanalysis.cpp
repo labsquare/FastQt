@@ -10,23 +10,17 @@ void PerBaseQualityAnalysis::processSequence(const Sequence &sequence)
 
 
 
-    if ( mQualityCounts.length() < sequence.quality().length())
+    if ( mQualityCounts.size() < sequence.quality().size())
     {
-        mQualityCounts.clear();
 
-        for (int i= mQualityCounts.count(); i<sequence.quality().length(); ++i)
+        for (int i= mQualityCounts.size(); i<sequence.quality().size(); ++i)
             mQualityCounts.append(QualityCount());
 
     }
 
 
-    for (int i=0; i< sequence.quality().length(); ++i)
-        mQualityCounts[i].addValue(sequence.quality().at(i));
-
-
-
-
-
+    for (int i=0; i< sequence.quality().size(); ++i)
+        mQualityCounts[i].addValue(sequence.quality()[i]);
 
 
 
@@ -40,24 +34,31 @@ void PerBaseQualityAnalysis::reset()
 QWidget *PerBaseQualityAnalysis::createResultWidget()
 {
 
+    computePercentages();
 
-    qSort(sortedList.begin(), sortedList.end());
+    QBoxPlotSeries *qualSerie = new QBoxPlotSeries();
 
-    int count = sortedList.count();
+    for (int i=0; i<means.size(); ++i)
+    {
+        QBoxSet *box = new QBoxSet(xLabels[i]);
+        box->setValue(QBoxSet::LowerExtreme, lowest[i]);
+        box->setValue(QBoxSet::UpperExtreme, highest[i]);
+        box->setValue(QBoxSet::Median, medians[i]);
+        box->setValue(QBoxSet::LowerQuartile,lowerQuartile[i]);
+        box->setValue(QBoxSet::UpperQuartile, upperQuartile[i]);
 
-    QBoxSet *box = new QBoxSet("graph");
-    box->setValue(QBoxSet::LowerExtreme, sortedList.first());
-    box->setValue(QBoxSet::UpperExtreme, sortedList.last());
-    box->setValue(QBoxSet::Median, findMedian(0, count));
-    box->setValue(QBoxSet::LowerQuartile, findMedian(0, count / 2));
-    box->setValue(QBoxSet::UpperQuartile, findMedian(count / 2 + (count % 2), count));
+        qualSerie->append(box);
 
+    }
 
-    QBoxPlotSeries *acmeSeries = new QBoxPlotSeries();
-    acmeSeries->append(box);
 
     QChart * chart = new QChart();
-    chart->addSeries(acmeSeries);
+    chart->addSeries(qualSerie);
+
+    chart->setTitle("Quality per base");
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+
+    chart->createDefaultAxes();
 
     QChartView * view = new QChartView;
     view->setChart(chart);
@@ -66,19 +67,75 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
 
 }
 
-qreal PerBaseQualityAnalysis::findMedian(int begin, int end)
+qreal PerBaseQualityAnalysis::mean(int minbp, int maxbp)
 {
+    int count    = 0;
+    double total = 0;
 
-    int count = end - begin;
-    if (count % 2) {
-        return sortedList.at(count / 2 + begin);
-    } else {
-        qreal right = sortedList.at(count / 2 + begin);
-        qreal left = sortedList.at(count / 2 - 1 + begin);
-        return (right + left) / 2.0;
+    for (int i=minbp-1;i<maxbp;i++) {
+        if (mQualityCounts[i].count() > 0) {
+            count++;
+            total += mQualityCounts[i].mean();
+        }
     }
 
+    if (count > 0) {
+        return total/count;
+    }
+    return 0;
+
+
 }
+
+qreal PerBaseQualityAnalysis::percentile(int minbp, int maxbp, int percentile)
+{
+    int count = 0;
+    double total = 0;
+
+    for (int i=minbp-1;i<maxbp;i++) {
+        if (mQualityCounts[i].count() > 100) {
+            count++;
+            total += mQualityCounts[i].percentile(percentile);
+        }
+    }
+
+    if (count > 0) {
+        return total/count;
+    }
+    return 0;
+}
+
+void PerBaseQualityAnalysis::computePercentages()
+{
+    QList<BaseGroup> groups =BaseGroup::makeBaseGroups(mQualityCounts.length());
+
+    means.fill(0,groups.length());
+    medians.fill(0,groups.length());
+    lowest.fill(0,groups.length());
+    highest.fill(0,groups.length());
+    lowerQuartile.fill(0,groups.length());
+    upperQuartile.fill(0,groups.length());
+    xLabels.fill(QString(), groups.length());
+
+    for (int i=0;i<groups.length();i++) {
+        int minBase = groups[i].lowerCount();
+        int maxBase = groups[i].upperCount();
+
+        lowest[i]  = percentile(minBase, maxBase, 10);
+        highest[i] = percentile(minBase, maxBase, 90);
+        means[i]   = mean(minBase,maxBase);
+        medians[i] = percentile(minBase, maxBase, 50);
+        lowerQuartile[i] = percentile(minBase, maxBase, 25);
+        upperQuartile[i] = percentile(minBase, maxBase, 75);
+        xLabels[i] = groups[i].toString();
+
+
+    }
+
+    qDebug()<<means;
+}
+
+
 
 //===========================================================
 //
@@ -102,7 +159,7 @@ void QualityCount::addValue(char c)
 
 }
 
-qreal QualityCount::mean()
+qreal QualityCount::mean()const
 {
     quint64 total = 0;
     quint64 count = 0;
@@ -117,7 +174,7 @@ qreal QualityCount::mean()
 
 }
 
-char QualityCount::min()
+char QualityCount::min()const
 {
     char minChar = mCounts.keys().first();
     for (char c : mCounts.keys())
@@ -128,7 +185,7 @@ char QualityCount::min()
 
 }
 
-char QualityCount::max()
+char QualityCount::max()const
 {
     char maxChar = mCounts.keys().first();
     for (char c : mCounts.keys())
@@ -138,7 +195,7 @@ char QualityCount::max()
     return maxChar;
 }
 
-qreal QualityCount::percentile(int percentile)
+qreal QualityCount::percentile(int percentile)const
 {
     QList<char> keys = mCounts.keys();
     qSort(keys.begin(), keys.end());
@@ -161,5 +218,10 @@ qreal QualityCount::percentile(int percentile)
 
     return -1;
 
+}
+
+int QualityCount::count()const
+{
+    return mTotalCounts;
 }
 

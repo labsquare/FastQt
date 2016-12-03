@@ -3,6 +3,7 @@
 
 #include <QtCharts>
 #include "analysis.h"
+#include "basegroup.h"
 
 using namespace QT_CHARTS_NAMESPACE;
 
@@ -18,7 +19,9 @@ public:
 
 
 protected:
-    qreal findMedian(int begin, int end);
+    qreal mean(int minbp, int maxbp);
+    qreal percentile(int minbp, int maxbp, int percentile);
+    void computePercentages();
 
 
 private:
@@ -28,6 +31,7 @@ private:
     QVector<qreal> upperQuartile;
     QVector<qreal> lowest;
     QVector<qreal> highest;
+   QVector<QString> xLabels;
 
     QList<QualityCount> mQualityCounts;
 
@@ -41,10 +45,11 @@ class QualityCount {
 public:
     QualityCount();
     void addValue(char c);
-    qreal mean();
-    char min();
-    char max();
-    qreal percentile(int percentile);
+    qreal mean()const;
+    char min()const;
+    char max()const;
+    qreal percentile(int percentile)const;
+    int count() const;
 
 
 

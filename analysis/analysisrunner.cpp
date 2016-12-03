@@ -30,12 +30,17 @@ void AnalysisRunner::run()
         {
             ++seqCount;
 
-            int percentNow = reader.percentComplete();
-            if (percentNow >= percentCompleted + 10)
+            if (seqCount % 1000 == 0)
             {
-                percentCompleted = percentNow;
-                emit updated(seqCount, percentCompleted);
+                int percentNow = reader.percentComplete();
+                if (percentNow >= percentCompleted + 5)
+                {
+                    percentCompleted = percentNow;
+                    emit updated(seqCount, percentCompleted);
+                }
+
             }
+
 
             for (Analysis * a : mAnalysisList)
             {
