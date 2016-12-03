@@ -5,7 +5,6 @@ FastqReader::FastqReader(QIODevice *device)
     :AbstractSequenceReader(device)
 {
 
-    mStream.setDevice(device);
 
 }
 
@@ -14,19 +13,22 @@ FastqReader::FastqReader(QIODevice *device)
 bool FastqReader::next()
 {
 
-    if (mStream.atEnd())
+    if (device()->atEnd())
         return false;
 
     Sequence readSequence;
 
     // read ID
-    readSequence.setId(mStream.readLine());
+
+
+    readSequence.setId(device()->readLine());
     // read sequence
-    readSequence.setSequence(mStream.readLine());
+    readSequence.setSequence(device()->readLine());
     // read unused +
-    mStream.readLine();
+    device()->readLine();
     // read qualities
-    readSequence.setQuality(mStream.readLine());
+    readSequence.setQuality(device()->readLine());
+
 
     setSequence(readSequence);
 
@@ -36,6 +38,6 @@ bool FastqReader::next()
 int FastqReader::percentCompleted()
 {
 
-    return (double)(mStream.pos()) / mStream.device()->size() * 100;
+    return (double)(device()->pos()) / device()->size() * 100;
 
 }

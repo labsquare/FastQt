@@ -20,6 +20,11 @@ void BasicStatsAnalysis::processSequence(const Sequence &sequence)
 
 
     mReadCount++;
+
+    if (mReadCount == 1)
+        mMinLength = sequence.size();
+
+
     mMinLength = qMin(mMinLength, sequence.size());
     mMaxLength = qMax(mMaxLength, sequence.size());
 
@@ -34,9 +39,11 @@ QWidget *BasicStatsAnalysis::createResultWidget()
     KeyValueModel * model = new KeyValueModel(view);
     view->setModel(model);
 
+    QString length = mMinLength == mMaxLength ? QString("%1").arg(mMaxLength) :  QString("%1-%2").arg(mMinLength).arg(mMaxLength);
+
 
     model->addValue(QObject::tr("Total Sequences"), mReadCount);
-    model->addValue(QObject::tr("Sequence length"), QString("%1-%2").arg(mMinLength).arg(mMaxLength));
+    model->addValue(QObject::tr("Sequence length"), length);
 
     view->horizontalHeader()->hide();
     view->verticalHeader()->hide();

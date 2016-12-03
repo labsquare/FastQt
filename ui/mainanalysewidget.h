@@ -5,6 +5,7 @@
 #include <QtConcurrent>
 #include "analysisrunner.h"
 #include "basicstatsanalysis.h"
+#include "perbasequalityanalysis.h"
 
 class MainAnalyseWidget : public QWidget
 {

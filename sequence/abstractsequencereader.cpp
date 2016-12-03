@@ -21,6 +21,11 @@ const Sequence &AbstractSequenceReader::sequence() const
     return mSequence;
 }
 
+QIODevice *AbstractSequenceReader::device()
+{
+    return mDevice;
+}
+
 void AbstractSequenceReader::setSequence(const Sequence &seq)
 {
 

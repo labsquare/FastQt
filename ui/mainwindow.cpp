@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     menuBar()->addMenu("File")->addAction("Open file");
 
-    addFile("/home/sacha/Bioinfo/projects/mucobiome/test.fastq");
+    addFile("/home/sacha/test.fastq");
 
     addToolBar("test")->addAction("run", this, SLOT(run()));
 

@@ -16,17 +16,18 @@ AnalysisRunner::AnalysisRunner(const QString &filename, QObject *parent)
 void AnalysisRunner::run()
 {
     QFile file(mFilename);
-    if (file.open(QIODevice::ReadOnly))
+    if (file.open(QIODevice::ReadOnly|QFile::Text))
     {
         int seqCount = 0;
         int percentCompleted = 0;
 
         FastqReader reader(&file);
 
+        QTime start = QTime::currentTime();
+        qDebug()<<"start"<<start;
 
         while (reader.next())
         {
-            Sequence seq = reader.sequence();
             ++seqCount;
 
             int percentNow = reader.percentComplete();
@@ -38,9 +39,12 @@ void AnalysisRunner::run()
 
             for (Analysis * a : mAnalysisList)
             {
-                a->processSequence(seq);
+                a->processSequence(reader.sequence());
             }
         }
+
+        qDebug()<<"end"<<start.msecsTo(QTime::currentTime());
+
 
 
     }

@@ -13,7 +13,6 @@ public:
 
 
 private:
-     QTextStream mStream;
 
 };
 

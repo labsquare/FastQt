@@ -14,7 +14,7 @@ public:
 
 protected:
     void setSequence(const Sequence& seq);
-
+    QIODevice * device();
 
 private:
     QIODevice * mDevice;

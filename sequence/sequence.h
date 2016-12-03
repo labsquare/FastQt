@@ -6,26 +6,27 @@ class Sequence
 {
 public:
     Sequence();
-    Sequence(const QString& id, const QString& sequence, const QString& quality);
+    Sequence(const QByteArray& id, const QByteArray& sequence, const QByteArray& quality);
 
 
-    const QString &id() const;
-    void setId(const QString &id);
+    const QByteArray &id() const;
+    void setId(const QByteArray &id);
 
-    const QString &sequence() const;
-    void setSequence(const QString &sequence);
+    const QByteArray &sequence() const;
+    void setSequence(const QByteArray &sequence);
 
-    const QString &quality() const;
-    void setQuality(const QString &quality);
+    const QByteArray &quality() const;
+    void setQuality(const QByteArray &quality);
+
+
+
 
     int size() const;
 
 private:
-    QString mId;
-    QString mSequence;
-    QString mQuality;
-
-
+    QByteArray mId;
+    QByteArray mSequence;
+    QByteArray mQuality;
 
 };
 Q_DECLARE_METATYPE(Sequence)

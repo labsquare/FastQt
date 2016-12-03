@@ -33,6 +33,7 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
     connect(mListWidget,&QListWidget::currentRowChanged, mStackWidget, &QStackedWidget::setCurrentIndex);
 
     mRunner.addAnalysis(new BasicStatsAnalysis);
+    mRunner.addAnalysis(new PerBaseQualityAnalysis);
 
 
 }

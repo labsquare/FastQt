@@ -6,38 +6,38 @@ Sequence::Sequence()
 
 }
 
-Sequence::Sequence(const QString &id, const QString &sequence, const QString &quality)
+Sequence::Sequence(const QByteArray &id, const QByteArray &sequence, const QByteArray &quality)
     :mId(id), mSequence(sequence), mQuality(quality)
 {
 
 }
 
-const QString &Sequence::id() const
+const QByteArray &Sequence::id() const
 {
     return mId;
 }
 
-void Sequence::setId(const QString &id)
+void Sequence::setId(const QByteArray &id)
 {
     mId = id;
 }
 
-const QString &Sequence::sequence() const
+const QByteArray &Sequence::sequence() const
 {
     return mSequence;
 }
 
-void Sequence::setSequence(const QString &sequence)
+void Sequence::setSequence(const QByteArray &sequence)
 {
     mSequence = sequence;
 }
 
-const QString &Sequence::quality() const
+const QByteArray &Sequence::quality() const
 {
     return mQuality;
 }
 
-void Sequence::setQuality(const QString &quality)
+void Sequence::setQuality(const QByteArray &quality)
 {
     mQuality = quality;
 }
