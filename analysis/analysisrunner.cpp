@@ -73,7 +73,7 @@ void AnalysisRunner::reset()
         a->reset();
 }
 
-const QList<Analysis*> &AnalysisRunner::analysisList() const
+const QVector<Analysis*> &AnalysisRunner::analysisList() const
 {
     return mAnalysisList;
 }

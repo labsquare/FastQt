@@ -143,7 +143,6 @@ void PerBaseQualityAnalysis::computePercentages()
 //
 //===========================================================
 
-
 QualityCount::QualityCount()
 {
 
@@ -155,7 +154,8 @@ QualityCount::QualityCount()
 void QualityCount::addValue(char c)
 {
     mTotalCounts++;
-    mCounts[c] = mCounts.value(c,0) + 1;
+    mCounts[c]++;
+
 
 }
 
@@ -164,10 +164,11 @@ qreal QualityCount::mean()const
     quint64 total = 0;
     quint64 count = 0;
 
-    for (char c : mCounts.keys())
+    for (int i=33; i<76; ++i)
     {
-        count += mCounts[c];
-        total += mCounts[c] * c;
+        count += mCounts[i];
+        total += mCounts[i] * i;
+
     }
 
     return qreal(total) / count;
@@ -176,45 +177,68 @@ qreal QualityCount::mean()const
 
 char QualityCount::min()const
 {
-    char minChar = mCounts.keys().first();
-    for (char c : mCounts.keys())
-        minChar = qMin(minChar, c);
+//    char minChar = mCounts.keys().first();
+//    for (char c : mCounts.keys())
+//        minChar = qMin(minChar, c);
 
+    for (int i=33; i<76; ++i)
+    {
+        if (mCounts[i] != 0)
+            return i;
 
-    return minChar;
+    }
+
+    return 33;
 
 }
 
 char QualityCount::max()const
 {
-    char maxChar = mCounts.keys().first();
-    for (char c : mCounts.keys())
-        maxChar = qMax(maxChar, c);
 
+    for (int i=75; i>=33; --i)
+    {
+        if (mCounts[i] != 0)
+            return i;
 
-    return maxChar;
+    }
+
+//    char maxChar = mCounts.keys().first();
+//    for (char c : mCounts.keys())
+//        maxChar = qMax(maxChar, c);
+
+    return 75;
+
+   // return maxChar;
 }
 
 qreal QualityCount::percentile(int percentile)const
 {
-    QList<char> keys = mCounts.keys();
-    qSort(keys.begin(), keys.end());
+//    QList<char> keys = mCounts.keys();
+//    qSort(keys.begin(), keys.end());
 
     int total = 0;
-    for (char c : keys)
-        total += mCounts[c];
+//    for (char c : keys)
+//        total += mCounts[c];
+
+    for (int i=33; i<76; ++i)
+        total += mCounts[i];
 
     total *= percentile;
     total /= 100;
 
     int count = 0;
-    for (char c : keys)
+
+
+    for (int i=33; i<76; ++i)
     {
-        count += mCounts[c];
-        if (count >= total)
-            return c;
+        count += mCounts[i];
+        if (count >=total)
+            return i;
     }
 
+
+
+//    return -1;
 
     return -1;
 

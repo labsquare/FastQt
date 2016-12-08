@@ -16,14 +16,14 @@ public:
     void setFilename(const QString& filename);
     void reset();
 
-    const QList<Analysis*>& analysisList() const;
+    const QVector<Analysis*>& analysisList() const;
 
 Q_SIGNALS:
     void updated(int sequencesProcessed, int percentCompleted);
 
 
 private:
-    QList<Analysis*> mAnalysisList;
+    QVector<Analysis*> mAnalysisList;
     QString mFilename;
 
 };
