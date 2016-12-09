@@ -1,9 +1,11 @@
 #include "basicstatsanalysis.h"
 #include <QDebug>
+#include <QLocale>
 BasicStatsAnalysis::BasicStatsAnalysis()
     :Analysis()
 {
     setName("Basic Stat");
+    setTooltip("Basic statistic");
 }
 // ==============================================================
 void BasicStatsAnalysis::reset()

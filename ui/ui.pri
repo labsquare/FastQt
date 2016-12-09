@@ -1,7 +1,6 @@
 INCLUDEPATH+=$$PWD
 
-FORMS += \
-    $$PWD/mainwindow.ui
+FORMS +=
 
 HEADERS += \
     $$PWD/mainanalysewidget.h \

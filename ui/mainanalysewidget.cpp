@@ -16,7 +16,7 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
     mProgressLabel->setAlignment(Qt::AlignCenter);
     mResultWidget->addWidget(mListWidget);
     mResultWidget->addWidget(mStackWidget);
-    mListWidget->setMaximumWidth(100);
+    mListWidget->setMaximumWidth(150);
 
     mMainLayout = new QStackedLayout;
     mMainLayout->addWidget(mProgressLabel);
@@ -67,7 +67,15 @@ void MainAnalyseWidget::analysisFinished()
 
     for (Analysis* a : mRunner.analysisList())
     {
-        mListWidget->addItem(new QListWidgetItem(a->icon(),a->name()));
+
+        QListWidgetItem * item = new QListWidgetItem;
+        item->setText(a->name());
+        item->setToolTip(a->tooltip());
+        item->setIcon(a->statusIcon());
+        item->setSizeHint(QSize(item->sizeHint().width(), 30));
+
+
+        mListWidget->addItem(item);
         mStackWidget->addWidget(a->createResultWidget());
     }
 

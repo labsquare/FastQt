@@ -6,6 +6,10 @@
 class Analysis
 {
 public:
+    enum Status {
+        Success , Warning, Error
+    };
+
     Analysis();
     virtual void processSequence(const Sequence& sequence) = 0;
     virtual void reset() = 0;
@@ -13,13 +17,21 @@ public:
 
 
     const QString& name() const {return mName;}
-    const QIcon& icon() const {return mIcon;}
+    const QString& tooltip() const {return mTooltip;}
+
     void setName(const QString& name){mName = name;}
-    void setIcon(const QIcon& icon){mIcon = icon;}
+    void setTooltip(const QString& tooltip){mTooltip = tooltip;}
+
+    Status status() const;
+    void setStatus(const Status &status);
+
+    QIcon statusIcon() const;
 
 private:
     QString mName;
-    QIcon mIcon;
+    QString mTooltip;
+    Status mStatus;
+
 
 
 

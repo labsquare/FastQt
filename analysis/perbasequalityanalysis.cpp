@@ -107,7 +107,7 @@ qreal PerBaseQualityAnalysis::percentile(int minbp, int maxbp, int percentile)
 
 void PerBaseQualityAnalysis::computePercentages()
 {
-    QList<BaseGroup> groups =BaseGroup::makeBaseGroups(mQualityCounts.length());
+    QVector<BaseGroup> groups =BaseGroup::makeBaseGroups(mQualityCounts.length());
 
     means.fill(0,groups.length());
     medians.fill(0,groups.length());
@@ -132,7 +132,6 @@ void PerBaseQualityAnalysis::computePercentages()
 
     }
 
-    qDebug()<<means;
 }
 
 
@@ -154,7 +153,7 @@ QualityCount::QualityCount()
 void QualityCount::addValue(char c)
 {
     mTotalCounts++;
-    mCounts[c]++;
+    mCounts[int(c)]++;
 
 
 }
@@ -170,26 +169,18 @@ qreal QualityCount::mean()const
         total += mCounts[i] * i;
 
     }
-
     return qreal(total) / count;
-
 }
 
 char QualityCount::min()const
 {
-//    char minChar = mCounts.keys().first();
-//    for (char c : mCounts.keys())
-//        minChar = qMin(minChar, c);
-
     for (int i=33; i<76; ++i)
     {
         if (mCounts[i] != 0)
             return i;
-
     }
 
-    return 33;
-
+    return char(1000);
 }
 
 char QualityCount::max()const
@@ -201,44 +192,23 @@ char QualityCount::max()const
             return i;
 
     }
-
-//    char maxChar = mCounts.keys().first();
-//    for (char c : mCounts.keys())
-//        maxChar = qMax(maxChar, c);
-
-    return 75;
-
-   // return maxChar;
+    return char(1000);
 }
 
 qreal QualityCount::percentile(int percentile)const
 {
-//    QList<char> keys = mCounts.keys();
-//    qSort(keys.begin(), keys.end());
-
-    int total = 0;
-//    for (char c : keys)
-//        total += mCounts[c];
-
-    for (int i=33; i<76; ++i)
-        total += mCounts[i];
+    int total = mTotalCounts;
 
     total *= percentile;
     total /= 100;
 
     int count = 0;
-
-
-    for (int i=33; i<76; ++i)
-    {
+    for (int i=33;i<76;i++) {
         count += mCounts[i];
-        if (count >=total)
-            return i;
+        if (count >=total) {
+            return((char)(i));
+        }
     }
-
-
-
-//    return -1;
 
     return -1;
 

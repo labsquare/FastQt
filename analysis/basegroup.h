@@ -13,7 +13,15 @@ public:
     QString toString() const;
 
 
-    static QList<BaseGroup> makeBaseGroups(int maxLength);
+
+
+    static QVector<BaseGroup> makeBaseGroups(int maxLength);
+    static QVector<BaseGroup> makeUngroupedGroups(int maxLength);
+    static QVector<BaseGroup> makeExponentialBaseGroups(int maxLength);
+    static QVector<BaseGroup> makeLinearBaseGroups(int maxLength);
+
+protected:
+    static int getLinearInterval (int length);
 
 
 private:
