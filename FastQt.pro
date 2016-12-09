@@ -26,5 +26,6 @@ include("sequence/sequence.pri")
 include("analysis/analysis.pri")
 include("ui/ui.pri")
 include("model/model.pri")
+include("utils/utils.pri")
 
 RESOURCES += icons/icons.qrc
