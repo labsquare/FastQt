@@ -36,7 +36,7 @@ private:
     QVector<qreal> lowest;
     QVector<qreal> highest;
     QVector<QString> xLabels;
-    QList<QualityCount> mQualityCounts;
+    QVector<QualityCount> mQualityCounts;
     PhredEncoding mEncodingScheme;
     int mLow  = 0;
     int mHigh = 0;

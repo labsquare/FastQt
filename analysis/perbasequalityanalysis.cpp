@@ -11,12 +11,7 @@ void PerBaseQualityAnalysis::processSequence(const Sequence &sequence)
 
 
     if ( mQualityCounts.size() < sequence.quality().size())
-    {
-
-        for (int i= mQualityCounts.size(); i<sequence.quality().size(); ++i)
-            mQualityCounts.append(QualityCount());
-
-    }
+        mQualityCounts.resize(sequence.size());
 
 
     for (int i=0; i< sequence.quality().size(); ++i)

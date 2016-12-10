@@ -18,11 +18,13 @@ void KeyValueModel::addValue(const QString &label, const QVariant &value, const 
 
 int KeyValueModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return 2;
 }
 
 int KeyValueModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return mDatas.count();
 }
 

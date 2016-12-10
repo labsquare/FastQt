@@ -7,6 +7,7 @@
 #include "basicstatsanalysis.h"
 #include "perbasequalityanalysis.h"
 #include "persequencequalityanalysis.h"
+#include "perbasecontentanalysis.h"
 
 class MainAnalyseWidget : public QWidget
 {

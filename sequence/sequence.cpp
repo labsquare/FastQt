@@ -29,7 +29,7 @@ const QByteArray &Sequence::sequence() const
 
 void Sequence::setSequence(const QByteArray &sequence)
 {
-    mSequence = sequence.trimmed();
+    mSequence = sequence.trimmed().toUpper();
 }
 
 const QByteArray &Sequence::quality() const
