@@ -110,7 +110,7 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     labelsFont.setPixelSize(5);
 
     chart->axisX(qualSerie)->setLabelsAngle(90);
-
+    chart->axisX(lineseries)->hide();
 
 
 
