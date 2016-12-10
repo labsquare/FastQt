@@ -34,6 +34,7 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
 
     mRunner.addAnalysis(new BasicStatsAnalysis);
     mRunner.addAnalysis(new PerBaseQualityAnalysis);
+    mRunner.addAnalysis(new PerSequenceQualityAnalysis);
 
 
 }

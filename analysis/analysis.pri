@@ -5,9 +5,11 @@ HEADERS += \
     $$PWD/analysisrunner.h \
     $$PWD/basicstatsanalysis.h \
     $$PWD/perbasequalityanalysis.h \
+    $$PWD/persequencequalityanalysis.h
 
 SOURCES += \
     $$PWD/analysis.cpp \
     $$PWD/analysisrunner.cpp \
     $$PWD/basicstatsanalysis.cpp \
     $$PWD/perbasequalityanalysis.cpp \
+    $$PWD/persequencequalityanalysis.cpp
