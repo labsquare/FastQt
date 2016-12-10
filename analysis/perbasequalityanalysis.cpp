@@ -39,7 +39,6 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     QBoxPlotSeries *qualSerie = new QBoxPlotSeries();
     QSplineSeries  *lineseries = new QSplineSeries ();
 
-
     for (int i=0; i<means.size(); ++i)
     {
         QBoxSet *box = new QBoxSet(xLabels[i]);
@@ -48,76 +47,50 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
         box->setValue(QBoxSet::Median, medians[i]);
         box->setValue(QBoxSet::LowerQuartile,lowerQuartile[i]);
         box->setValue(QBoxSet::UpperQuartile, upperQuartile[i]);
-
-
         lineseries->append(QPoint(i,means[i]));
-
-        QPen pen = box->pen();
-        pen.setWidth(1);
-        pen.setStyle(Qt::SolidLine);
-        box->setPen(pen);
 
 
         qualSerie->append(box);
-
     }
 
 
-    QPen pen(Qt::red);
-    pen.setStyle(Qt::SolidLine);
-    pen.setWidth(2);
-
-    lineseries->setPen(pen);
     QChart * chart = new QChart();
     chart->addSeries(qualSerie);
     chart->addSeries(lineseries);
-
-
-
-    chart->setTitle("Quality per base");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
-//    chart->setTheme(QChart::ChartThemeQt);
-
-
-
-
-
-
-
-
-
-
-
-//    QLinearGradient plotAreaGradient;
-//    plotAreaGradient.setStart(QPointF(0, 0));
-//    plotAreaGradient.setStart(QPointF(0, 0.5));
-
-//    plotAreaGradient.setFinalStop(QPointF(0, 1));
-
-//    plotAreaGradient.setColorAt(0.0, QColor("red"));
-//    plotAreaGradient.setColorAt(0.5, QColor("orange"));
-
-//    plotAreaGradient.setColorAt(1.0, QColor("green"));
-
-//    plotAreaGradient.setCoordinateMode(QGradient::ObjectBoundingMode);
-//    chart->setPlotAreaBackgroundBrush(plotAreaGradient);
-//    chart->setPlotAreaBackgroundVisible(true);
-
     chart->createDefaultAxes();
+    chart->setTitle("Quality per base");
+    chart->setAnimationOptions(QChart::NoAnimation);
+    chart->setBackgroundRoundness(5);
+
+    // customize look
+    QPen pen;
+    QBrush brush("#249de4");
+    pen.setWidth(1);
+    qualSerie->setPen(pen);
+    qualSerie->setBrush(brush);
+    qualSerie->setName("Quality per base");
+
+    pen.setColor("#f5a800");
+    pen.setWidth(3);
+    lineseries->setPen(pen);
+    lineseries->setName("Means qualities");
 
 
-    QFont labelsFont;
-    labelsFont.setPixelSize(5);
+    // Customize grid lines and shades
+    QAbstractAxis * axisY = chart->axisY(qualSerie);
+    axisY->setGridLineVisible(false);
+    axisY->setShadesPen(Qt::NoPen);
+    brush.setColor(QColor(0,0,0,10));
+    axisY->setShadesBrush(brush);
+    axisY->setShadesVisible(true);
 
+    // Customize xLabel orientation
     chart->axisX(qualSerie)->setLabelsAngle(90);
     chart->axisX(lineseries)->hide();
 
 
-
     QChartView * view = new QChartView;
     view->setChart(chart);
-
-
 
     return view;
 

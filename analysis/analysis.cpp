@@ -1,5 +1,4 @@
 #include "analysis.h"
-
 Analysis::Analysis()
 {
     mStatus = Analysis::Success;
