@@ -82,17 +82,17 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
 
     QPen pen;
     pen.setWidth(2);
-    pen.setColor(Qt::green);
+    pen.setColor(QColor("#71e096"));
     ASerie->setPen(pen);
 
-    pen.setColor(Qt::blue);
+    pen.setColor(QColor("#5AD0E5"));
     CSerie->setPen(pen);
 
-    pen.setColor(Qt::red);
+    pen.setColor(QColor("#ED6D79"));
     TSerie->setPen(pen);
 
 
-    pen.setColor(Qt::black);
+    pen.setColor(QColor("darkgray"));
     GSerie->setPen(pen);
 
 
