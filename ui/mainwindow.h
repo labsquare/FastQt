@@ -18,6 +18,7 @@ public:
 
 public Q_SLOTS:
     void run();
+    void openFile();
 
 private:
     QTabWidget * mTabWidget;

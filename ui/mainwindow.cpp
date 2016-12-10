@@ -8,13 +8,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setMenuBar(new QMenuBar());
 
-    menuBar()->addMenu("File")->addAction("Open file");
+    QMenu * fileMenu = menuBar()->addMenu("File");
+    fileMenu->addAction(tr("Open file"),this, SLOT(openFile()), QKeySequence::Open);
+    fileMenu->addAction(tr("Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
 
-    addFile("/home/sacha/test.fastq");
+
 
     addToolBar("test")->addAction("run", this, SLOT(run()));
 
     resize(600,400);
+
+
 
 }
 
@@ -35,7 +39,23 @@ void MainWindow::addFile(const QString &filename)
 void MainWindow::run()
 {
 
+    addFile("/home/sacha/test.fastq");
     mainList.first()->launch();
+
+}
+
+void MainWindow::openFile()
+{
+
+
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq)"));
+
+    if (!fileName.isEmpty())
+    {
+        addFile("/home/sacha/test.fastq");
+        mainList.first()->launch();
+    }
+
 
 }
 
