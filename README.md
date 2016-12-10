@@ -4,3 +4,6 @@ from Java to [C++/Qt5](https://www.qt.io/)
 
 Developpement in progress
 
+![Preview](
+https://raw.githubusercontent.com/labsquare/fastQt/master/screenshot.gif)
+
