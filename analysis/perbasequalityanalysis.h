@@ -4,6 +4,9 @@
 #include <QtCharts>
 #include "analysis.h"
 #include "basegroup.h"
+#include "phredencoding.h"
+
+#define QUALITY_COUNT_SIZE 150
 
 using namespace QT_CHARTS_NAMESPACE;
 
@@ -19,9 +22,10 @@ public:
 
 
 protected:
-    qreal mean(int minbp, int maxbp);
-    qreal percentile(int minbp, int maxbp, int percentile);
+    qreal mean(int maxbp, int minbp, int offset);
+    qreal percentile(int minbp, int offset, int maxbp,int percentile);
     void computePercentages();
+    QPair<char,char> computeOffsets();
 
 
 private:
@@ -33,6 +37,10 @@ private:
     QVector<qreal> highest;
     QVector<QString> xLabels;
     QList<QualityCount> mQualityCounts;
+    PhredEncoding mEncodingScheme;
+    int mLow  = 0;
+    int mHigh = 0;
+
 
 };
 
@@ -42,19 +50,19 @@ class QualityCount {
 public:
     QualityCount();
     void addValue(char c);
-    qreal mean()const;
+    qreal mean(int offset)const;
     char min()const;
     char max()const;
-    qreal percentile(int percentile)const;
+    qreal percentile(int offset,int percentile)const;
     int count() const;
 
 
 
 private:
     // faster than QVector
-    quint64 mCounts[256] = {0};
 
-    int mTotalCounts;
+    quint64 mCounts[QUALITY_COUNT_SIZE] = {0};
+    int mTotalCounts     = 0;
 };
 
 

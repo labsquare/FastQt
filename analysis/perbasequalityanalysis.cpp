@@ -37,6 +37,8 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     computePercentages();
 
     QBoxPlotSeries *qualSerie = new QBoxPlotSeries();
+    QSplineSeries  *lineseries = new QSplineSeries ();
+
 
     for (int i=0; i<means.size(); ++i)
     {
@@ -47,27 +49,81 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
         box->setValue(QBoxSet::LowerQuartile,lowerQuartile[i]);
         box->setValue(QBoxSet::UpperQuartile, upperQuartile[i]);
 
+
+        lineseries->append(QPoint(i,means[i]));
+
+        QPen pen = box->pen();
+        pen.setWidth(1);
+        pen.setStyle(Qt::SolidLine);
+        box->setPen(pen);
+
+
         qualSerie->append(box);
 
     }
 
 
+    QPen pen(Qt::red);
+    pen.setStyle(Qt::SolidLine);
+    pen.setWidth(2);
+
+    lineseries->setPen(pen);
     QChart * chart = new QChart();
     chart->addSeries(qualSerie);
+    chart->addSeries(lineseries);
+
+
 
     chart->setTitle("Quality per base");
     chart->setAnimationOptions(QChart::SeriesAnimations);
+//    chart->setTheme(QChart::ChartThemeQt);
+
+
+
+
+
+
+
+
+
+
+
+//    QLinearGradient plotAreaGradient;
+//    plotAreaGradient.setStart(QPointF(0, 0));
+//    plotAreaGradient.setStart(QPointF(0, 0.5));
+
+//    plotAreaGradient.setFinalStop(QPointF(0, 1));
+
+//    plotAreaGradient.setColorAt(0.0, QColor("red"));
+//    plotAreaGradient.setColorAt(0.5, QColor("orange"));
+
+//    plotAreaGradient.setColorAt(1.0, QColor("green"));
+
+//    plotAreaGradient.setCoordinateMode(QGradient::ObjectBoundingMode);
+//    chart->setPlotAreaBackgroundBrush(plotAreaGradient);
+//    chart->setPlotAreaBackgroundVisible(true);
 
     chart->createDefaultAxes();
 
+
+    QFont labelsFont;
+    labelsFont.setPixelSize(5);
+
+    chart->axisX(qualSerie)->setLabelsAngle(90);
+
+
+
+
     QChartView * view = new QChartView;
     view->setChart(chart);
+
+
 
     return view;
 
 }
 
-qreal PerBaseQualityAnalysis::mean(int minbp, int maxbp)
+qreal PerBaseQualityAnalysis::mean(int minbp, int maxbp, int offset)
 {
     int count    = 0;
     double total = 0;
@@ -75,7 +131,7 @@ qreal PerBaseQualityAnalysis::mean(int minbp, int maxbp)
     for (int i=minbp-1;i<maxbp;i++) {
         if (mQualityCounts[i].count() > 0) {
             count++;
-            total += mQualityCounts[i].mean();
+            total += mQualityCounts[i].mean(offset);
         }
     }
 
@@ -87,7 +143,7 @@ qreal PerBaseQualityAnalysis::mean(int minbp, int maxbp)
 
 }
 
-qreal PerBaseQualityAnalysis::percentile(int minbp, int maxbp, int percentile)
+qreal PerBaseQualityAnalysis::percentile(int minbp, int maxbp,int offset, int percentile)
 {
     int count = 0;
     double total = 0;
@@ -95,7 +151,7 @@ qreal PerBaseQualityAnalysis::percentile(int minbp, int maxbp, int percentile)
     for (int i=minbp-1;i<maxbp;i++) {
         if (mQualityCounts[i].count() > 100) {
             count++;
-            total += mQualityCounts[i].percentile(percentile);
+            total += mQualityCounts[i].percentile(offset,percentile);
         }
     }
 
@@ -107,6 +163,17 @@ qreal PerBaseQualityAnalysis::percentile(int minbp, int maxbp, int percentile)
 
 void PerBaseQualityAnalysis::computePercentages()
 {
+
+    auto range = computeOffsets();
+    mEncodingScheme = PhredEncoding::fastqEncodingOffset(range.first);
+    mLow  = 0;
+    mHigh = range.second - mEncodingScheme.offset();
+    if (mHigh < 35)
+        mHigh = 35;
+
+
+
+
     QVector<BaseGroup> groups =BaseGroup::makeBaseGroups(mQualityCounts.length());
 
     means.fill(0,groups.length());
@@ -121,12 +188,12 @@ void PerBaseQualityAnalysis::computePercentages()
         int minBase = groups[i].lowerCount();
         int maxBase = groups[i].upperCount();
 
-        lowest[i]  = percentile(minBase, maxBase, 10);
-        highest[i] = percentile(minBase, maxBase, 90);
-        means[i]   = mean(minBase,maxBase);
-        medians[i] = percentile(minBase, maxBase, 50);
-        lowerQuartile[i] = percentile(minBase, maxBase, 25);
-        upperQuartile[i] = percentile(minBase, maxBase, 75);
+        lowest[i]  = percentile(minBase, maxBase, mEncodingScheme.offset(), 10);
+        highest[i] = percentile(minBase, maxBase, mEncodingScheme.offset(), 90);
+        means[i]   = mean(minBase,maxBase, mEncodingScheme.offset());
+        medians[i] = percentile(minBase, maxBase, mEncodingScheme.offset(),50);
+        lowerQuartile[i] = percentile(minBase, maxBase,mEncodingScheme.offset(), 25);
+        upperQuartile[i] = percentile(minBase, maxBase,mEncodingScheme.offset(), 75);
         xLabels[i] = groups[i].toString();
 
 
@@ -134,7 +201,32 @@ void PerBaseQualityAnalysis::computePercentages()
 
 }
 
+QPair<char, char> PerBaseQualityAnalysis::computeOffsets()
+{
+    // Works out from the set of chars what is the most
+    // likely encoding scale for this file.
 
+    char minChar = 0;
+    char maxChar = 0;
+    bool first = true;
+    for (QualityCount i : mQualityCounts)
+    {
+        if (first)
+        {
+            minChar = i.min();
+            maxChar = i.max();
+            first   = false;
+        }
+        else
+        {
+            minChar = qMin(i.min(), minChar);
+            maxChar = qMax(i.max(), maxChar);
+
+        }
+    }
+    return qMakePair(minChar, maxChar);
+
+}
 
 //===========================================================
 //
@@ -145,7 +237,6 @@ void PerBaseQualityAnalysis::computePercentages()
 QualityCount::QualityCount()
 {
 
-    mTotalCounts = 0;
 
 
 }
@@ -154,30 +245,15 @@ void QualityCount::addValue(char c)
 {
     mTotalCounts++;
     mCounts[int(c)]++;
-
-
 }
 
-qreal QualityCount::mean()const
-{
-    quint64 total = 0;
-    quint64 count = 0;
-
-    for (int i=33; i<76; ++i)
-    {
-        count += mCounts[i];
-        total += mCounts[i] * i;
-
-    }
-    return qreal(total) / count;
-}
 
 char QualityCount::min()const
 {
-    for (int i=33; i<76; ++i)
+    for (int i=0; i<QUALITY_COUNT_SIZE; ++i)
     {
         if (mCounts[i] != 0)
-            return i;
+            return char(i);
     }
 
     return char(1000);
@@ -186,16 +262,29 @@ char QualityCount::min()const
 char QualityCount::max()const
 {
 
-    for (int i=75; i>=33; --i)
+    for (int i=QUALITY_COUNT_SIZE-1; i>=0; --i)
     {
         if (mCounts[i] != 0)
-            return i;
+            return char(i);
 
     }
     return char(1000);
 }
 
-qreal QualityCount::percentile(int percentile)const
+qreal QualityCount::mean(int offset)const
+{
+    quint64 total = 0;
+    quint64 count = 0;
+
+    for (int i=offset; i<QUALITY_COUNT_SIZE; ++i)
+    {
+        count += mCounts[i];
+        total += mCounts[i] * (i-offset);
+
+    }
+    return qreal(total) / count;
+}
+qreal QualityCount::percentile(int offset, int percentile)const
 {
     int total = mTotalCounts;
 
@@ -203,10 +292,10 @@ qreal QualityCount::percentile(int percentile)const
     total /= 100;
 
     int count = 0;
-    for (int i=33;i<76;i++) {
+    for (int i=offset;i<QUALITY_COUNT_SIZE;i++) {
         count += mCounts[i];
         if (count >=total) {
-            return((char)(i));
+            return((char)(i-offset));
         }
     }
 

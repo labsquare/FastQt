@@ -29,7 +29,7 @@ const QByteArray &Sequence::sequence() const
 
 void Sequence::setSequence(const QByteArray &sequence)
 {
-    mSequence = sequence;
+    mSequence = sequence.trimmed();
 }
 
 const QByteArray &Sequence::quality() const
@@ -39,7 +39,7 @@ const QByteArray &Sequence::quality() const
 
 void Sequence::setQuality(const QByteArray &quality)
 {
-    mQuality = quality;
+    mQuality = quality.trimmed();
 }
 
 int Sequence::size() const

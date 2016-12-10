@@ -11,9 +11,7 @@ BasicStatsAnalysis::BasicStatsAnalysis()
 void BasicStatsAnalysis::reset()
 {
     mEncoding.clear();
-    mReadCount = 0;
-    mMinLength = 0;
-    mMaxLength = 0;
+
 }
 // ==============================================================
 
@@ -31,6 +29,25 @@ void BasicStatsAnalysis::processSequence(const Sequence &sequence)
     mMaxLength = qMax(mMaxLength, sequence.size());
 
 
+    for (char base : sequence.sequence())
+    {
+        switch (base)
+        {
+        case 'G': ++mGCount;break;
+        case 'A': ++mACount;break;
+        case 'T': ++mTCount;break;
+        case 'C': ++mCCount;break;
+        case 'N': ++mNCount;break;
+        }
+    }
+
+
+
+    for (char byte : sequence.quality())
+    {
+        if (byte < mLowestChar)
+            mLowestChar = byte;
+    }
 }
 // ==============================================================
 
@@ -46,6 +63,15 @@ QWidget *BasicStatsAnalysis::createResultWidget()
 
     model->addValue(QObject::tr("Total Sequences"), mReadCount);
     model->addValue(QObject::tr("Sequence length"), length);
+    model->addValue(QObject::tr("Encoding"), PhredEncoding::fastqEncodingOffset(mLowestChar).name());
+
+    if (mACount + mCCount + mGCount + mTCount > 0)
+    {
+         qreal percent =  qreal(mGCount + mCCount) * 100 / (mACount + mCCount + mGCount + mTCount);
+         model->addValue(QObject::tr("%GC"), QString::number(percent,'f',2));
+
+    }
+
 
     view->horizontalHeader()->hide();
     view->verticalHeader()->hide();
