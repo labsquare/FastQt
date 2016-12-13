@@ -1,6 +1,86 @@
 #include "perbasequalityanalysis.h"
 #include "sequence/sequence.hxx"
 
+QualityCount::QualityCount()
+{
+
+
+
+}
+
+inline void QualityCount::addValue(char c)
+{
+    mTotalCounts++;
+    mCounts[int(c)]++;
+}
+
+
+char QualityCount::min()const
+{
+    for (int i=0; i<QUALITY_COUNT_SIZE; ++i)
+    {
+        if (mCounts[i] != 0)
+            return char(i);
+    }
+
+    return char(1000);
+}
+
+char QualityCount::max()const
+{
+
+    for (int i=QUALITY_COUNT_SIZE-1; i>=0; --i)
+    {
+        if (mCounts[i] != 0)
+            return char(i);
+
+    }
+    return char(1000);
+}
+
+qreal QualityCount::mean(int offset)const
+{
+    quint64 total = 0;
+    quint64 count = 0;
+
+    for (int i=offset; i<QUALITY_COUNT_SIZE; ++i)
+    {
+        count += mCounts[i];
+        total += mCounts[i] * (i-offset);
+
+    }
+    return qreal(total) / count;
+}
+qreal QualityCount::percentile(int offset, int percentile)const
+{
+    int total = mTotalCounts;
+
+    total *= percentile;
+    total /= 100;
+
+    int count = 0;
+    for (int i=offset;i<QUALITY_COUNT_SIZE;i++) {
+        count += mCounts[i];
+        if (count >=total) {
+            return((char)(i-offset));
+        }
+    }
+
+    return -1;
+
+}
+
+int QualityCount::count()const
+{
+    return mTotalCounts;
+}
+
+//===========================================================
+//
+//
+//
+//===========================================================
+
 PerBaseQualityAnalysis::PerBaseQualityAnalysis()
 {
     setName("PerBase analysis");
@@ -195,84 +275,4 @@ QPair<char, char> PerBaseQualityAnalysis::computeOffsets()
     }
     return qMakePair(minChar, maxChar);
 
-}
-
-//===========================================================
-//
-//
-//
-//===========================================================
-
-QualityCount::QualityCount()
-{
-
-
-
-}
-
-void QualityCount::addValue(char c)
-{
-    mTotalCounts++;
-    mCounts[int(c)]++;
-}
-
-
-char QualityCount::min()const
-{
-    for (int i=0; i<QUALITY_COUNT_SIZE; ++i)
-    {
-        if (mCounts[i] != 0)
-            return char(i);
-    }
-
-    return char(1000);
-}
-
-char QualityCount::max()const
-{
-
-    for (int i=QUALITY_COUNT_SIZE-1; i>=0; --i)
-    {
-        if (mCounts[i] != 0)
-            return char(i);
-
-    }
-    return char(1000);
-}
-
-qreal QualityCount::mean(int offset)const
-{
-    quint64 total = 0;
-    quint64 count = 0;
-
-    for (int i=offset; i<QUALITY_COUNT_SIZE; ++i)
-    {
-        count += mCounts[i];
-        total += mCounts[i] * (i-offset);
-
-    }
-    return qreal(total) / count;
-}
-qreal QualityCount::percentile(int offset, int percentile)const
-{
-    int total = mTotalCounts;
-
-    total *= percentile;
-    total /= 100;
-
-    int count = 0;
-    for (int i=offset;i<QUALITY_COUNT_SIZE;i++) {
-        count += mCounts[i];
-        if (count >=total) {
-            return((char)(i-offset));
-        }
-    }
-
-    return -1;
-
-}
-
-int QualityCount::count()const
-{
-    return mTotalCounts;
 }
