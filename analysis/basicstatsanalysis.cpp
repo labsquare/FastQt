@@ -7,6 +7,14 @@ BasicStatsAnalysis::BasicStatsAnalysis()
 {
     setName("Basic Stat");
     setTooltip("Basic statistic");
+    for (int i = 0; i < 256; ++i) {
+      count[i] = &mXCount;
+    }
+    count['G'] = &mGCount;
+    count['A'] = &mACount;
+    count['T'] = &mTCount;
+    count['C'] = &mCCount;
+    count['N'] = &mNCount;
 }
 // ==============================================================
 void BasicStatsAnalysis::reset()
@@ -22,24 +30,12 @@ void BasicStatsAnalysis::processSequence(const Sequence &sequence)
 
     mReadCount++;
 
-    if (mReadCount == 1)
-        mMinLength = sequence.size();
-
-
     mMinLength = qMin(mMinLength, sequence.size());
     mMaxLength = qMax(mMaxLength, sequence.size());
 
-
     for (char base : sequence.sequence())
     {
-        switch (base)
-        {
-        case 'G': ++mGCount;break;
-        case 'A': ++mACount;break;
-        case 'T': ++mTCount;break;
-        case 'C': ++mCCount;break;
-        case 'N': ++mNCount;break;
-        }
+      ++(*count[static_cast<int>(base)]);
     }
 
 

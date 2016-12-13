@@ -1,5 +1,6 @@
 #ifndef BASICSTATSANALYSIS_H
 #define BASICSTATSANALYSIS_H
+#include <limits>
 #include <QtCore>
 #include <QLocale>
 #include "analysis.h"
@@ -17,20 +18,18 @@ public:
 private:
     QString mEncoding;
     int mReadCount   = 0;
-    int mMinLength   = 0;
+    int mMinLength   = std::numeric_limits<int>::max();
     int mMaxLength   = 0;
     quint64 mGCount  = 0;
     quint64 mCCount  = 0;
     quint64 mACount  = 0;
     quint64 mTCount  = 0;
     quint64 mNCount  = 0;
+    quint64 mXCount  = 0;
 
 
     char mLowestChar = 126;
-
-
-
-
+    quint64* count[256];
 };
 
 #endif // BASICSTATSANALYSIS_H
