@@ -1,4 +1,5 @@
 #include "basicstatsanalysis.h"
+#include "sequence/sequence.hxx"
 #include <QDebug>
 #include <QLocale>
 BasicStatsAnalysis::BasicStatsAnalysis()

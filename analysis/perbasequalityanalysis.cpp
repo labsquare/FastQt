@@ -1,4 +1,5 @@
 #include "perbasequalityanalysis.h"
+#include "sequence/sequence.hxx"
 
 PerBaseQualityAnalysis::PerBaseQualityAnalysis()
 {
@@ -275,4 +276,3 @@ int QualityCount::count()const
 {
     return mTotalCounts;
 }
-

@@ -1,4 +1,5 @@
 #include "perbasecontentanalysis.h"
+#include "sequence/sequence.hxx"
 
 PerBaseContentAnalysis::PerBaseContentAnalysis()
     :Analysis()

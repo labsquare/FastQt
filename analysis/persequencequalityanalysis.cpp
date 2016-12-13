@@ -1,4 +1,5 @@
 #include "persequencequalityanalysis.h"
+#include "sequence/sequence.hxx"
 
 PerSequenceQualityAnalysis::PerSequenceQualityAnalysis()
     :Analysis()
