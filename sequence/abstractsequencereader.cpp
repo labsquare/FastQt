@@ -1,4 +1,5 @@
 #include "abstractsequencereader.h"
+#include "sequence/sequence.hxx"
 
 
 AbstractSequenceReader::AbstractSequenceReader(QIODevice *device)
@@ -31,5 +32,3 @@ void AbstractSequenceReader::setSequence(const Sequence &seq)
 
     mSequence = seq;
 }
-
-

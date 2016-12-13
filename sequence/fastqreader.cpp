@@ -1,4 +1,5 @@
 #include "fastqreader.h"
+#include "sequence/sequence.hxx"
 
 
 FastqReader::FastqReader(QIODevice *device)

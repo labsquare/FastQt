@@ -7,7 +7,6 @@ HEADERS += \
     $$PWD/phredencoding.h
 
 SOURCES += \
-    $$PWD/sequence.cpp \
     $$PWD/abstractsequencereader.cpp \
     $$PWD/fastqreader.cpp \
     $$PWD/phredencoding.cpp
