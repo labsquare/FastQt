@@ -7,6 +7,13 @@ PerBaseContentAnalysis::PerBaseContentAnalysis()
 
     setName("Per Base content");
     setTooltip("Per base content");
+    for (int i = 0; i < 256; ++i) {
+      counts[i] = &mXCounts;
+    }
+    counts['G'] = &mGCounts;
+    counts['A'] = &mACounts;
+    counts['T'] = &mTCounts;
+    counts['C'] = &mCCounts;
 }
 
 void PerBaseContentAnalysis::processSequence(const Sequence &sequence)
@@ -19,26 +26,12 @@ void PerBaseContentAnalysis::processSequence(const Sequence &sequence)
         mACounts.resize(sequence.size());
         mTCounts.resize(sequence.size());
         mCCounts.resize(sequence.size());
+        mXCounts.resize(sequence.size());
     }
 
 
     for (int i=0; i<sequence.size(); ++i)
-    {
-        if (sequence.sequence().at(i) == 'G')
-            mGCounts[i]++;
-
-        if (sequence.sequence().at(i) == 'A')
-            mACounts[i]++;
-
-        if (sequence.sequence().at(i)== 'T')
-            mTCounts[i]++;
-
-        if (sequence.sequence().at(i)== 'C')
-            mCCounts[i]++;
-    }
-
-
-
+      ++(*counts[static_cast<int>(sequence.sequence().at(i))])[i];
 }
 
 void PerBaseContentAnalysis::reset()

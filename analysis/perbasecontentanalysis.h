@@ -24,7 +24,7 @@ private:
     QVector<quint64> mACounts;
     QVector<quint64> mCCounts;
     QVector<quint64> mTCounts;
-
+    QVector<quint64> mXCounts;
 
     QVector<qreal> gPercent;
     QVector<qreal> aPercent;
@@ -32,8 +32,7 @@ private:
     QVector<qreal> cPercent;
 
     QVector<QString> mXCategories;
-
-
+    QVector<quint64>* counts[256];
 };
 
 #endif // PERBASECONTENTANALYSIS_H
