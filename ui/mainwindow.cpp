@@ -39,7 +39,7 @@ void MainWindow::addFile(const QString &filename)
 void MainWindow::run()
 {
 
-    addFile("/home/sacha/test.fastq");
+    addFile("/home/sacha/merge.fastq");
     mainList.first()->launch();
 
 }
@@ -52,7 +52,7 @@ void MainWindow::openFile()
 
     if (!fileName.isEmpty())
     {
-        addFile("/home/sacha/test.fastq");
+        addFile(fileName);
         mainList.first()->launch();
     }
 
