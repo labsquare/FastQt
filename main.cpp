@@ -24,6 +24,9 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "mainwindow.h"
 #include "perbasequalityanalysis.h"
 #include "sequence/sequence.hxx"
+#include "quagzipfile.h"
+#include "fastqreader.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

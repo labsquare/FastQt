@@ -25,6 +25,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QtCore>
 #include "analysis.h"
 #include "fastqreader.h"
+#include "quagzipfile.h"
 
 
 /*!

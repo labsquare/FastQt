@@ -70,7 +70,7 @@ void MainWindow::openFile()
 {
 
 
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq)"));
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz)"));
 
     if (!fileName.isEmpty())
     {

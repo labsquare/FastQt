@@ -36,8 +36,6 @@ FastqReader::FastqReader(QIODevice *device)
 bool FastqReader::next()
 {
 
-    if (device()->atEnd())
-        return false;
 
     Sequence readSequence;
 
@@ -45,6 +43,11 @@ bool FastqReader::next()
 
 
     readSequence.setId(device()->readLine());
+
+    // to make compatible with QUazip
+    if (readSequence.id().isEmpty())
+        return false;
+
     // read sequence
     readSequence.setSequence(device()->readLine());
     // read unused +

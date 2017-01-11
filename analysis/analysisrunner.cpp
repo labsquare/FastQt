@@ -37,13 +37,29 @@ AnalysisRunner::AnalysisRunner(const QString &filename, QObject *parent)
 
 void AnalysisRunner::run()
 {
-    QFile file(mFilename);
-    if (file.open(QIODevice::ReadOnly|QFile::Text))
+
+    QFileInfo fileInfo(mFilename);
+    QIODevice * file = Q_NULLPTR;
+
+    if (fileInfo.suffix() == "gz")
+        file = new QuaGzipFile(mFilename);
+
+    if (fileInfo.suffix() == "fastq")
+        file = new QFile(mFilename);
+
+    if (file == Q_NULLPTR)
+    {
+        qDebug()<<Q_FUNC_INFO<<fileInfo.suffix()<< " file is not supported";
+        return;
+    }
+
+
+    if (file->open(QIODevice::ReadOnly|QFile::Text))
     {
         int seqCount = 0;
         int percentCompleted = 0;
 
-        FastqReader reader(&file);
+        FastqReader reader(file);
 
         QTime start = QTime::currentTime();
         qDebug()<<"start"<<start;
@@ -72,9 +88,10 @@ void AnalysisRunner::run()
 
         qDebug()<<"end"<<start.msecsTo(QTime::currentTime());
 
-
-
     }
+
+    file->close();
+    delete file;
 
 
 }
