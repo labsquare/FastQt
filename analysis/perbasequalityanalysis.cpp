@@ -113,7 +113,7 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     computePercentages();
 
     QBoxPlotSeries *qualSerie = new QBoxPlotSeries();
-    QSplineSeries  *lineseries = new QSplineSeries ();
+    QLineSeries  *lineseries = new QLineSeries ();
 
     for (int i=0; i<means.size(); ++i)
     {

@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    addToolBar("test")->addAction("run", this, SLOT(run()));
+    addToolBar("Open")->addAction("Open", this, SLOT(openFile()));
 
     resize(600,400);
 

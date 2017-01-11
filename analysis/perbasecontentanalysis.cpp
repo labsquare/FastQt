@@ -52,10 +52,10 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
 
     computePercentages();
 
-    QSplineSeries  * ASerie = new QSplineSeries ();
-    QSplineSeries  * GSerie = new QSplineSeries ();
-    QSplineSeries  * CSerie = new QSplineSeries ();
-    QSplineSeries  * TSerie = new QSplineSeries ();
+    QLineSeries  * ASerie = new QLineSeries ();
+    QLineSeries  * GSerie = new QLineSeries ();
+    QLineSeries  * CSerie = new QLineSeries ();
+    QLineSeries  * TSerie = new QLineSeries ();
 
 
     for (int i=0; i<gPercent.size(); ++i)

@@ -41,7 +41,7 @@ void PerSequenceQualityAnalysis::reset()
 QWidget *PerSequenceQualityAnalysis::createResultWidget()
 {
 
- QSplineSeries  *lineseries = new QSplineSeries ();
+ QLineSeries  *lineseries = new QLineSeries ();
 
  QList<int> keys       = mAverageScoreCounts.keys();
  QList<quint64> values = mAverageScoreCounts.values();
