@@ -33,7 +33,7 @@ AbstractSequenceReader::AbstractSequenceReader(QIODevice *device)
 
 int AbstractSequenceReader::percentComplete() const
 {
-
+    qDebug()<<mDevice->pos();
     int percent = (double)(mDevice->pos()) / mDevice->size() * 100;
     return percent;
 

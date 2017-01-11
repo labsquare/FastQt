@@ -71,7 +71,9 @@ void AnalysisRunner::run()
             if (seqCount % 1000 == 0)
             {
                 int percentNow = reader.percentComplete();
-                if (percentNow >= percentCompleted + 5)
+                // Quazip cannot return percentComplete() actually ...
+                // Then if percentNow is still null, return empty percent ...
+                if ( (percentNow >= percentCompleted + 5) || (percentNow == 0))
                 {
                     percentCompleted = percentNow;
                     emit updated(seqCount, percentCompleted);
