@@ -24,7 +24,11 @@ Copyright Copyright 2016-17 Sacha Schutz
 #define KEYVALUEMODEL_H
 #include <QAbstractListModel>
 #include <QLocale>
-
+/*!
+ * \class KeyValueModel
+ * \brief A simple key/model view
+ * Display Key/value in a Table View. This class is used in BasicStatsAnalysis
+ */
 class KeyValueModel : public QAbstractListModel
 {
 public:

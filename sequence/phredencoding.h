@@ -23,7 +23,10 @@ Copyright Copyright 2016-17 Sacha Schutz
 #ifndef PHREDENCODING_H
 #define PHREDENCODING_H
 #include <QtCore>
-
+/*!
+ * \class PhredEncoding
+ * \brief Detect Quality encoding from Fastq file
+ */
 class PhredEncoding
 {
 public:

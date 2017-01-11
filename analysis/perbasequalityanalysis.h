@@ -33,14 +33,20 @@ Copyright Copyright 2016-17 Sacha Schutz
 using namespace QT_CHARTS_NAMESPACE;
 
 class QualityCount;
+/*!
+ * \class PerBaseQualityAnalysis
+ * \brief This view shows an overview of the range of quality values across all bases at each position in the FastQ file.
+ * Relative to Per Base Sequence Quality FastQC module
+ * <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/2%20Per%20Base%20Sequence%20Quality.html>
+ */
 class PerBaseQualityAnalysis : public Analysis
 {
 public:
     PerBaseQualityAnalysis();
 
-    virtual void processSequence(const Sequence& sequence) override;
-    virtual void reset() override;
-    virtual QWidget* createResultWidget() override;
+    virtual void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
+    virtual void reset() Q_DECL_OVERRIDE;
+    virtual QWidget* createResultWidget() Q_DECL_OVERRIDE;
 
 
 protected:

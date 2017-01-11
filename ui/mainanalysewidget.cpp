@@ -65,7 +65,7 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
 
 
 
-void MainAnalyseWidget::launch()
+void MainAnalyseWidget::run()
 {
     mMainLayout->setCurrentWidget(mProgressLabel);
 

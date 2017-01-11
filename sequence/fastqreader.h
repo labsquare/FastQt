@@ -24,14 +24,17 @@ Copyright Copyright 2016-17 Sacha Schutz
 #define FASTQREADER_H
 
 #include "abstractsequencereader.h"
-
+/*!
+ * \class FastqReader
+ * \brief Base class for all Sequence Reader
+ * Read each Sequence from a QIODevice
+ */
 class FastqReader : public AbstractSequenceReader
 {
 public:
     FastqReader(QIODevice * device);
-     bool next() override;
+     bool next() Q_DECL_OVERRIDE;
 
-     int percentCompleted();
 
 
 private:

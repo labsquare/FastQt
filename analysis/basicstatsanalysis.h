@@ -29,13 +29,20 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include  "keyvaluemodel.h"
 #include "phredencoding.h"
 
+/*!
+ * \class BasicStatsAnalysis
+ * \brief he Basic Statistics module generates some simple composition statistics for the file analysed.
+ * Relative to Basic Statistics FastQC module
+ * <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/1%20Basic%20Statistics.html>
+ */
+
 class BasicStatsAnalysis : public Analysis
 {
 public:
     BasicStatsAnalysis();
-    void processSequence(const Sequence& sequence) override;
-    void reset() override;
-    QWidget * createResultWidget() override;
+    void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
+    void reset() Q_DECL_OVERRIDE;
+    QWidget * createResultWidget() Q_DECL_OVERRIDE;
 
 private:
     QString mEncoding;

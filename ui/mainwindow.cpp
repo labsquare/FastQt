@@ -62,7 +62,7 @@ void MainWindow::run()
 {
 
     addFile("/home/sacha/merge.fastq");
-    mainList.first()->launch();
+    mainList.first()->run();
 
 }
 
@@ -75,7 +75,7 @@ void MainWindow::openFile()
     if (!fileName.isEmpty())
     {
         addFile(fileName);
-        mainList.first()->launch();
+        mainList.first()->run();
     }
 
 

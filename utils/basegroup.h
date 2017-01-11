@@ -23,7 +23,12 @@ Copyright Copyright 2016-17 Sacha Schutz
 #ifndef BASEGROUP_H
 #define BASEGROUP_H
 #include <QtCore>
-
+/*!
+ * \class BaseGroup
+ * \brief This class groups nucleotid position in a range.
+ * This is used in PerBaseQualityAnalysis and allow displaying all sequence
+ * @see FastQC BaseGroup class for more detail
+ */
 class BaseGroup
 {
 public:

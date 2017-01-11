@@ -28,7 +28,12 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "basegroup.h"
 
 using namespace QT_CHARTS_NAMESPACE;
-
+/*!
+ * \class PerBaseContentAnalysis
+ * \brief Per Base Sequence Content plots out the proportion of each base position in a file for which each of the four normal DNA bases has been called.
+ * Relative to Per Base Sequence Content FastQC module Basic
+ * <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/4%20Per%20Base%20Sequence%20Content.html>
+ */
 class PerBaseContentAnalysis : public Analysis
 {
 public:

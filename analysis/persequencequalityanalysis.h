@@ -28,7 +28,12 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "analysis.h"
 
 using namespace QT_CHARTS_NAMESPACE;
-
+/*!
+ * \class PerSequenceQualityAnalysis
+ * \brief The per sequence quality score report allows you to see if a subset of your sequences have universally low quality values.
+ * Relative to Per Sequence Quality Scores Scores FastQC module
+ * <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/3%20Per%20Sequence%20Quality%20Scores.html>
+ */
 class PerSequenceQualityAnalysis : public Analysis
 {
 public:

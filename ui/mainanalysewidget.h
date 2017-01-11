@@ -30,7 +30,11 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "perbasequalityanalysis.h"
 #include "persequencequalityanalysis.h"
 #include "perbasecontentanalysis.h"
-
+/*!
+ * \class MainAnalyseWidget
+ * \brief TabWidget witch encapsulate AnalysisRunner and display AnalysisRunner::resultWidget
+ * @see Analysis
+ */
 class MainAnalyseWidget : public QWidget
 {
     Q_OBJECT
@@ -39,13 +43,28 @@ public:
 
 
 public Q_SLOTS:
-    void launch();
+    /*!
+     * \brief run all analysis
+     */
+    void run();
+    /*!
+     * \brief this methods is called when AnalysisRunner thread has started
+     */
     void analysisStarted();
+    /*!
+     * \brief this methods is called when AnalysisRunner thread has changed
+     */
     void analysisUpdated(int seqCount, int percent);
+    /*!
+     * \brief this methods is called when AnalysisRunner thread has finished
+     */
     void analysisFinished();
 
 
 protected :
+    /*!
+     * \brief remove widget results from the view
+     */
     void clearResults();
 
 private:

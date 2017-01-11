@@ -24,19 +24,48 @@ Copyright Copyright 2016-17 Sacha Schutz
 #define ABSTRACTSEQUENCEREADER_H
 #include <QtCore>
 #include "sequence.h"
+/*!
+ * \class AbstractSequenceReader
+ * \brief Base class for all Sequence reader like FastqReader
+ * Process each Sequence from a QIODevice like a file
+ * \example
+ * QFile file("example.fastq");
+ * if (file.open(QIODevice::ReadOnly))
+ * {
+ *    FastqReader reader(&file);
+ *    while (reader.next())
+ *      {
+ *          qDebug()<<reader.sequence().quality();
+ *      }
+ *
+ * }
+ */
 class AbstractSequenceReader
 {
 public:
     AbstractSequenceReader(QIODevice * device);
 
+    /*!
+     * \brief Move to the next sequence
+     * \return false if the file end has been reach.
+     */
     virtual bool next() = 0;
+    /*!
+     * \brief percentComplete return percent of bytes processed
+     * \return a a value between 0 and 100
+     */
     virtual int percentComplete() const;
 
+    /*!
+     * \brief Return the current sequence.
+     * Use next to get the next sequence
+     * \return Sequence
+     */
     const Sequence& sequence() const;
 
 protected:
     void setSequence(const Sequence& seq);
-    QIODevice * device();
+    QIODevice * device() const;
 
 private:
     QIODevice * mDevice;

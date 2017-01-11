@@ -23,7 +23,11 @@ Copyright Copyright 2016-17 Sacha Schutz
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
 #include <QtCore>
-
+/*!
+ * \class Sequence
+ * \brief Sequence contains identifier, nucleotid sequence and quality
+ * @see AbstractSequenceReader
+ */
 class Sequence
 {
 public:

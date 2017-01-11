@@ -44,7 +44,7 @@ const Sequence &AbstractSequenceReader::sequence() const
     return mSequence;
 }
 
-QIODevice *AbstractSequenceReader::device()
+QIODevice *AbstractSequenceReader::device() const
 {
     return mDevice;
 }

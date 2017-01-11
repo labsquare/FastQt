@@ -27,7 +27,10 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QTabWidget>
 #include <QFileInfo>
 #include "mainanalysewidget.h"
-
+/*!
+ * \class MainWindow
+ * \brief Main Widget Application for FastQt
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

@@ -26,6 +26,12 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "analysis.h"
 #include "fastqreader.h"
 
+
+/*!
+ * \class AnalysisRunner
+ * \brief The AnalysisRunner class read a fastq file and computes all analysis from a QThread
+ * @see AnalysisRunner
+ */
 class AnalysisRunner : public QThread
 {
     Q_OBJECT
@@ -33,11 +39,29 @@ public:
     AnalysisRunner(QObject * parent = 0);
     AnalysisRunner(const QString& filename, QObject * parent = 0);
 
-    virtual void run() override;
+    /*!
+     * \brief run all analyis asynchronously
+     */
+    virtual void run() Q_DECL_OVERRIDE;
+    /*!
+     * \brief add Analysis
+     * \param Analysis: analysis
+     */
     void addAnalysis(Analysis* analysis);
+    /*!
+     * \brief set fastq file path
+     * \param QString: file path
+     */
     void setFilename(const QString& filename);
+    /*!
+     * \brief reset all analysis
+     */
     void reset();
 
+    /*!
+     * \brief analysisList
+     * \return all analysis avaible
+     */
     const QVector<Analysis*>& analysisList() const;
 
 Q_SIGNALS:

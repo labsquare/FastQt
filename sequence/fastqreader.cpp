@@ -58,9 +58,4 @@ bool FastqReader::next()
     return true;
 }
 
-int FastqReader::percentCompleted()
-{
 
-    return (double)(device()->pos()) / device()->size() * 100;
-
-}

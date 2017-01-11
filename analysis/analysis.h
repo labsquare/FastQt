@@ -25,6 +25,16 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QtCore>
 #include <QtWidgets>
 #include "sequence.h"
+
+/*!
+ * \class Analysis
+ * \brief Analysis is the base class for all analysis
+ * Create a new class inherites from Analysis and define the following methods :
+ * - processSequence(const Sequence& sequence)
+ * - reset()
+ * - createResultWidget()
+ */
+
 class Analysis
 {
 public:
@@ -33,8 +43,22 @@ public:
     };
 
     Analysis();
+    /*!
+     * \brief process each sequence
+     * Each sequence readed from fastq file are process here one by one
+     * \arg Sequence : a Sequence object
+     */
     virtual void processSequence(const Sequence& sequence) = 0;
+    /*!
+     * \brief reset analysis
+     * This methods is called when an analysis need to be recomputed from start
+     */
     virtual void reset() = 0;
+    /*!
+     * \brief create result widget
+     * Return result as a Widget based class, like a QChart
+     * \return QWidget
+     */
     virtual QWidget* createResultWidget() = 0;
 
 
@@ -44,6 +68,7 @@ public:
     void setName(const QString& name){mName = name;}
     void setTooltip(const QString& tooltip){mTooltip = tooltip;}
 
+    // Not yet used
     Status status() const;
     void setStatus(const Status &status);
 
