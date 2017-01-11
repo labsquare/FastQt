@@ -96,6 +96,22 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     chart->addSeries(TSerie);
     chart->createDefaultAxes();
 
+    /* Create a fake series to have the good value in x axis */
+    QLineSeries  * NothingSerie = new QLineSeries();
+    NothingSerie->setVisible(false);
+
+    chart->addSeries(NothingSerie);
+
+    QValueAxis *axisX = new QValueAxis;
+    axisX->setRange(0, mGCounts.size());
+    axisX->setLabelFormat("%.0f");
+
+    chart->removeAxis(chart->axisX());
+    chart->setAxisX(axisX, NothingSerie);
+
+    dynamic_cast<QValueAxis*>(chart->axisY())->setLabelFormat("%.2f%");
+
+
     QPen pen;
     pen.setWidth(2);
     pen.setColor(QColor("#71e096"));
