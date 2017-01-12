@@ -8,7 +8,7 @@ inline Sequence::Sequence()
 }
 
 inline Sequence::Sequence(const QByteArray &id, const QByteArray &sequence, const QByteArray &quality)
-    :mId(id), mSequence(sequence), mQuality(quality)
+    :mId(id), mSequence(sequence.trimmed().toUpper()), mQuality(quality.trimmed())
 {
 
 }
