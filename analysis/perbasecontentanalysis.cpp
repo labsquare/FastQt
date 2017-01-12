@@ -123,7 +123,7 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
 
 
 
-    chart->setTitle("Quality per base");
+    chart->setTitle("Per Base content");
     chart->setAnimationOptions(QChart::NoAnimation);
 
 

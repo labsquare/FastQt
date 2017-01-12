@@ -85,7 +85,7 @@ QWidget *PerSequenceQualityAnalysis::createResultWidget()
 
     QChart * chart = new QChart();
     chart->addSeries(lineseries);
-    chart->setTitle("Quality per base");
+    chart->setTitle("Sequence quality");
     chart->setAnimationOptions(QChart::NoAnimation);
 
     QValueAxis * axisX= new QValueAxis;
