@@ -1,4 +1,5 @@
 #include "persequencegccontent.h"
+#include "statistic.h"
 
 PerSequenceGCContent::PerSequenceGCContent()
 {
@@ -22,19 +23,31 @@ void PerSequenceGCContent::reset()
 
 QWidget* PerSequenceGCContent::createResultWidget()
 {
+    /* Compute theorical distribution */
+    qreal gcMean = mean_ponderate<QVector, quint64, qreal>(mGCCounts);
+    qreal gcStddev = stddev_ponderate<QVector, quint64, qreal>(mGCCounts);
+
     QChartView * view = new QChartView;
 
+    QLineSeries * normalseries = new QLineSeries();
     QLineSeries * lineseries = new QLineSeries();
 
     for(int i = 0; i != mGCCounts.size(); i++)
     {
         lineseries->append(QPoint(i, mGCCounts[i]));
+        normalseries->append(QPoint(i, normal_distribution<qreal, qreal, qreal>(gcMean, gcStddev, i)));
     }
 
     QChart * chart = new QChart();
     chart->addSeries(lineseries);
+    chart->addSeries(normalseries);
     chart->setTitle("Sequence GC %");
     chart->setAnimationOptions(QChart::NoAnimation);
+
+    QPen pen;
+    pen.setWidth(2);
+    pen.setColor(QColor("#71e096"));
+    normalseries->setPen(pen);
 
     QValueAxis * axisX = new QValueAxis;
     axisX->setTickCount(10);
@@ -48,7 +61,6 @@ QWidget* PerSequenceGCContent::createResultWidget()
     axisY->setLabelFormat("%.2f%");
 
     chart->setAxisY(axisY);
-
 
     view->setChart(chart);
     return view;
