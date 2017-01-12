@@ -1,5 +1,5 @@
 /*
-Copyright Copyright 2016-17 Sacha Schutz
+Copyright Copyright 2016-17 Pierre Marijon
 
     This file is part of CuteVCF.
 
@@ -20,40 +20,19 @@ Copyright Copyright 2016-17 Sacha Schutz
     @author : Sacha Schutz <sacha@labsquare.org>
     @author : Pierre Marijon <pierre@marijon.fr>
 */
-#ifndef SEQUENCE_H
-#define SEQUENCE_H
-#include <QtCore>
-/*!
- * \class Sequence
- * \brief Sequence contains identifier, nucleotid sequence and quality
- * @see AbstractSequenceReader
- */
-class Sequence
+
+#include "sequence.hxx"
+
+qreal Sequence::gc_percent() const
 {
-public:
-    Sequence();
-    Sequence(const QByteArray& id, const QByteArray& sequence, const QByteArray& quality);
+    long nb_gc = 0;
 
+    for(auto nuc : mSequence)
+    {
+        // When sequence is add is capitalized
+        if(nuc == 'G' || nuc == 'C')
+            nb_gc++;
+    }
 
-    const QByteArray &id() const;
-    void setId(const QByteArray &id);
-
-    const QByteArray &sequence() const;
-    void setSequence(const QByteArray &sequence);
-
-    const QByteArray &quality() const;
-    void setQuality(const QByteArray &quality);
-
-    qreal gc_percent() const;
-
-    int size() const;
-
-private:
-    QByteArray mId;
-    QByteArray mSequence;
-    QByteArray mQuality;
-
-};
-Q_DECLARE_METATYPE(Sequence)
-
-#endif // SEQUENCE_H
+    return nb_gc/this->size();
+}
