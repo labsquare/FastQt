@@ -77,6 +77,19 @@ void AnalysisRunner::run()
 
         while (reader.next())
         {
+
+            // check if first sequence is valid..Means it's probably a good file
+            if (seqCount == 0)
+            {
+                if (!reader.sequence().isValid())
+                {
+                    qCritical()<<Q_FUNC_INFO<<"Cannot read sequence. Are you sure it's a Fastq file ?";
+                    emit updated("Cannot read file");
+                    return ;
+                }
+            }
+
+
             ++seqCount;
 
             if (seqCount % 1000 == 0)

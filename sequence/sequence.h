@@ -48,6 +48,8 @@ public:
 
     int size() const;
 
+    bool isValid() const;
+
 private:
     QByteArray mId;
     QByteArray mSequence;

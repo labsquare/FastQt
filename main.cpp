@@ -41,6 +41,8 @@ int main(int argc, char *argv[])
     QFontIcon::addFont(":/fonts/fontawesome.ttf");
 
 
+
+
     MainWindow window;
     window.show();
 

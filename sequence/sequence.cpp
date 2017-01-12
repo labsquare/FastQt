@@ -36,3 +36,8 @@ qreal Sequence::gc_percent() const
 
     return nb_gc/(double)size()*100;
 }
+
+bool Sequence::isValid() const
+{
+    return (sequence().length() == quality().length()) && (id().startsWith('@'));
+}
