@@ -61,24 +61,24 @@ void MainWindow::addFile(const QString &filename)
 void MainWindow::run()
 {
 
-    addFile("/home/sacha/merge.fastq");
-    mainList.first()->run();
+//    addFile("/home/sacha/merge.fastq");
+//    mainList.first()->run();
 
 }
 
 void MainWindow::openFile()
 {
 
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
 
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
-
-    if (!fileName.isEmpty())
+    if (!fileNames.isEmpty())
     {
-        addFile(fileName);
-        mainList.first()->run();
+        for (QString file : fileNames)
+        {
+            addFile(file);
+            mainList.last()->run();
+        }
     }
-
-
 }
 
 

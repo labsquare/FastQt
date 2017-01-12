@@ -28,7 +28,7 @@ PerBaseContentAnalysis::PerBaseContentAnalysis()
 {
 
     setName("Per Base content");
-    setTooltip("Per base content");
+    setDescription("Per base content");
     for (int i = 0; i < 256; ++i) {
       counts[i] = &mXCounts;
     }

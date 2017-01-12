@@ -28,7 +28,7 @@ PerSequenceQualityAnalysis::PerSequenceQualityAnalysis()
 {
 
     setName("Sequence quality");
-    setTooltip("Per sequence quality scores");
+    setDescription("Per sequence quality scores");
 
 }
 

@@ -63,10 +63,10 @@ public:
 
 
     const QString& name() const {return mName;}
-    const QString& tooltip() const {return mTooltip;}
+    const QString& description() const {return mDescription;}
 
     void setName(const QString& name){mName = name;}
-    void setTooltip(const QString& tooltip){mTooltip = tooltip;}
+    void setDescription(const QString& description){mDescription = description;}
 
     // Not yet used
     Status status() const;
@@ -76,7 +76,7 @@ public:
 
 private:
     QString mName;
-    QString mTooltip;
+    QString mDescription;
     Status mStatus;
 
 

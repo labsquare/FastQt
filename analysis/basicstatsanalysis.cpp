@@ -28,7 +28,7 @@ BasicStatsAnalysis::BasicStatsAnalysis()
     :Analysis()
 {
     setName("Basic Stat");
-    setTooltip("Basic statistic");
+    setDescription("Basic statistic");
     for (int i = 0; i < 256; ++i) {
       count[i] = &mXCount;
     }

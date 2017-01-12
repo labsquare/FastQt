@@ -46,7 +46,9 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
 
     setLayout(mMainLayout);
 
-    setWindowTitle(mFilename);
+    QFileInfo info(mFilename);
+
+    setWindowTitle(info.fileName());
 
     connect(&mRunner, &AnalysisRunner::started, this, &MainAnalyseWidget::analysisStarted);
     connect(&mRunner, &AnalysisRunner::updated, this, &MainAnalyseWidget::analysisUpdated);
@@ -58,6 +60,7 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
     mRunner.addAnalysis(new PerBaseQualityAnalysis);
     mRunner.addAnalysis(new PerSequenceQualityAnalysis);
     mRunner.addAnalysis(new PerBaseContentAnalysis);
+    mRunner.addAnalysis(new OverRepresentedSeqsAnalysis);
 
 
 }
@@ -94,7 +97,7 @@ void MainAnalyseWidget::analysisFinished()
 
         QListWidgetItem * item = new QListWidgetItem;
         item->setText(a->name());
-        item->setToolTip(a->tooltip());
+        item->setToolTip(a->description());
         item->setIcon(a->statusIcon());
         item->setSizeHint(QSize(item->sizeHint().width(), 30));
 
