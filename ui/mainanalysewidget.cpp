@@ -35,14 +35,18 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
     mStackWidget      = new QStackedWidget;
     mResultWidget     = new QSplitter(Qt::Horizontal);
 
+
     mProgressLabel->setAlignment(Qt::AlignCenter);
     mResultWidget->addWidget(mListWidget);
     mResultWidget->addWidget(mStackWidget);
-    mListWidget->setMaximumWidth(150);
+    mResultWidget->setStretchFactor(1,4);
+
 
     mMainLayout = new QStackedLayout;
     mMainLayout->addWidget(mProgressLabel);
     mMainLayout->addWidget(mResultWidget);
+
+
 
     setLayout(mMainLayout);
 
@@ -63,6 +67,7 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
     mRunner.addAnalysis(new OverRepresentedSeqsAnalysis);
     mRunner.addAnalysis(new PerBaseNContentAnalysis);
     mRunner.addAnalysis(new PerSequenceGCContent);
+
 
 
 }

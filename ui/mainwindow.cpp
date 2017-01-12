@@ -21,24 +21,17 @@ Copyright Copyright 2016-17 Sacha Schutz
     @author : Pierre Marijon <pierre@marijon.fr>
 */
 #include "mainwindow.h"
-
+#include "qfonticon.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     mTabWidget = new QTabWidget;
     setCentralWidget(mTabWidget);
 
-    setMenuBar(new QMenuBar());
+    setupActions();
 
-    QMenu * fileMenu = menuBar()->addMenu("File");
-    fileMenu->addAction(tr("Open file"),this, SLOT(openFile()), QKeySequence::Open);
-    fileMenu->addAction(tr("Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
+    resize(800,600);
 
-
-
-    addToolBar("Open")->addAction("Open", this, SLOT(openFile()));
-
-    resize(600,400);
 
 
 
@@ -79,6 +72,33 @@ void MainWindow::openFile()
             mainList.last()->run();
         }
     }
+}
+
+void MainWindow::about()
+{
+
+}
+
+void MainWindow::setupActions()
+{
+
+    // Create Menu Bar
+    setMenuBar(new QMenuBar());
+    // File menu
+    QMenu * fileMenu = menuBar()->addMenu("&File");
+    QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf115), tr("&Open file"),this, SLOT(openFile()), QKeySequence::Open);
+    fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
+
+    // Help menu
+    QMenu * helpMenu = menuBar()->addMenu("&Help");
+    helpMenu->addAction(QFontIcon::icon(0xf129),tr("About &Qt"),qApp, SLOT(aboutQt()));
+
+
+    QToolBar * bar = addToolBar("Open");
+    bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    bar->addAction(openAction);
+
+
 }
 
 

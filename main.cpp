@@ -25,26 +25,20 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "perbasequalityanalysis.h"
 #include "sequence/sequence.hxx"
 #include "fastqreader.h"
-#include <KCompressionDevice>
+#include "qfonticon.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    a.setApplicationName("FastQt");
+    a.setOrganizationName("Labsquare");
+    a.setOrganizationDomain("labsquare.org");
+    a.setApplicationVersion("0.1-dev");
+
     qRegisterMetaType<Sequence>();
 
-
-
-//    KCompressionDevice device("/home/sacha/Bioinfo/data/Mucobiome/raw/NG-8011_1003_lib68789_3904_1_1.fastq.gz", KCompressionDevice::GZip);
-
-//    if (device.open(QIODevice::ReadOnly))
-//    {
-//       FastqReader reader(&device);
-
-//       while (reader.next())
-//       {
-//           qDebug()<< reader.sequence().quality();
-//       }
-//    }
+    QFontIcon::addFont(":/fonts/fontawesome.ttf");
 
 
     MainWindow window;

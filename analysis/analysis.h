@@ -24,6 +24,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #define MODULE_H
 #include <QtCore>
 #include <QtWidgets>
+#include "qfonticon.h"
 #include "sequence.h"
 
 /*!

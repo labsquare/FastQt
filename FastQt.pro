@@ -21,6 +21,8 @@ include("analysis/analysis.pri")
 include("ui/ui.pri")
 include("model/model.pri")
 include("utils/utils.pri")
+include("QFontIcon/QFontIcon.pri")
 
-RESOURCES += icons/icons.qrc
+RESOURCES += \
+    resources.qrc
 

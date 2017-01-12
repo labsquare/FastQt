@@ -38,14 +38,15 @@ void Analysis::setStatus(const Status &status)
 
 QIcon Analysis::statusIcon() const
 {
-    if (mStatus == Analysis::Success)
-        return QIcon(":/accept_button.png");
-    if (mStatus == Analysis::Error)
-        return QIcon(":/exclamation.png");
-    if (mStatus == Analysis::Warning)
-        return QIcon(":/warning.png");
+    // @see http://fontawesome.io/icons/ to get font hex number
+//    if (mStatus == Analysis::Success)
+//        return QFontIcon::icon(0xf058);
+//    if (mStatus == Analysis::Error)
+//         return QFontIcon::icon(0xf058);
+//    if (mStatus == Analysis::Warning)
+//         return QFontIcon::icon(0xf058);
 
-    return QIcon();
+    return QFontIcon::icon(0xf058,qApp->palette("QWidget").highlight().color());
 
 }
 
