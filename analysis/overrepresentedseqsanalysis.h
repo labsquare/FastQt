@@ -12,9 +12,9 @@ class OverRepresentedSeqsAnalysis : public Analysis
 public:
     OverRepresentedSeqsAnalysis();
 
-     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
-     void reset() Q_DECL_OVERRIDE;
-     QWidget* createResultWidget() Q_DECL_OVERRIDE;
+    void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
+    void reset() Q_DECL_OVERRIDE;
+    QWidget* createResultWidget() Q_DECL_OVERRIDE;
 
 
 protected:
@@ -33,8 +33,8 @@ class OverRepresentedSeq
 public:
     OverRepresentedSeq(const QByteArray& seq, quint64 count, double percentage);
     const QByteArray& seq() const;
-    const quint64 count() const;
-    const double percentage() const;
+    quint64 count() const;
+    double percentage() const;
 
     bool operator <(const OverRepresentedSeq& other) const;
 

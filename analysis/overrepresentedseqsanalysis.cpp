@@ -97,12 +97,12 @@ const QByteArray &OverRepresentedSeq::seq() const
     return mSeq;
 }
 
-const quint64 OverRepresentedSeq::count() const
+quint64 OverRepresentedSeq::count() const
 {
     return mCount;
 }
 
-const double OverRepresentedSeq::percentage() const
+double OverRepresentedSeq::percentage() const
 {
     return mPercentage;
 }
@@ -115,6 +115,7 @@ bool OverRepresentedSeq::operator <(const OverRepresentedSeq &other) const
 //============================ RESULT MODEL ===============================
 
 ResultsModel::ResultsModel(QObject *parent)
+    :QAbstractTableModel(parent)
 {
 
 }
