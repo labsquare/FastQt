@@ -1,7 +1,7 @@
 /*
 Copyright Copyright 2016-17 Sacha Schutz
 
-    This file is part of CuteVCF.
+    This file is part of FastQt.
 
     Foobar is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
