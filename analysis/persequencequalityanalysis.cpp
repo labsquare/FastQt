@@ -68,6 +68,12 @@ QWidget *PerSequenceQualityAnalysis::createResultWidget()
  QList<int> keys       = mAverageScoreCounts.keys();
  QList<quint64> values = mAverageScoreCounts.values();
 
+ QChartView * view = new QChartView;
+
+// avoid crash
+ if (keys.isEmpty() || values.isEmpty())
+     return view;
+
  qSort(keys);
  qSort(values);
 
@@ -96,7 +102,6 @@ QWidget *PerSequenceQualityAnalysis::createResultWidget()
     chart->setAxisY(axisY);
 
 
-    QChartView * view = new QChartView;
     view->setChart(chart);
 
     return view;

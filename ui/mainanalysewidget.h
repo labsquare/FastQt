@@ -54,7 +54,7 @@ public Q_SLOTS:
     /*!
      * \brief this methods is called when AnalysisRunner thread has changed
      */
-    void analysisUpdated(int seqCount, int percent);
+    void analysisUpdated(const QString & message);
     /*!
      * \brief this methods is called when AnalysisRunner thread has finished
      */

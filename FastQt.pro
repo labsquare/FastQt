@@ -4,16 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui concurrent charts
+QT       += core gui concurrent charts KArchive
 #QMAKE_CXXFLAGS  += -Ofast
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-unix{
-LIBS+=-lz
-LIBS+=-lquazip5
-}
 
 
 TARGET = FastQt

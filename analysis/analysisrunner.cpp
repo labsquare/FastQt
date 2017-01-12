@@ -42,7 +42,14 @@ void AnalysisRunner::run()
     QIODevice * file = Q_NULLPTR;
 
     if (fileInfo.suffix() == "gz")
-        file = new QuaGzipFile(mFilename);
+        file = new KCompressionDevice(mFilename, KCompressionDevice::GZip);
+
+    if (fileInfo.suffix() == "bz2")
+        file = new KCompressionDevice(mFilename, KCompressionDevice::BZip2);
+
+
+    if (fileInfo.suffix() == "xz")
+        file = new KCompressionDevice(mFilename, KCompressionDevice::Xz);
 
     if (fileInfo.suffix() == "fastq")
         file = new QFile(mFilename);
@@ -53,13 +60,17 @@ void AnalysisRunner::run()
         return;
     }
 
-
-    if (file->open(QIODevice::ReadOnly|QFile::Text))
+    if (file->open(QIODevice::ReadOnly))
     {
         int seqCount = 0;
         int percentCompleted = 0;
 
+
         FastqReader reader(file);
+
+        // pre compute total size for sequencial access .
+        emit updated(tr("Analysis ..."));
+        reader.computeTotalSize();
 
         QTime start = QTime::currentTime();
         qDebug()<<"start"<<start;
@@ -76,7 +87,7 @@ void AnalysisRunner::run()
                 if ( (percentNow >= percentCompleted + 5) || (percentNow == 0))
                 {
                     percentCompleted = percentNow;
-                    emit updated(seqCount, percentCompleted);
+                    emit updated(QString("%1 Sequences procceed ( %2 \% )").arg(seqCount).arg(percentCompleted));
                 }
 
             }

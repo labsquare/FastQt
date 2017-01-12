@@ -79,10 +79,10 @@ void MainAnalyseWidget::analysisStarted()
 
 }
 
-void MainAnalyseWidget::analysisUpdated(int seqCount, int percent)
+void MainAnalyseWidget::analysisUpdated(const QString& message)
 {
 
-    mProgressLabel->setText(QString("%1 Sequences procceed ( %2 )\%").arg(seqCount).arg(percent));
+    mProgressLabel->setText(message);
 }
 
 void MainAnalyseWidget::analysisFinished()

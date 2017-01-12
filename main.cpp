@@ -24,13 +24,27 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "mainwindow.h"
 #include "perbasequalityanalysis.h"
 #include "sequence/sequence.hxx"
-#include "quagzipfile.h"
 #include "fastqreader.h"
+#include <KCompressionDevice>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     qRegisterMetaType<Sequence>();
+
+
+
+//    KCompressionDevice device("/home/sacha/Bioinfo/data/Mucobiome/raw/NG-8011_1003_lib68789_3904_1_1.fastq.gz", KCompressionDevice::GZip);
+
+//    if (device.open(QIODevice::ReadOnly))
+//    {
+//       FastqReader reader(&device);
+
+//       while (reader.next())
+//       {
+//           qDebug()<< reader.sequence().quality();
+//       }
+//    }
 
 
     MainWindow window;

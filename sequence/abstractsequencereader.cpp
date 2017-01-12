@@ -33,7 +33,10 @@ AbstractSequenceReader::AbstractSequenceReader(QIODevice *device)
 
 int AbstractSequenceReader::percentComplete() const
 {
-    int percent = (double)(mDevice->pos()) / mDevice->size() * 100;
+    if (totalSize() == 0)
+        return 0;
+
+    int percent = (double)(mDevice->pos()) / totalSize() * 100;
     return percent;
 
 }
@@ -41,6 +44,24 @@ int AbstractSequenceReader::percentComplete() const
 const Sequence &AbstractSequenceReader::sequence() const
 {
     return mSequence;
+}
+
+void AbstractSequenceReader::computeTotalSize()
+{
+    if (mDevice->size() == 0) // sequential
+    {
+        mDevice->readAll();
+        mTotalSize = mDevice->pos();
+        mDevice->seek(0);
+    }
+    else { // Random access
+        mTotalSize = mDevice->size();
+    }
+}
+
+int AbstractSequenceReader::totalSize() const
+{
+    return mTotalSize;
 }
 
 QIODevice *AbstractSequenceReader::device() const

@@ -63,6 +63,10 @@ public:
      */
     const Sequence& sequence() const;
 
+
+    void computeTotalSize() ;
+    int totalSize() const;
+
 protected:
     void setSequence(const Sequence& seq);
     QIODevice * device() const;
@@ -70,6 +74,7 @@ protected:
 private:
     QIODevice * mDevice;
     Sequence mSequence;
+    int mTotalSize = 0;
 };
 
 #endif // ABSTRACTSEQUENCEREADER_H

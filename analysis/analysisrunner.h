@@ -23,9 +23,9 @@ Copyright Copyright 2016-17 Sacha Schutz
 #ifndef ANALYSISRUNNER_H
 #define ANALYSISRUNNER_H
 #include <QtCore>
+#include <KCompressionDevice>
 #include "analysis.h"
 #include "fastqreader.h"
-#include "quagzipfile.h"
 
 
 /*!
@@ -66,7 +66,7 @@ public:
     const QVector<Analysis*>& analysisList() const;
 
 Q_SIGNALS:
-    void updated(int sequencesProcessed, int percentCompleted);
+    void updated(QString message);
 
 
 private:
