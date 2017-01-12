@@ -23,9 +23,8 @@ Copyright Copyright 2016-17 Sacha Schutz
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QTabWidget>
-#include <QFileInfo>
+#include <QtWidgets>
+#include <QtCore>
 #include "mainanalysewidget.h"
 /*!
  * \class MainWindow
@@ -44,6 +43,10 @@ public:
 public Q_SLOTS:
     void run();
     void openFile();
+    void about();
+
+protected:
+    void setupActions();
 
 private:
     QTabWidget * mTabWidget;
