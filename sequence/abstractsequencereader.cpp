@@ -50,7 +50,8 @@ void AbstractSequenceReader::computeTotalSize()
 {
     if (mDevice->size() == 0) // sequential
     {
-        mDevice->readAll();
+        while (!mDevice->atEnd())
+            mDevice->readLine();
         mTotalSize = mDevice->pos();
         mDevice->seek(0);
     }
