@@ -30,6 +30,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "perbasequalityanalysis.h"
 #include "persequencequalityanalysis.h"
 #include "perbasecontentanalysis.h"
+#include "perbasencontentanalysis.h"
 /*!
  * \class MainAnalyseWidget
  * \brief TabWidget witch encapsulate AnalysisRunner and display AnalysisRunner::resultWidget

@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/basicstatsanalysis.h \
     $$PWD/perbasequalityanalysis.h \
     $$PWD/persequencequalityanalysis.h \
-    $$PWD/perbasecontentanalysis.h
+    $$PWD/perbasecontentanalysis.h \
+    $$PWD/perbasencontentanalysis.h
 
 SOURCES += \
     $$PWD/analysis.cpp \
@@ -14,4 +15,5 @@ SOURCES += \
     $$PWD/basicstatsanalysis.cpp \
     $$PWD/perbasequalityanalysis.cpp \
     $$PWD/persequencequalityanalysis.cpp \
-    $$PWD/perbasecontentanalysis.cpp
+    $$PWD/perbasecontentanalysis.cpp \
+    $$PWD/perbasencontentanalysis.cpp
