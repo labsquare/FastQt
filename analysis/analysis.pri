@@ -8,7 +8,8 @@ HEADERS += \
     $$PWD/persequencequalityanalysis.h \
     $$PWD/perbasecontentanalysis.h \
     $$PWD/overrepresentedseqsanalysis.h \
-    $$PWD/perbasencontentanalysis.h
+    $$PWD/perbasencontentanalysis.h \
+    $$PWD/persequencegccontent.h
 
 SOURCES += \
     $$PWD/analysis.cpp \
@@ -18,4 +19,5 @@ SOURCES += \
     $$PWD/persequencequalityanalysis.cpp \
     $$PWD/perbasecontentanalysis.cpp \
     $$PWD/overrepresentedseqsanalysis.cpp \
-    $$PWD/perbasencontentanalysis.cpp
+    $$PWD/perbasencontentanalysis.cpp \
+    $$PWD/persequencegccontent.cpp

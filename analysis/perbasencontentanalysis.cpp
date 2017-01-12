@@ -128,6 +128,6 @@ void PerBaseNContentAnalysis::computePercentages()
         }
 
 
-            nPercent[i] = (nCount/(double)total)*100;
+        nPercent[i] = (nCount/(double)total)*100;
     }
 }
