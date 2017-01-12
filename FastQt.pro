@@ -10,13 +10,13 @@ QT       += core gui concurrent charts
 #exemple
 #cp /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_KArchive.pri  ~/path/to/Qt/5.7/gcc_64/mkspecs/modules
 
-QT +=  KArchive
+#QT +=  KArchive
 
 # METHOD 2 : Otherwise link it as a common library
-#unix {
-#INCLUDEPATH += "/usr/include/KF5/KArchive"
-#LIBS +=  -L"/usr/lib"  -lKF5Archive
-#}
+unix {
+INCLUDEPATH += "/usr/include/KF5/KArchive"
+LIBS +=  -L"/usr/lib"  -lKF5Archive
+}
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
