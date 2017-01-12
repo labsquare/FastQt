@@ -34,5 +34,5 @@ qreal Sequence::gc_percent() const
             nb_gc++;
     }
 
-    return nb_gc/this->size();
+    return nb_gc/(double)size()*100;
 }
