@@ -31,13 +31,32 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
 
     QLineSeries * serie = new QLineSeries;
 
+    qreal xMul = mLengthCounts.size()/mGraphCounts.size();
+    int yMax = 0;
     for (int i=0; i<mGraphCounts.length(); ++i)
-        serie->append(i, mGraphCounts[i]);
+    {
+        serie->append(i * xMul, mGraphCounts[i]);
+        if(yMax < mGraphCounts[i])
+            yMax = mGraphCounts[i];
+    }
 
     QChart * chart = new QChart ;
     chart->addSeries(serie);
+
+    /* Create fake series for set the chart dimension */
+    QLineSeries * fakeSerie = new QLineSeries();
+    fakeSerie->append(0, 0);
+    fakeSerie->append(mGraphCounts.size(), yMax);
+    fakeSerie->setVisible(false);
+    chart->addSeries(fakeSerie);
+
     chart->createDefaultAxes();
-    chart->setTitle("Quality per base");
+
+    /* Set label of axis */
+    dynamic_cast<QValueAxis*>(chart->axisX())->setLabelFormat("%d");
+    dynamic_cast<QValueAxis*>(chart->axisY())->setLabelFormat("%d");
+
+    chart->setTitle("Distribution of sequence length over all sequences");
     chart->setAnimationOptions(QChart::NoAnimation);
 
     view->setChart(chart);
