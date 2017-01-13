@@ -67,6 +67,7 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
     mRunner.addAnalysis(new OverRepresentedSeqsAnalysis);
     mRunner.addAnalysis(new PerBaseNContentAnalysis);
     mRunner.addAnalysis(new PerSequenceGCContent);
+    mRunner.addAnalysis(new LengthDistributionAnalysis);
 
 
 
