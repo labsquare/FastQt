@@ -42,7 +42,7 @@ QWidget* PerSequenceGCContent::createResultWidget()
     QValueAxis * axisX = new QValueAxis;
     axisX->setTickCount(10);
     axisX->setRange(0, 100);
-    axisX->setLabelFormat("%i");
+    axisX->setLabelFormat("%.2f %");
     chart->setAxisX(axisX);
 
     QValueAxis * axisY= new QValueAxis;
