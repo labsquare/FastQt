@@ -33,6 +33,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "overrepresentedseqsanalysis.h"
 #include "perbasencontentanalysis.h"
 #include "persequencegccontent.h"
+#include "lengthdistributionanalysis.h"
 
  /** \class MainAnalyseWidget
  * \brief TabWidget witch encapsulate AnalysisRunner and display AnalysisRunner::resultWidget

@@ -79,15 +79,14 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     QLineSeries  * CSerie = new QLineSeries ();
     QLineSeries  * TSerie = new QLineSeries ();
 
-
+    qreal xMul = mGCounts.size()/gPercent.size();
     for (int i=0; i<gPercent.size(); ++i)
     {
-        ASerie->append(i, aPercent[i]);
-        GSerie->append(i, gPercent[i]);
-        CSerie->append(i, cPercent[i]);
-        TSerie->append(i, tPercent[i]);
+        ASerie->append(i * xMul, aPercent[i]);
+        GSerie->append(i * xMul, gPercent[i]);
+        CSerie->append(i * xMul, cPercent[i]);
+        TSerie->append(i * xMul, tPercent[i]);
     }
-
 
     QChart * chart = new QChart();
     chart->addSeries(ASerie);
@@ -95,16 +94,18 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     chart->addSeries(CSerie);
     chart->addSeries(TSerie);
 
-    QValueAxis *axisX = new QValueAxis;
-    axisX->setRange(0, mGCounts.size());
-    axisX->setLabelFormat("%.0f");
+    /* Create fake series for set the chart dimension */
+    QLineSeries * fakeSerie = new QLineSeries();
+    fakeSerie->append(0, 0);
+    fakeSerie->append(gPercent.size(), 100);
+    fakeSerie->setVisible(false);
+    chart->addSeries(fakeSerie);
 
-    QValueAxis *axisY = new QValueAxis;
-    axisY->setRange(0, 100.00);
-    axisY->setLabelFormat("%.2f%");
+    chart->createDefaultAxes();
 
-    chart->setAxisX(axisX);
-    chart->setAxisY(axisY);
+    /* Set label of axis */
+    dynamic_cast<QValueAxis*>(chart->axisX())->setLabelFormat("%d");
+    dynamic_cast<QValueAxis*>(chart->axisY())->setLabelFormat("%.2f %");
 
     QPen pen;
     pen.setWidth(2);

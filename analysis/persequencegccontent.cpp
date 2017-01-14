@@ -26,9 +26,12 @@ QWidget* PerSequenceGCContent::createResultWidget()
 
     QLineSeries * lineseries = new QLineSeries();
 
+    qreal yMax = 0;
     for(int i = 0; i != mGCCounts.size(); i++)
     {
         lineseries->append(QPoint(i, mGCCounts[i]));
+        if(mGCCounts[i] > yMax)
+            yMax = mGCCounts[i];
     }
 
     QChart * chart = new QChart();
@@ -39,13 +42,13 @@ QWidget* PerSequenceGCContent::createResultWidget()
     QValueAxis * axisX = new QValueAxis;
     axisX->setTickCount(10);
     axisX->setRange(0, 100);
-    axisX->setLabelFormat("%i");
+    axisX->setLabelFormat("%.2f %");
     chart->setAxisX(axisX);
 
     QValueAxis * axisY= new QValueAxis;
     axisY->setTickCount(10);
-    axisY->setRange(0, 100);
-    axisY->setLabelFormat("%.2f%");
+    axisY->setRange(0, yMax);
+    axisY->setLabelFormat("%d");
 
     chart->setAxisY(axisY);
 
