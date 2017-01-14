@@ -21,7 +21,7 @@ Copyright Copyright 2016-17 Sacha Schutz
     @author : Pierre Marijon <pierre@marijon.fr>
 */
 #include "basicstatsanalysis.h"
-#include "sequence/sequence.hxx"
+#include "sequence.h"
 #include <QDebug>
 #include <QLocale>
 BasicStatsAnalysis::BasicStatsAnalysis()

@@ -21,7 +21,7 @@ Copyright Copyright 2017 Pierre Marijon
     @author : Pierre Marijon <pierre@marijon.fr>
 */
 #include "perbasencontentanalysis.h"
-#include "sequence/sequence.hxx"
+#include "sequence.h"
 
 PerBaseNContentAnalysis::PerBaseNContentAnalysis()
     :Analysis()

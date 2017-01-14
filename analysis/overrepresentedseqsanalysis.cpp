@@ -1,5 +1,5 @@
 #include "overrepresentedseqsanalysis.h"
-#include "sequence/sequence.hxx"
+#include "sequence.h"
 
 OverRepresentedSeqsAnalysis::OverRepresentedSeqsAnalysis()
 {

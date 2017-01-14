@@ -21,7 +21,7 @@ Copyright Copyright 2016-17 Pierre Marijon
     @author : Pierre Marijon <pierre@marijon.fr>
 */
 
-#include "sequence.hxx"
+#include "sequence.h"
 
 qreal Sequence::gc_percent() const
 {

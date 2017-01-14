@@ -21,7 +21,7 @@ Copyright Copyright 2016-17 Sacha Schutz
     @author : Pierre Marijon <pierre@marijon.fr>
 */
 #include "perbasecontentanalysis.h"
-#include "sequence/sequence.hxx"
+#include "sequence.h"
 
 PerBaseContentAnalysis::PerBaseContentAnalysis()
     :Analysis()

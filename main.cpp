@@ -23,7 +23,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QApplication>
 #include "mainwindow.h"
 #include "perbasequalityanalysis.h"
-#include "sequence/sequence.hxx"
+#include "sequence.h"
 #include "fastqreader.h"
 #include "qfonticon.h"
 

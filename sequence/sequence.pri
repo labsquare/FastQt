@@ -4,8 +4,7 @@ HEADERS += \
     $$PWD/sequence.h \
     $$PWD/abstractsequencereader.h \
     $$PWD/fastqreader.h \
-    $$PWD/phredencoding.h \
-    $$PWD/sequence.hxx
+    $$PWD/phredencoding.h
 
 SOURCES += \
     $$PWD/abstractsequencereader.cpp \

@@ -21,7 +21,7 @@ Copyright Copyright 2016-17 Sacha Schutz
     @author : Pierre Marijon <pierre@marijon.fr>
 */
 #include "persequencequalityanalysis.h"
-#include "sequence/sequence.hxx"
+#include "sequence.h"
 
 PerSequenceQualityAnalysis::PerSequenceQualityAnalysis()
     :Analysis()
