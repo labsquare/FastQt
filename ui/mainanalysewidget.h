@@ -44,6 +44,7 @@ class MainAnalyseWidget : public QWidget
     Q_OBJECT
 public:
     explicit MainAnalyseWidget(const QString& filename, QWidget *parent = 0);
+    ~MainAnalyseWidget();
 
 
 public Q_SLOTS:

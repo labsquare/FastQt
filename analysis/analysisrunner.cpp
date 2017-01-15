@@ -35,6 +35,11 @@ AnalysisRunner::AnalysisRunner(const QString &filename, QObject *parent)
     setFilename(filename);
 }
 
+AnalysisRunner::~AnalysisRunner()
+{
+    qDeleteAll(mAnalysisList);
+}
+
 void AnalysisRunner::run()
 {
 

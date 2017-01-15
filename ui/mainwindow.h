@@ -45,9 +45,12 @@ public Q_SLOTS:
     void run();
     void openFile();
     void about();
+    void closeTab(int index);
+
 
 protected:
     void setupActions();
+
 
 private:
     QTabWidget * mTabWidget;

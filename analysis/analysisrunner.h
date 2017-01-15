@@ -40,6 +40,8 @@ public:
     AnalysisRunner(QObject * parent = 0);
     AnalysisRunner(const QString& filename, QObject * parent = 0);
 
+    ~AnalysisRunner();
+
     /*!
      * \brief run all analyis asynchronously
      */

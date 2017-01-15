@@ -26,13 +26,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     mTabWidget = new QTabWidget;
+    mTabWidget->setMovable(true);
+    mTabWidget->setTabsClosable(true);
     setCentralWidget(mTabWidget);
 
     setupActions();
-
     resize(800,600);
 
     move(200,200);
+
+    connect(mTabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
 
 }
@@ -78,6 +81,18 @@ void MainWindow::about()
 {
     AboutDialog dialog(this);
     dialog.exec();
+}
+
+void MainWindow::closeTab(int index)
+{
+     if (mTabWidget->widget(index))
+     {
+         QWidget * w = mTabWidget->widget(index);
+         mTabWidget->removeTab(index);
+         delete w;
+
+     }
+
 }
 
 void MainWindow::setupActions()

@@ -73,6 +73,13 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
 
 }
 
+MainAnalyseWidget::~MainAnalyseWidget()
+{
+    mRunner.terminate();
+    mRunner.wait();
+    delete mResultWidget;
+}
+
 
 
 
