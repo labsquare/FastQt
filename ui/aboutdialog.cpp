@@ -8,8 +8,9 @@ AboutDialog::AboutDialog(QWidget * parent)
     mButtonBox  = new QDialogButtonBox(this);
 
 
-    QAbstractButton * githubButton= mButtonBox->addButton("Github",QDialogButtonBox::HelpRole);
+    QPushButton * githubButton= mButtonBox->addButton("Github",QDialogButtonBox::HelpRole);
     mButtonBox->addButton(QDialogButtonBox::Ok);
+    githubButton->setIcon(QFontIcon::icon(0xf09b));
 
     QVBoxLayout * vLayout = new QVBoxLayout;
     vLayout->addWidget(mHeader);
