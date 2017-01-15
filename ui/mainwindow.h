@@ -26,6 +26,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QtWidgets>
 #include <QtCore>
 #include "mainanalysewidget.h"
+#include "aboutdialog.h"
 /*!
  * \class MainWindow
  * \brief Main Widget Application for FastQt

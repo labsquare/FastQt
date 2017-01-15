@@ -1,5 +1,4 @@
 #include "lengthdistributionanalysis.h"
-#include "sequence.hxx"
 LengthDistributionAnalysis::LengthDistributionAnalysis()
 {
     setName("Sequence Length Distribution");

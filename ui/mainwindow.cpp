@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     resize(800,600);
 
-
+    move(200,200);
 
 
 }
@@ -54,8 +54,8 @@ void MainWindow::addFile(const QString &filename)
 void MainWindow::run()
 {
 
-//    addFile("/home/sacha/merge.fastq");
-//    mainList.first()->run();
+    //    addFile("/home/sacha/merge.fastq");
+    //    mainList.first()->run();
 
 }
 
@@ -76,7 +76,8 @@ void MainWindow::openFile()
 
 void MainWindow::about()
 {
-
+    AboutDialog dialog(this);
+    dialog.exec();
 }
 
 void MainWindow::setupActions()
@@ -91,6 +92,7 @@ void MainWindow::setupActions()
 
     // Help menu
     QMenu * helpMenu = menuBar()->addMenu("&Help");
+    helpMenu->addAction(QFontIcon::icon(0xf129),tr("About %1").arg(qAppName()),this,SLOT(about()));
     helpMenu->addAction(QFontIcon::icon(0xf129),tr("About &Qt"),qApp, SLOT(aboutQt()));
 
 

@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>accept_button.png</file>
-        <file>exclamation.png</file>
-        <file>warning.png</file>
-    </qresource>
-</RCC>

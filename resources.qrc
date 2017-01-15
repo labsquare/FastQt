@@ -2,4 +2,12 @@
     <qresource prefix="/fonts">
         <file>fontawesome.ttf</file>
     </qresource>
+    <qresource prefix="/text">
+        <file>LICENSE</file>
+        <file>AUTHORS</file>
+        <file>CREDITS</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>labsquare.png</file>
+    </qresource>
 </RCC>
