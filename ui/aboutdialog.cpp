@@ -52,6 +52,7 @@ void AboutDialog::addTab(const QString &textFile)
         QPlainTextEdit * edit = new QPlainTextEdit(this);
         edit->setPlainText(file.readAll());
         mTabWidget->addTab(edit,info.baseName());
+        edit->setFrameShape(QFrame::NoFrame);
     }
 
     file.close();
