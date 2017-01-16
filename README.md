@@ -47,10 +47,11 @@ For exemple for xenial
     sudo dnf install qt5-qtbase-devel qt5-qtcharts-devel 
 
 ### Compile FastQt 
-Be sure you have the correct version of Qt (>5.7) by using qmake. You will find qmake in bin folder where you installed Qt. For exemple, if you installed Qt from ppa:beineri, you will find it under /opt/qt57/bin/qmake. Then launch the compilation from FastQC folder.
+Be sure you have the correct version of Qt (>5.7) by using qmake. You will find qmake in bin folder where you installed Qt. For exemple, if you installed Qt from ppa:beineri, you will find it under /opt/qt57/bin/qmake. Then launch the compilation from FastQC folder as follow.
 
      /opt/qt57/bin/qmake --version
      /opt/qt57/bin/qmake 
      make 
+     sudo make install 
      
      
