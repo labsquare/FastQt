@@ -5,5 +5,7 @@ Sacha Schutz <sacha@labsquare.org>
 Pierre Marijon <pierre@marijon.fr>
 Jérémie Roquet <jroquet@arkanosis.net>
 
-FastQt is a clone of FastQC. I would like to mention and thanks 
-Pierre Lindenbaum for his outstanding work
+FastQt is a clone of FastQC. I would like to mention and thanks the author of FastQC Pierre Lindenbaum for his outstanding work. 
+
+I also thanks the genetics laboratory at Brest hospital for giving me time to develop bioinformatics tools. 
+https://www.chu-brest.fr/fr/notre-offre-soins/nos-specialites/biologie/genetique-moleculaire-histocompatibilite
