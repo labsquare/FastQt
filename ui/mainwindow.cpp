@@ -101,17 +101,17 @@ void MainWindow::setupActions()
     // Create Menu Bar
     setMenuBar(new QMenuBar());
     // File menu
-    QMenu * fileMenu = menuBar()->addMenu("&File");
+    QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
     QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf115), tr("&Open file"),this, SLOT(openFile()), QKeySequence::Open);
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
 
     // Help menu
-    QMenu * helpMenu = menuBar()->addMenu("&Help");
+    QMenu * helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(QFontIcon::icon(0xf129),tr("About %1").arg(qAppName()),this,SLOT(about()));
     helpMenu->addAction(QFontIcon::icon(0xf129),tr("About &Qt"),qApp, SLOT(aboutQt()));
 
 
-    QToolBar * bar = addToolBar("Open");
+    QToolBar * bar = addToolBar(tr("Open"));
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     bar->addAction(openAction);
 

@@ -23,8 +23,8 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "persequencequalityanalysis.h"
 #include "sequence.h"
 
-PerSequenceQualityAnalysis::PerSequenceQualityAnalysis()
-    :Analysis()
+PerSequenceQualityAnalysis::PerSequenceQualityAnalysis(QObject * parent)
+    :Analysis(parent)
 {
 
     setName("Sequence quality");

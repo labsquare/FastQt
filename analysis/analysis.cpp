@@ -21,7 +21,8 @@ Copyright Copyright 2016-17 Sacha Schutz
     @author : Pierre Marijon <pierre@marijon.fr>
 */
 #include "analysis.h"
-Analysis::Analysis()
+Analysis::Analysis(QObject * parent)
+    :QObject(parent)
 {
     mStatus = Analysis::Success;
 }

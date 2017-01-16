@@ -23,8 +23,8 @@ Copyright Copyright 2017 Pierre Marijon
 #include "perbasencontentanalysis.h"
 #include "sequence.h"
 
-PerBaseNContentAnalysis::PerBaseNContentAnalysis()
-    :Analysis()
+PerBaseNContentAnalysis::PerBaseNContentAnalysis(QObject * parent)
+    :Analysis(parent)
 {
 
     setName("Per Base N content");

@@ -103,7 +103,8 @@ int QualityCount::count()const
 //
 //===========================================================
 
-PerBaseQualityAnalysis::PerBaseQualityAnalysis()
+PerBaseQualityAnalysis::PerBaseQualityAnalysis(QObject * parent)
+    :Analysis(parent)
 {
     setName("PerBase analysis");
 }
@@ -188,7 +189,9 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     font.setPixelSize(9);
     chart->axisX(qualSerie)->setLabelsFont(font);
     chart->axisX(qualSerie)->setLabelsAngle(-90);
+    chart->axisX(qualSerie)->setTitleText(QChart::tr("Position in read(bp)"));
     chart->axisX(lineseries)->hide();
+
 
 
     QChartView * view = new QChartView;

@@ -36,14 +36,14 @@ Copyright Copyright 2016-17 Sacha Schutz
  * - createResultWidget()
  */
 
-class Analysis
+class Analysis : public QObject
 {
 public:
     enum Status {
         Success , Warning, Error
     };
 
-    Analysis();
+    Analysis(QObject * parent = Q_NULLPTR);
 
     virtual ~Analysis();
     /*!

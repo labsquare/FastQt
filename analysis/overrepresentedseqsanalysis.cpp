@@ -1,7 +1,8 @@
 #include "overrepresentedseqsanalysis.h"
 #include "sequence.h"
 
-OverRepresentedSeqsAnalysis::OverRepresentedSeqsAnalysis()
+OverRepresentedSeqsAnalysis::OverRepresentedSeqsAnalysis(QObject * parent)
+    :Analysis(parent)
 {
     setName("Overrepresented sequences");
     setDescription("Identifies sequences which are overrepresented in the set");

@@ -42,7 +42,7 @@ class QualityCount;
 class PerBaseQualityAnalysis : public Analysis
 {
 public:
-    PerBaseQualityAnalysis();
+    PerBaseQualityAnalysis(QObject * parent = Q_NULLPTR);
 
     virtual void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     virtual void reset() Q_DECL_OVERRIDE;

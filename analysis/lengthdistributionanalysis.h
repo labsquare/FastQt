@@ -14,7 +14,7 @@ using namespace QT_CHARTS_NAMESPACE;
 class LengthDistributionAnalysis : public Analysis
 {
 public:
-    LengthDistributionAnalysis();
+    LengthDistributionAnalysis(QObject * parent = Q_NULLPTR);
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
     QWidget * createResultWidget() Q_DECL_OVERRIDE;

@@ -24,8 +24,8 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "sequence.h"
 #include <QDebug>
 #include <QLocale>
-BasicStatsAnalysis::BasicStatsAnalysis()
-    :Analysis()
+BasicStatsAnalysis::BasicStatsAnalysis(QObject * parent)
+    :Analysis(parent)
 {
     setName("Basic Stat");
     setDescription("Basic statistic");

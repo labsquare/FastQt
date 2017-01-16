@@ -1,5 +1,6 @@
 #include "lengthdistributionanalysis.h"
-LengthDistributionAnalysis::LengthDistributionAnalysis()
+LengthDistributionAnalysis::LengthDistributionAnalysis(QObject * parent)
+    :Analysis(parent)
 {
     setName("Sequence Length Distribution");
     setDescription("Shows the distribution of sequence length over all sequences");

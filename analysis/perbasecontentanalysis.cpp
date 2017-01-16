@@ -23,8 +23,8 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "perbasecontentanalysis.h"
 #include "sequence.h"
 
-PerBaseContentAnalysis::PerBaseContentAnalysis()
-    :Analysis()
+PerBaseContentAnalysis::PerBaseContentAnalysis(QObject * parent)
+    :Analysis(parent)
 {
 
     setName("Per Base content");

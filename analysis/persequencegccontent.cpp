@@ -1,6 +1,7 @@
 #include "persequencegccontent.h"
 
-PerSequenceGCContent::PerSequenceGCContent()
+PerSequenceGCContent::PerSequenceGCContent(QObject * parent)
+    :Analysis(parent)
 {
     setName("Sequence GC %");
     setDescription("Per sequence gc %");

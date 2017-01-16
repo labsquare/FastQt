@@ -10,7 +10,7 @@ class OverRepresentedSeqsAnalysis;
 class OverRepresentedSeqsAnalysis : public Analysis
 {
 public:
-    OverRepresentedSeqsAnalysis();
+    OverRepresentedSeqsAnalysis(QObject * parent = Q_NULLPTR);
 
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
