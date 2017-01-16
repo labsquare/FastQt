@@ -98,6 +98,8 @@ QWidget *PerBaseNContentAnalysis::createResultWidget()
 
 
     QChartView * view = new QChartView;
+    view->setRenderHint(QPainter::Antialiasing);
+
     view->setChart(chart);
 
     return view;

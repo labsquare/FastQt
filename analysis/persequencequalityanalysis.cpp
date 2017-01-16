@@ -63,24 +63,25 @@ void PerSequenceQualityAnalysis::reset()
 QWidget *PerSequenceQualityAnalysis::createResultWidget()
 {
 
- QLineSeries  *lineseries = new QLineSeries ();
+    QLineSeries  *lineseries = new QLineSeries ();
 
- QList<int> keys       = mAverageScoreCounts.keys();
- QList<quint64> values = mAverageScoreCounts.values();
+    QList<int> keys       = mAverageScoreCounts.keys();
+    QList<quint64> values = mAverageScoreCounts.values();
 
- QChartView * view = new QChartView;
+    QChartView * view = new QChartView;
+    view->setRenderHint(QPainter::Antialiasing);
 
-// avoid crash
- if (keys.isEmpty() || values.isEmpty())
-     return view;
+    // avoid crash
+    if (keys.isEmpty() || values.isEmpty())
+        return view;
 
- qSort(keys);
- qSort(values);
+    qSort(keys);
+    qSort(values);
 
- for (int key : keys )
- {
-     lineseries->append(QPoint(key, mAverageScoreCounts[key]));
- }
+    for (int key : keys )
+    {
+        lineseries->append(QPoint(key, mAverageScoreCounts[key]));
+    }
 
 
     QChart * chart = new QChart();

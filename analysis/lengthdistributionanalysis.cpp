@@ -28,6 +28,7 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
     computeDistribution();
 
     QChartView * view = new QChartView;
+    view->setRenderHint(QPainter::Antialiasing);
 
     QLineSeries * serie = new QLineSeries;
 

@@ -189,6 +189,8 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
 
     QChartView * view = new QChartView;
     view->setChart(chart);
+    view->setRenderHint(QPainter::Antialiasing);
+
 
     return view;
 

@@ -23,6 +23,7 @@ void PerSequenceGCContent::reset()
 QWidget* PerSequenceGCContent::createResultWidget()
 {
     QChartView * view = new QChartView;
+    view->setRenderHint(QPainter::Antialiasing);
 
     QLineSeries * lineseries = new QLineSeries();
 
