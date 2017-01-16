@@ -11,6 +11,11 @@ install:
   - sudo apt-get install qt57base qt57charts-no-lgpl
 
 script:
+  - git clone git://anongit.kde.org/karchive.git
+  - mkdir build
+  - cmake .. 
+  - make 
+  - sudo make install
   - source /opt/qt57/bin/qt57-env.sh
   - /opt/qt57/bin/qmake 
   - make 
