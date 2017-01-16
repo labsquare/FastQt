@@ -19,6 +19,7 @@ void LengthDistributionAnalysis::processSequence(const Sequence &sequence)
 void LengthDistributionAnalysis::reset()
 {
     mLengthCounts.clear();
+    mGraphCounts.clear();
 }
 
 QWidget *LengthDistributionAnalysis::createResultWidget()
@@ -29,6 +30,9 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
     QChartView * view = new QChartView;
 
     QLineSeries * serie = new QLineSeries;
+
+    if (mGraphCounts.isEmpty())
+        return view;
 
     qreal xMul = mLengthCounts.size()/mGraphCounts.size();
     int yMax = 0;
@@ -83,6 +87,7 @@ void LengthDistributionAnalysis::computeDistribution()
     if (minLen>0) minLen--;
     maxLen++;
 
+
     QVector<int> startAndInterval = sizeDistribution(minLen, maxLen);
 
     // Work out how many categories we need
@@ -95,6 +100,8 @@ void LengthDistributionAnalysis::computeDistribution()
 
     mGraphCounts.resize(categories);
     mXCategories.resize(categories);
+
+
 
     for (int i=0;i<mGraphCounts.length();i++) {
 
@@ -111,15 +118,18 @@ void LengthDistributionAnalysis::computeDistribution()
             }
         }
 
+
         if (startAndInterval[1] == 1) {
-            mXCategories[i] = ""+minValue;
+            mXCategories[i] = QString::number(minValue);
         }
         else {
-            mXCategories[i] = minValue+"-"+maxValue;
+            mXCategories[i] = QString("%1-%2").arg(minValue).arg(maxValue);
         }
 
         if (mGraphCounts[i] > mMax) mMax = mGraphCounts[i];
     }
+
+
 }
 
 QVector<int> LengthDistributionAnalysis::sizeDistribution(int min, int max)

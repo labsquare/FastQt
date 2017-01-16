@@ -37,7 +37,7 @@ AnalysisRunner::AnalysisRunner(const QString &filename, QObject *parent)
 
 AnalysisRunner::~AnalysisRunner()
 {
-    qDeleteAll(mAnalysisList);
+    mAnalysisList.clear();
 }
 
 void AnalysisRunner::run()
