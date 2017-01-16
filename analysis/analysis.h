@@ -44,6 +44,8 @@ public:
     };
 
     Analysis();
+
+    virtual ~Analysis();
     /*!
      * \brief process each sequence
      * Each sequence readed from fastq file are process here one by one
