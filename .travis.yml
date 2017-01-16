@@ -4,7 +4,7 @@ compiler: g++
 sudo: required
 
 before_install:
-  - sudo add-apt-repository ppa:beineri/opt-qt57-trusty
+  - sudo add-apt-repository ppa:beineri/opt-qt57-trusty -y
   - sudo apt-get install qt57base qt57-meta  qt57charts-no-lgpl
   - sudo apt-get install libkf5archive-dev
   - sudo . /opt/qt57/bin/qt57-env.sh 
