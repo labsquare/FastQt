@@ -27,8 +27,8 @@ PerSequenceQualityAnalysis::PerSequenceQualityAnalysis(QObject * parent)
     :Analysis(parent)
 {
 
-    setName("Sequence quality");
-    setDescription("Per sequence quality scores");
+    setName(tr("Sequence quality"));
+    setDescription(tr("Per sequence quality scores"));
 
 }
 
@@ -86,7 +86,7 @@ QWidget *PerSequenceQualityAnalysis::createResultWidget()
 
     QChart * chart = new QChart();
     chart->addSeries(lineseries);
-    chart->setTitle("Sequence quality");
+    chart->setTitle(tr("Sequence quality"));
     chart->setAnimationOptions(QChart::NoAnimation);
 
     QValueAxis * axisX= new QValueAxis;

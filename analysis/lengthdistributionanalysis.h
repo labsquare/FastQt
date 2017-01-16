@@ -13,6 +13,7 @@ using namespace QT_CHARTS_NAMESPACE;
  */
 class LengthDistributionAnalysis : public Analysis
 {
+    Q_OBJECT
 public:
     LengthDistributionAnalysis(QObject * parent = Q_NULLPTR);
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;

@@ -27,8 +27,8 @@ Copyright Copyright 2016-17 Sacha Schutz
 BasicStatsAnalysis::BasicStatsAnalysis(QObject * parent)
     :Analysis(parent)
 {
-    setName("Basic Stat");
-    setDescription("Basic statistic");
+    setName(tr("Basic Stat"));
+    setDescription(("Basic statistic"));
     for (int i = 0; i < 256; ++i) {
       count[i] = &mXCount;
     }
@@ -80,9 +80,9 @@ QWidget *BasicStatsAnalysis::createResultWidget()
     QString length = mMinLength == mMaxLength ? QString("%1").arg(mMaxLength) :  QString("%1-%2").arg(mMinLength).arg(mMaxLength);
 
 
-    model->addValue(QObject::tr("Total Sequences"), mReadCount);
-    model->addValue(QObject::tr("Sequence length"), length);
-    model->addValue(QObject::tr("Encoding"), PhredEncoding::fastqEncodingOffset(mLowestChar).name());
+    model->addValue(tr("Total Sequences"), mReadCount);
+    model->addValue(tr("Sequence length"), length);
+    model->addValue(tr("Encoding"), PhredEncoding::fastqEncodingOffset(mLowestChar).name());
 
     if (mACount + mCCount + mGCount + mTCount > 0)
     {

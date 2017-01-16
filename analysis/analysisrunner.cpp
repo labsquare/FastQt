@@ -105,7 +105,7 @@ void AnalysisRunner::run()
                 if ( (percentNow >= percentCompleted + 5) || (percentNow == 0))
                 {
                     percentCompleted = percentNow;
-                    emit updated(QString("%1 Sequences procceed ( %2 \% )").arg(seqCount).arg(percentCompleted));
+                    emit updated(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(seqCount).arg(percentCompleted));
                 }
 
             }

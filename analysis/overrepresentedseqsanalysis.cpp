@@ -4,8 +4,8 @@
 OverRepresentedSeqsAnalysis::OverRepresentedSeqsAnalysis(QObject * parent)
     :Analysis(parent)
 {
-    setName("Overrepresented sequences");
-    setDescription("Identifies sequences which are overrepresented in the set");
+    setName(tr("Overrepresented sequences"));
+    setDescription(tr("Identifies sequences which are overrepresented in the set"));
 }
 
 void OverRepresentedSeqsAnalysis::processSequence(const Sequence &sequence)

@@ -106,7 +106,7 @@ int QualityCount::count()const
 PerBaseQualityAnalysis::PerBaseQualityAnalysis(QObject * parent)
     :Analysis(parent)
 {
-    setName("PerBase analysis");
+    setName(tr("PerBase analysis"));
 }
 
 void PerBaseQualityAnalysis::processSequence(const Sequence &sequence)
@@ -157,7 +157,7 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     chart->addSeries(qualSerie);
     chart->addSeries(lineseries);
     chart->createDefaultAxes();
-    chart->setTitle("Quality per base");
+    chart->setTitle(tr("Quality per base"));
     chart->setAnimationOptions(QChart::NoAnimation);
     chart->setBackgroundRoundness(5);
 
@@ -167,12 +167,12 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     pen.setWidth(1);
     qualSerie->setPen(pen);
     qualSerie->setBrush(brush);
-    qualSerie->setName("Quality per base");
+    qualSerie->setName(tr("Quality per base"));
 
     pen.setColor("#f5a800");
     pen.setWidth(3);
     lineseries->setPen(pen);
-    lineseries->setName("Means qualities");
+    lineseries->setName(tr("Means qualities"));
 
 
     // Customize grid lines and shades
@@ -189,7 +189,7 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     font.setPixelSize(9);
     chart->axisX(qualSerie)->setLabelsFont(font);
     chart->axisX(qualSerie)->setLabelsAngle(-90);
-    chart->axisX(qualSerie)->setTitleText(QChart::tr("Position in read(bp)"));
+    chart->axisX(qualSerie)->setTitleText(tr("Position in read(bp)"));
     chart->axisX(lineseries)->hide();
 
 

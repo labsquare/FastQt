@@ -36,3 +36,5 @@ include("QFontIcon/QFontIcon.pri")
 RESOURCES += \
     resources.qrc
 
+
+TRANSLATIONS = fastqc_fr.ts

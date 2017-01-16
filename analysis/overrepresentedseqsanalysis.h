@@ -9,6 +9,7 @@ class OverRepresentedSeqsAnalysis;
 
 class OverRepresentedSeqsAnalysis : public Analysis
 {
+    Q_OBJECT
 public:
     OverRepresentedSeqsAnalysis(QObject * parent = Q_NULLPTR);
 

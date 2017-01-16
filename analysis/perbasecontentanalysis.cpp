@@ -27,8 +27,8 @@ PerBaseContentAnalysis::PerBaseContentAnalysis(QObject * parent)
     :Analysis(parent)
 {
 
-    setName("Per Base content");
-    setDescription("Per base content");
+    setName(tr("Per Base content"));
+    setDescription(tr("Per base content"));
     for (int i = 0; i < 256; ++i) {
       counts[i] = &mXCounts;
     }
@@ -124,7 +124,7 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
 
 
 
-    chart->setTitle("Per Base content");
+    chart->setTitle(tr("Per Base content"));
     chart->setAnimationOptions(QChart::NoAnimation);
 
 

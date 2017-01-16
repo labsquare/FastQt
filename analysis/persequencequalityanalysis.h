@@ -36,6 +36,7 @@ using namespace QT_CHARTS_NAMESPACE;
  */
 class PerSequenceQualityAnalysis : public Analysis
 {
+    Q_OBJECT
 public:
     PerSequenceQualityAnalysis(QObject * parent = Q_NULLPTR);
 
@@ -45,7 +46,7 @@ public:
 
 
 private:
-QHash<int, quint64> mAverageScoreCounts;
+    QHash<int, quint64> mAverageScoreCounts;
 
 };
 

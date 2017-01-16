@@ -3,8 +3,8 @@
 PerSequenceGCContent::PerSequenceGCContent(QObject * parent)
     :Analysis(parent)
 {
-    setName("Sequence GC %");
-    setDescription("Per sequence gc %");
+    setName(tr("Sequence GC %"));
+    setDescription(tr("Per sequence gc %"));
 
     /* Series is in 0 and 100 -> 101 values*/
     mGCCounts.resize(101);
@@ -38,7 +38,7 @@ QWidget* PerSequenceGCContent::createResultWidget()
 
     QChart * chart = new QChart();
     chart->addSeries(lineseries);
-    chart->setTitle("Sequence GC %");
+    chart->setTitle(tr("Sequence GC %"));
     chart->setAnimationOptions(QChart::NoAnimation);
 
     QValueAxis * axisX = new QValueAxis;

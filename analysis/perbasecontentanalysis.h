@@ -36,6 +36,8 @@ using namespace QT_CHARTS_NAMESPACE;
  */
 class PerBaseContentAnalysis : public Analysis
 {
+    Q_OBJECT
+
 public:
     PerBaseContentAnalysis(QObject * parent = Q_NULLPTR);
 

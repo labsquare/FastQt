@@ -2,8 +2,8 @@
 LengthDistributionAnalysis::LengthDistributionAnalysis(QObject * parent)
     :Analysis(parent)
 {
-    setName("Sequence Length Distribution");
-    setDescription("Shows the distribution of sequence length over all sequences");
+    setName(tr("Sequence Length Distribution"));
+    setDescription(tr("Shows the distribution of sequence length over all sequences"));
 }
 
 void LengthDistributionAnalysis::processSequence(const Sequence &sequence)
@@ -61,7 +61,7 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
     dynamic_cast<QValueAxis*>(chart->axisX())->setLabelFormat("%d");
     dynamic_cast<QValueAxis*>(chart->axisY())->setLabelFormat("%d");
 
-    chart->setTitle("Distribution of sequence length over all sequences");
+    chart->setTitle(tr("Distribution of sequence length over all sequences"));
     chart->setAnimationOptions(QChart::NoAnimation);
 
     view->setChart(chart);

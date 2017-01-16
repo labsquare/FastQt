@@ -27,8 +27,8 @@ PerBaseNContentAnalysis::PerBaseNContentAnalysis(QObject * parent)
     :Analysis(parent)
 {
 
-    setName("Per Base N content");
-    setDescription("Per base N content");
+    setName(tr("Per Base N content"));
+    setDescription(tr("Per base N content"));
     for (int i = 0; i < 256; ++i) {
       counts[i] = &mXCounts;
     }
@@ -93,7 +93,7 @@ QWidget *PerBaseNContentAnalysis::createResultWidget()
     pen.setColor(QColor("#71e096"));
     NSerie->setPen(pen);
 
-    chart->setTitle("Per Base N content");
+    chart->setTitle(tr("Per Base N content"));
     chart->setAnimationOptions(QChart::NoAnimation);
 
 

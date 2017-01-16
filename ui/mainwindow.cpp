@@ -50,7 +50,8 @@ void MainWindow::addFile(const QString &filename)
 
     MainAnalyseWidget * w = new MainAnalyseWidget(filename);
     mainList.append(w);
-    mTabWidget->addTab(w, w->windowIcon(), w->windowTitle());
+    int index = mTabWidget->addTab(w, w->windowIcon(), w->windowTitle());
+    mTabWidget->setCurrentIndex(index);
 
 }
 

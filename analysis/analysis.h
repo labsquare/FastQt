@@ -38,6 +38,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 
 class Analysis : public QObject
 {
+    Q_OBJECT
 public:
     enum Status {
         Success , Warning, Error

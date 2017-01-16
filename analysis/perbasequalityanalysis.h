@@ -41,6 +41,7 @@ class QualityCount;
  */
 class PerBaseQualityAnalysis : public Analysis
 {
+    Q_OBJECT
 public:
     PerBaseQualityAnalysis(QObject * parent = Q_NULLPTR);
 

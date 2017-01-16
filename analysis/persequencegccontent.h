@@ -38,6 +38,7 @@ using namespace QT_CHARTS_NAMESPACE;
  */
 class PerSequenceGCContent : public Analysis
 {
+    Q_OBJECT
 public:
     PerSequenceGCContent(QObject * parent = Q_NULLPTR);
 

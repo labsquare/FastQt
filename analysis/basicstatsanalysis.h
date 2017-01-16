@@ -38,6 +38,8 @@ Copyright Copyright 2016-17 Sacha Schutz
 
 class BasicStatsAnalysis : public Analysis
 {
+    Q_OBJECT
+
 public:
     BasicStatsAnalysis(QObject * parent = Q_NULLPTR);
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
