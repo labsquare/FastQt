@@ -18,13 +18,13 @@ script:
   - mkdir build && cd build    
   - cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
   - make && sudo make install
-#  - cd ~
-#  - git clone git://anongit.kde.org/karchive.git
-#  - cd karchive
-#  - mkdir build && cd build 
-#  - cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
-#  - make 
-#  - sudo make install
+  - cd ../..
+  - git clone git://anongit.kde.org/karchive.git
+  - cd karchive
+  - mkdir build && cd build 
+  - cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
+  - make 
+  - sudo make install
 #  - cd ~
 #  - source /opt/qt57/bin/qt57-env.sh
 #  - /opt/qt57/bin/qmake 
