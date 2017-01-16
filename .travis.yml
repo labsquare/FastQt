@@ -1,0 +1,7 @@
+language: cpp
+dist: trusty
+compiler: g++
+sudo: required
+
+before_install:
+  - sudo add-apt-repository ppa:beineri/opt-qt57-trusty
