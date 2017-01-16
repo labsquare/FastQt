@@ -11,6 +11,10 @@ You need to install karchive before compiling FastQt.
  
      sudo apt install libkf5archive-dev
 
+**From fedoar** >= 24 you can install it from repositories :
+
+    sudo dnf install kf5-karchive-devel
+
 **From source** : 
 
     git clone git://anongit.kde.org/extra-cmake-modules
@@ -36,8 +40,12 @@ For exemple for xenial
 
     sudo add-apt-repository ppa:beineri/opt-qt57-xenial
     sudo apt-get install qt57base qt57charts-no-lgpl
-    source /opt/qt57/bin/qt57-env.sh
-    
+    source /opt/qt57/bin/qt57-env.shf
+
+**From fedora** : Qt 5.7 is avaible
+
+    sudo dnf install qt5-qtbase-devel qt5-qtcharts-devel 
+
 ### Compile FastQt 
 Be sure you have the correct version of Qt (>5.7) by using qmake. You will find qmake in bin folder where you installed Qt. For exemple, if you installed Qt from ppa:beineri, you will find it under /opt/qt57/bin/qmake. Then launch the compilation from FastQC folder.
 
