@@ -183,7 +183,11 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     axisY->setShadesVisible(true);
 
     // Customize xLabel orientation
-    chart->axisX(qualSerie)->setLabelsAngle(90);
+
+    QFont font;
+    font.setPixelSize(9);
+    chart->axisX(qualSerie)->setLabelsFont(font);
+    chart->axisX(qualSerie)->setLabelsAngle(-90);
     chart->axisX(lineseries)->hide();
 
 
