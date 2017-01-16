@@ -26,6 +26,11 @@ Analysis::Analysis()
     mStatus = Analysis::Success;
 }
 
+Analysis::~Analysis()
+{
+
+}
+
 Analysis::Status Analysis::status() const
 {
     return mStatus;
