@@ -9,5 +9,6 @@
     </qresource>
     <qresource prefix="/icons">
         <file>labsquare.png</file>
+        <file>fastqt.png</file>
     </qresource>
 </RCC>

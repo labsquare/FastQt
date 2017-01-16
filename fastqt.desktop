@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=FastQt
+Comment=A quality control tool for high throughput genomics sequence data. 
+Exec=fastqt %F
+Icon=fastqt.png
+Terminal=False
+Categories=Science;Biology;Qt

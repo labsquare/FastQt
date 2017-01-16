@@ -81,7 +81,7 @@ void AboutDialog::drawHeader()
     QRect logoRect(pMargin,iconY,64,64);
 
     painter.setBrush(QBrush(Qt::red));
-    painter.drawRect(logoRect);
+    painter.drawPixmap(logoRect,QPixmap(":/icons/fastqt.png").scaled(logoRect.width(), logoRect.height(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
 
     QRect titleRect(logoRect.right()+ 10,iconY, 200, pHeight);
 

@@ -21,9 +21,17 @@ LIBS +=  -L"/usr/lib"  -lKF5Archive
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 
-TARGET = FastQt
+TARGET = fastqt
 TEMPLATE = app
 
+# Installation
+target.path  = /usr/local/bin
+desktop.path = /usr/share/applications
+desktop.files += fastqt.desktop
+icons.path = /usr/share/icons/hicolor/48x48/apps
+icons.files += fastqt.png
+
+INSTALLS += target desktop icons
 
 SOURCES += main.cpp
 include("sequence/sequence.pri")
@@ -38,3 +46,5 @@ RESOURCES += \
 
 
 TRANSLATIONS = fastqc_fr.ts
+
+
