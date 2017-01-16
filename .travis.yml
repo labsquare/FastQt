@@ -12,8 +12,7 @@ install:
 
 script:
   - git clone git://anongit.kde.org/karchive.git
-  - mkdir build
-  - cmake .. 
+  - cmake
   - make 
   - sudo make install
   - source /opt/qt57/bin/qt57-env.sh
