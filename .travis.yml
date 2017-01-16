@@ -8,8 +8,8 @@ before_install:
   - sudo apt-get update
 
 install:
-#  - sudo apt-get install qt57base qt57charts-no-lgpl
-#   - sudo apt-get install extra-cmake-modules
+  - sudo apt-get install qt57base qt57charts-no-lgpl
+  - source /opt/qt57/bin/qt57-env.sh
 
 
 script:
