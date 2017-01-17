@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("FastQt");
     a.setOrganizationName("Labsquare");
     a.setOrganizationDomain("labsquare.org");
-    a.setApplicationVersion("0.1-dev");
+    a.setApplicationVersion("0.1");
 
     qRegisterMetaType<Sequence>();
 
