@@ -22,11 +22,11 @@ Copyright Copyright 2016-17 Sacha Schutz
 */
 #include "perbasecontentanalysis.h"
 #include "sequence.h"
+#include <cmath>
 
-PerBaseContentAnalysis::PerBaseContentAnalysis(QObject * parent)
-    :Analysis(parent)
+PerBaseContentAnalysis::PerBaseContentAnalysis(QObject * parent, LengthDistributionAnalysis * lenDist)
+    :Analysis(parent), mLenDist(lenDist)
 {
-
     setName(tr("Per Base content"));
     setDescription(tr("Per base content"));
     for (int i = 0; i < 256; ++i) {
@@ -122,11 +122,24 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     pen.setColor(QColor("darkgray"));
     GSerie->setPen(pen);
 
-
-
     chart->setTitle(tr("Per Base content"));
     chart->setAnimationOptions(QChart::NoAnimation);
 
+    /* Generate coverage gradient */
+    QLinearGradient * coverage = new QLinearGradient(QPointF(0, 0), QPointF(1, 0));
+
+    const QVector<qreal>* cumLenDis = mLenDist->getCumulativeLenDis();
+    qreal total = cumLenDis->at(cumLenDis->length() - 1);
+    for(auto i = 0; i != cumLenDis->length(); i++)
+    {
+        coverage->setColorAt(i/(float)cumLenDis->length(), //pos set in 0 and 1
+                             QColor::fromRgbF(0.5, 0.5, 0.5, 1 - cumLenDis->at(i)/total)); //use invert cumulate distribution
+    }
+
+    coverage->setCoordinateMode(QGradient::ObjectBoundingMode);
+
+    chart->setPlotAreaBackgroundBrush(*coverage);
+    chart->setPlotAreaBackgroundVisible(true);
 
 
     QChartView * view = new QChartView;

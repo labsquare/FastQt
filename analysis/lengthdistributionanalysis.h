@@ -23,10 +23,13 @@ public:
     void computeDistribution();
     QVector<int> sizeDistribution (int min, int max);
 
+    const QVector<qreal>* getCumulativeLenDis();
 
 private:
-    QVector<quint64> mLengthCounts;
+
+    QVector<qreal> mCumulativeDist;
     QVector<double> mGraphCounts;
+    QVector<quint64> mLengthCounts;
     QVector<QString> mXCategories;
     double mMax;
 
