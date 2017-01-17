@@ -4,6 +4,14 @@ from Java to [C++/Qt5](https://www.qt.io/)
 
 ![Preview](https://raw.githubusercontent.com/labsquare/fastQt/master/screenshot.gif)
 
+##Installation 
+An [AppImage](http://appimage.org/) has been made for Linux x86_64. You can download it [here](https://github.com/labsquare/fastQt/releases/download/0.1/fastqt-0.1-linux-x86_64.AppImage) and run it as follow : 
+
+    chmod +x fastqt-0.1-linux-x86_64.AppImage
+    ./fastqt-0.1-linux-x86_64.AppImage
+    
+Other package will come soon for Windows and MacOS. You can try to compile it anyway.
+    
 ## Compilation 
 ### Prerequisites - Install KArchive
 You need to install karchive before compiling FastQt.    
