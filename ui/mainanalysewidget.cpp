@@ -75,7 +75,7 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
 
 MainAnalyseWidget::~MainAnalyseWidget()
 {
-    mRunner.terminate();
+    mRunner.exit();
     mRunner.wait();
     delete mResultWidget;
 }
