@@ -26,6 +26,11 @@ void LengthDistributionAnalysis::reset()
 QWidget *LengthDistributionAnalysis::createResultWidget()
 {
 
+    // This an example for @Natir .
+    // get data from BasicStatAnalysis
+
+//    qDebug()<<"YAAA"<<runner()->analysisList().first()->property("readCount").toInt();
+
     computeDistribution();
 
     QChartView * view = new QChartView;

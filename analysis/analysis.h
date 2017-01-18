@@ -27,6 +27,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QtSvg/QSvgGenerator>
 #include "qfonticon.h"
 #include "sequence.h"
+#include "analysisrunner.h"
 
 /*!
  * \class Analysis
@@ -36,7 +37,8 @@ Copyright Copyright 2016-17 Sacha Schutz
  * - reset()
  * - createResultWidget()
  */
-
+class Analysis;
+class AnalysisRunner;
 class Analysis : public QObject
 {
     Q_OBJECT
@@ -92,6 +94,7 @@ public:
     void setName(const QString& name){mName = name;}
     void setDescription(const QString& description){mDescription = description;}
 
+    AnalysisRunner * runner() const;
 
 
     // Not yet used

@@ -64,6 +64,18 @@ void Analysis::fromJson(const QJsonObject &data)
 
 }
 
+AnalysisRunner *Analysis::runner() const
+{
+    if (!parent())
+        return Q_NULLPTR;
+
+    if (QString(parent()->metaObject()->className()) == QString(AnalysisRunner::staticMetaObject.className()))
+        return qobject_cast<AnalysisRunner*>(parent());
+
+    return Q_NULLPTR;
+
+}
+
 Analysis::Status Analysis::status() const
 {
     return mStatus;
