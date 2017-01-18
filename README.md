@@ -1,4 +1,4 @@
-#FastQt ![travis](https://api.travis-ci.org/labsquare/fastQt.svg?branch=master) ![Qt](https://img.shields.io/badge/Qt-qmake-green.svg)
+#FastQt ![travis](https://api.travis-ci.org/labsquare/fastQt.svg?branch=master) ![Qt](https://img.shields.io/badge/Qt-qmake-green.svg) [![Gitter](https://badges.gitter.im/labsquare/fastQt.svg)](https://gitter.im/labsquare/fastQt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 FastQt is the clone of [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) application ported 
 from Java to [C++/Qt5](https://www.qt.io/) 
 
