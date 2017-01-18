@@ -60,14 +60,15 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
 
     connect(mListWidget,&QListWidget::currentRowChanged, mStackWidget, &QStackedWidget::setCurrentIndex);
 
+    LengthDistributionAnalysis* len_dist_ana = new LengthDistributionAnalysis;
     mRunner.addAnalysis(new BasicStatsAnalysis);
     mRunner.addAnalysis(new PerBaseQualityAnalysis);
     mRunner.addAnalysis(new PerSequenceQualityAnalysis);
-    mRunner.addAnalysis(new PerBaseContentAnalysis);
     mRunner.addAnalysis(new OverRepresentedSeqsAnalysis);
     mRunner.addAnalysis(new PerBaseNContentAnalysis);
     mRunner.addAnalysis(new PerSequenceGCContent);
-    mRunner.addAnalysis(new LengthDistributionAnalysis);
+    mRunner.addAnalysis(len_dist_ana);
+    mRunner.addAnalysis(new PerBaseContentAnalysis(nullptr, len_dist_ana));
 
 
 

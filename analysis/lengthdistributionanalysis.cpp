@@ -36,6 +36,8 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
     if (mGraphCounts.isEmpty())
         return view;
 
+    mCumulativeDist.resize(mGraphCounts.size());
+    qreal sum = 0;
     qreal xMul = mLengthCounts.size()/mGraphCounts.size();
     int yMax = 0;
     for (int i=0; i<mGraphCounts.length(); ++i)
@@ -43,6 +45,9 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
         serie->append(i * xMul, mGraphCounts[i]);
         if(yMax < mGraphCounts[i])
             yMax = mGraphCounts[i];
+
+        sum += mGraphCounts[i];
+        mCumulativeDist[i] = sum;
     }
 
     QChart * chart = new QChart ;
@@ -66,7 +71,8 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
 
     view->setChart(chart);
 
-    return view;}
+    return view;
+}
 
 void LengthDistributionAnalysis::computeDistribution()
 {
@@ -170,5 +176,11 @@ QVector<int> LengthDistributionAnalysis::sizeDistribution(int min, int max)
     starting = testStart;
 
     return {starting,interval};
+
+}
+
+const QVector<qreal> * LengthDistributionAnalysis::getCumulativeLenDis()
+{
+    return &mCumulativeDist;
 
 }
