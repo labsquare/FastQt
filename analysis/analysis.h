@@ -94,10 +94,6 @@ private:
     QString mName;
     QString mDescription;
     Status mStatus;
-
-    QWidget view;
-
-
 };
 
 #endif // MODULE_H
