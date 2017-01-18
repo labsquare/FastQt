@@ -62,4 +62,5 @@ Be sure you have the correct version of Qt (>5.7) by using qmake. You will find 
      make 
      sudo make install 
      
-     
+### Archlinux
+There is an AUR package for Archlinux. [Just get it from the AUR](https://aur.archlinux.org/packages/fastqt/).
