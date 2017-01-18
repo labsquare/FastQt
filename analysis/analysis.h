@@ -67,22 +67,32 @@ public:
     virtual QWidget* createResultWidget() = 0;
 
     /*!
-     * \brief get analysis out in QPixmap
+     * \brief save resultsWidget as image or svg
      *  \return QPixmap
      */
-    QPixmap* toPixmap();
+    void save(const QString& filename);
 
     /*!
-     * \brief get analysis out in QSvgGenerator
-     * \return QSvgGenerator
+     * \brief toJson
+     * \return serialisation as Json
+     *  By default do nothing
      */
-    QSvgGenerator* toSvg();
+    virtual QJsonObject toJson()const;
+
+    /*!
+     * \brief fromJson
+     * \param set analysis from json serialization data
+     * By default do nothing
+     */
+    virtual void fromJson(const QJsonObject& data);
 
     const QString& name() const {return mName;}
     const QString& description() const {return mDescription;}
 
     void setName(const QString& name){mName = name;}
     void setDescription(const QString& description){mDescription = description;}
+
+
 
     // Not yet used
     Status status() const;
