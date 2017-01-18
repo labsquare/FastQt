@@ -22,7 +22,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 */
 #include "perbasecontentanalysis.h"
 #include "sequence.h"
-#include <cmath>
+
 
 PerBaseContentAnalysis::PerBaseContentAnalysis(QObject * parent, LengthDistributionAnalysis * lenDist)
     :Analysis(parent), mLenDist(lenDist)

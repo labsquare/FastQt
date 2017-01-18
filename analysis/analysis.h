@@ -24,6 +24,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #define MODULE_H
 #include <QtCore>
 #include <QtWidgets>
+#include <QtSvg/QSvgGenerator>
 #include "qfonticon.h"
 #include "sequence.h"
 
@@ -65,6 +66,17 @@ public:
      */
     virtual QWidget* createResultWidget() = 0;
 
+    /*!
+     * \brief get analysis out in QPixmap
+     *  \return QPixmap
+     */
+    QPixmap* toPixmap();
+
+    /*!
+     * \brief get analysis out in QSvgGenerator
+     * \return QSvgGenerator
+     */
+    QSvgGenerator* toSvg();
 
     const QString& name() const {return mName;}
     const QString& description() const {return mDescription;}
@@ -82,10 +94,6 @@ private:
     QString mName;
     QString mDescription;
     Status mStatus;
-
-
-
-
 };
 
 #endif // MODULE_H
