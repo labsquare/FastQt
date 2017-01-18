@@ -78,6 +78,8 @@ public:
 
     QIcon statusIcon() const;
 
+    QPixmap toPixmap() ;
+
 private:
     QString mName;
     QString mDescription;

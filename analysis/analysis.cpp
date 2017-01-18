@@ -45,14 +45,34 @@ void Analysis::setStatus(const Status &status)
 QIcon Analysis::statusIcon() const
 {
     // @see http://fontawesome.io/icons/ to get font hex number
-//    if (mStatus == Analysis::Success)
-//        return QFontIcon::icon(0xf058);
-//    if (mStatus == Analysis::Error)
-//         return QFontIcon::icon(0xf058);
-//    if (mStatus == Analysis::Warning)
-//         return QFontIcon::icon(0xf058);
+    //    if (mStatus == Analysis::Success)
+    //        return QFontIcon::icon(0xf058);
+    //    if (mStatus == Analysis::Error)
+    //         return QFontIcon::icon(0xf058);
+    //    if (mStatus == Analysis::Warning)
+    //         return QFontIcon::icon(0xf058);
 
     return QFontIcon::icon(0xf058,qApp->palette("QWidget").highlight().color());
+
+}
+
+QPixmap Analysis::toPixmap()
+{
+
+    QWidget * widget = createResultWidget();
+    QPixmap pix;
+
+    if (widget)
+        pix  = QPixmap(widget->size());
+    else{
+        qCritical()<<Q_FUNC_INFO<<"cannot render result widget";
+        return pix;
+    }
+
+    QPainter painter(&pix);
+    createResultWidget()->render(&painter);
+
+    return pix;
 
 }
 

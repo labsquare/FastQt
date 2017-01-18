@@ -46,6 +46,13 @@ MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
     mMainLayout->addWidget(mProgressLabel);
     mMainLayout->addWidget(mResultWidget);
 
+    // temporary.. to test export to png
+    QAction * saveAction = new QAction("Export to PNG",this);
+    mListWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
+    mListWidget->addAction(saveAction);
+    connect(saveAction,SIGNAL(triggered(bool)),this,SLOT(saveAnalysis()));
+    // end temporary
+
 
 
     setLayout(mMainLayout);
@@ -118,12 +125,30 @@ void MainAnalyseWidget::analysisFinished()
         item->setSizeHint(QSize(item->sizeHint().width(), 30));
 
 
+
         mListWidget->addItem(item);
         mStackWidget->addWidget(a->createResultWidget());
     }
 
 
     mMainLayout->setCurrentWidget(mResultWidget);
+
+
+
+}
+
+void MainAnalyseWidget::saveAnalysis()
+{
+    int currentIndex = mListWidget->currentRow();
+
+    if (currentIndex < mRunner.analysisList().count())
+    {
+        QString filename = QFileDialog::getSaveFileName(this, "export analysis","save as png");
+
+        mRunner.analysisList().at(currentIndex)->toPixmap().save(filename);
+
+
+    }
 
 
 }

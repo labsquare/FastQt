@@ -65,6 +65,9 @@ public Q_SLOTS:
      */
     void analysisFinished();
 
+    // temporary. to test export png
+    void saveAnalysis();
+
 
 protected :
     /*!
