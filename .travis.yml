@@ -29,3 +29,6 @@ script:
   - /opt/qt57/bin/qmake 
   - make 
 
+branches:
+  only:
+    - master 
