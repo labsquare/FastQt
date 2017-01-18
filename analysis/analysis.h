@@ -70,7 +70,7 @@ public:
      * \brief save resultsWidget as image or svg
      *  \return QPixmap
      */
-    void save(const QString& filename);
+    void saveResult(const QString& filename);
 
     /*!
      * \brief toJson

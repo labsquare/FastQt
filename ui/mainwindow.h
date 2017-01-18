@@ -46,6 +46,7 @@ public Q_SLOTS:
     void openFile();
     void about();
     void closeTab(int index);
+    void saveCurrentResult();
 
 
 protected:
@@ -54,7 +55,7 @@ protected:
 
 private:
     QTabWidget * mTabWidget;
-    QList<MainAnalyseWidget*> mainList;
+    QList<MainAnalyseWidget*> mMainList;
 
     QFuture<void> mRunFuture;
 

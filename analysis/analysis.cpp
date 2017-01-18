@@ -32,7 +32,7 @@ Analysis::~Analysis()
 
 }
 
-void Analysis::save(const QString &filename)
+void Analysis::saveResult(const QString &filename)
 {
     QFileInfo info(filename);
 

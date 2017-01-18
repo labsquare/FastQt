@@ -49,7 +49,7 @@ void MainWindow::addFile(const QString &filename)
 {
 
     MainAnalyseWidget * w = new MainAnalyseWidget(filename);
-    mainList.append(w);
+    mMainList.append(w);
     int index = mTabWidget->addTab(w, w->windowIcon(), w->windowTitle());
     mTabWidget->setCurrentIndex(index);
 
@@ -73,7 +73,7 @@ void MainWindow::openFile()
         for (QString file : fileNames)
         {
             addFile(file);
-            mainList.last()->run();
+            mMainList.last()->run();
         }
     }
 }
@@ -96,6 +96,24 @@ void MainWindow::closeTab(int index)
 
 }
 
+void MainWindow::saveCurrentResult()
+{
+    int index = mTabWidget->currentIndex();
+    if (index == -1)
+        return;
+
+    if (index < mMainList.length())
+    {
+        if (mMainList.at(index)->isFinished())
+        {
+            QString filename = QFileDialog::getSaveFileName(this,"save","save");
+            mMainList.at(index)->saveCurrentResult(filename);
+
+        }
+    }
+
+}
+
 void MainWindow::setupActions()
 {
 
@@ -115,6 +133,8 @@ void MainWindow::setupActions()
     QToolBar * bar = addToolBar(tr("Open"));
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     bar->addAction(openAction);
+
+    bar->addAction(QFontIcon::icon(0xf03e),tr("Export as image"), this, SLOT(saveCurrentResult()));
 
 
 }
