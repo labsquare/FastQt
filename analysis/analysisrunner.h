@@ -61,11 +61,32 @@ public:
      */
     void reset();
 
+    const QString& filename() const;
+
+    /*!
+     * \brief progression of analysis in percent
+     * \return value between 0 and 100
+     */
+    int progression() const;
+
+    /*!
+     * \brief return how many sequence has been analysed.
+     * This value can be access during analysis from updated signals
+     * \return number of sequence
+     */
+    int sequenceCount() const;
+
+    const QString& lastMessage() const;
+
     /*!
      * \brief analysisList
      * \return all analysis avaible
      */
     const QVector<Analysis*>& analysisList() const;
+
+protected:
+    void emitUpdate(const QString& message);
+
 
 Q_SIGNALS:
     void updated(QString message);
@@ -74,6 +95,9 @@ Q_SIGNALS:
 private:
     QVector<Analysis*> mAnalysisList;
     QString mFilename;
+    QString mMessage;
+    int mProgression = 0;
+    int mSequenceCount = 0;
 
 };
 

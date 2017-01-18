@@ -67,14 +67,14 @@ void AnalysisRunner::run()
 
     if (file->open(QIODevice::ReadOnly))
     {
-        int seqCount = 0;
-        int percentCompleted = 0;
+        mSequenceCount = 0;
+        mProgression   = 0;
 
 
         FastqReader reader(file);
 
         // pre compute total size for sequencial access .
-        emit updated(tr("Analysis ..."));
+        emitUpdate(tr("Analysis ..."));
         reader.computeTotalSize();
 
         QTime start = QTime::currentTime();
@@ -84,28 +84,27 @@ void AnalysisRunner::run()
         {
 
             // check if first sequence is valid..Means it's probably a good file
-            if (seqCount == 0)
+            if (mSequenceCount == 0)
             {
                 if (!reader.sequence().isValid())
                 {
                     qCritical()<<Q_FUNC_INFO<<"Cannot read sequence. Are you sure it's a Fastq file ?";
-                    emit updated("Cannot read file");
+                    emitUpdate("Cannot read file");
                     return ;
                 }
             }
 
 
-            ++seqCount;
-
-            if (seqCount % 1000 == 0)
+            ++mSequenceCount;
+            // this is critcal and can decrease the speed. Send message only 1 sequence / 1000
+            if (mSequenceCount % 1000 == 0)
             {
                 int percentNow = reader.percentComplete();
-                // Quazip cannot return percentComplete() actually ...
-                // Then if percentNow is still null, return empty percent ...
-                if ( (percentNow >= percentCompleted + 5) || (percentNow == 0))
+                // if percentNow is still null, return empty percent ...
+                if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
-                    percentCompleted = percentNow;
-                    emit updated(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(seqCount).arg(percentCompleted));
+                    mProgression = percentNow;
+                    emitUpdate(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(mSequenceCount).arg(mProgression));
                 }
 
             }
@@ -116,6 +115,9 @@ void AnalysisRunner::run()
                 a->processSequence(reader.sequence());
             }
         }
+
+        mProgression = 100;
+        emitUpdate(tr("Complete in %1 sec").arg(start.msecsTo(QTime::currentTime())));
 
         qDebug()<<"end"<<start.msecsTo(QTime::currentTime());
 
@@ -143,7 +145,33 @@ void AnalysisRunner::reset()
         a->reset();
 }
 
+const QString &AnalysisRunner::filename() const
+{
+    return mFilename;
+}
+
+int AnalysisRunner::progression() const
+{
+    return mProgression;
+}
+
+int AnalysisRunner::sequenceCount() const
+{
+    return mSequenceCount;
+}
+
+const QString &AnalysisRunner::lastMessage() const
+{
+    return mMessage;
+}
+
 const QVector<Analysis*> &AnalysisRunner::analysisList() const
 {
     return mAnalysisList;
+}
+
+void AnalysisRunner::emitUpdate(const QString &message)
+{
+    mMessage = message;
+    emit updated(mMessage);
 }

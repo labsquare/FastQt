@@ -25,17 +25,21 @@ Copyright Copyright 2016-17 Sacha Schutz
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    mTabWidget = new QTabWidget;
-    mTabWidget->setMovable(true);
-    mTabWidget->setTabsClosable(true);
-    setCentralWidget(mTabWidget);
+
+    mView = new MainAnalyseView;
+    setCentralWidget(mView);
+
+    //    mTabWidget = new QTabWidget;
+    //    mTabWidget->setMovable(true);
+    //    mTabWidget->setTabsClosable(true);
+    //    setCentralWidget(mTabWidget);
 
     setupActions();
     resize(800,600);
 
     move(200,200);
 
-    connect(mTabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
+    //    connect(mTabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
 
 }
@@ -45,13 +49,16 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::addFile(const QString &filename)
+void MainWindow::addFiles()
 {
-
-    MainAnalyseWidget * w = new MainAnalyseWidget(filename);
-    mMainList.append(w);
-    int index = mTabWidget->addTab(w, w->windowIcon(), w->windowTitle());
-    mTabWidget->setCurrentIndex(index);
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
+    if (!fileNames.isEmpty())
+    {
+        for (QString file : fileNames)
+        {
+            mView->addFile(file);
+        }
+    }
 
 }
 
@@ -63,20 +70,20 @@ void MainWindow::run()
 
 }
 
-void MainWindow::openFile()
-{
+//void MainWindow::openFile()
+//{
 
-    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
+//    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
 
-    if (!fileNames.isEmpty())
-    {
-        for (QString file : fileNames)
-        {
-            addFile(file);
-            mMainList.last()->run();
-        }
-    }
-}
+//    if (!fileNames.isEmpty())
+//    {
+//        for (QString file : fileNames)
+//        {
+//            addFile(file);
+//            mMainList.last()->run();
+//        }
+//    }
+//}
 
 void MainWindow::about()
 {
@@ -86,31 +93,31 @@ void MainWindow::about()
 
 void MainWindow::closeTab(int index)
 {
-     if (mTabWidget->widget(index))
-     {
-         QWidget * w = mTabWidget->widget(index);
-         mTabWidget->removeTab(index);
-         delete w;
+    //     if (mTabWidget->widget(index))
+    //     {
+    //         QWidget * w = mTabWidget->widget(index);
+    //         mTabWidget->removeTab(index);
+    //         delete w;
 
-     }
+    //     }
 
 }
 
 void MainWindow::saveCurrentResult()
 {
-    int index = mTabWidget->currentIndex();
-    if (index == -1)
-        return;
+    //    int index = mTabWidget->currentIndex();
+    //    if (index == -1)
+    //        return;
 
-    if (index < mMainList.length())
-    {
-        if (mMainList.at(index)->isFinished())
-        {
-            QString filename = QFileDialog::getSaveFileName(this,"save","save");
-            mMainList.at(index)->saveCurrentResult(filename);
+    //    if (index < mMainList.length())
+    //    {
+    //        if (mMainList.at(index)->isFinished())
+    //        {
+    //            QString filename = QFileDialog::getSaveFileName(this,"save","save");
+    //            mMainList.at(index)->saveCurrentResult(filename);
 
-        }
-    }
+    //        }
+    //    }
 
 }
 
@@ -121,7 +128,7 @@ void MainWindow::setupActions()
     setMenuBar(new QMenuBar());
     // File menu
     QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
-    QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf115), tr("&Open file"),this, SLOT(openFile()), QKeySequence::Open);
+    QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf115), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
 
     // Help menu
