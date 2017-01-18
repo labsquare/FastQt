@@ -107,3 +107,4 @@ QWidget *BasicStatsAnalysis::createResultWidget()
 
 
 }
+

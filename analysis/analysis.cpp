@@ -56,3 +56,15 @@ QIcon Analysis::statusIcon() const
 
 }
 
+QPixmap* Analysis::toPixmap()
+{
+    QPixmap* out = new QPixmap(createResultWidget()->grab());
+    return out;
+}
+
+QSvgGenerator* Analysis::toSvg()
+{
+    QSvgGenerator* generator = new QSvgGenerator();
+    createResultWidget()->render(generator);
+    return generator;
+}

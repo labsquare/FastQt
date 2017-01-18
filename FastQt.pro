@@ -3,7 +3,7 @@
 # Project created by QtCreator 2016-10-27T15:00:28
 #
 #-------------------------------------------------
-QT       += core gui concurrent charts
+QT       += core gui concurrent charts svg
 #QMAKE_CXXFLAGS  += -Ofast
 
 # METHOD 1 : If KArchive is not installed as a Qt Module then copy to your Qt installation :
