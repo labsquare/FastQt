@@ -34,30 +34,28 @@ OUT mean_ponderate(CONTENER<TYPE>& contener)
 }
 
 template<template<typename> typename CONTENER, typename TYPE, typename OUT>
-OUT stddev_ponderate(CONTENER<TYPE>& contener)
+OUT stddev(CONTENER<TYPE>& contener, OUT mean)
 {
-    /* https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Weighted_incremental_algorithm */
-    OUT sum = 1.0;
-    OUT mean, old_mean = 0.0;
-    OUT s = 0.0;
+    OUT stddev = 0;
+    TYPE sum = 0;
 
     for(size_t i = 0; i != contener.size(); i++)
     {
-        sum += i;
-        old_mean = mean;
-        mean += (i / sum) * (contener[i] - mean);
-        s += i * (contener[i] - old_mean) * (contener[i] - mean);
-     }
+        sum += contener[i];
+        stddev += pow(i - mean, 2) * contener[i];
+    }
+    stddev /= sum - 1;
 
-
-    return s / sum;
+    return sqrt(stddev);
 }
 
 template<typename MEAN, typename STDDEV, typename X>
 X normal_distribution(MEAN _mean, STDDEV _stddev, X x)
 {
-    X std_value = (1.0/sqrt(2.0 * M_PI)) * exp(-0.5*x*x);
-    return (std_value + _mean +_mean) * _stddev;
+    double lhs = 1/(sqrt(2*M_PI*_stddev*_stddev));
+    double rhs = pow(M_E, 0 - (pow(x-_mean,2)/(2*_stddev*_stddev)));
+
+    return lhs*rhs;
 }
 
 #endif // STATISTIC_H

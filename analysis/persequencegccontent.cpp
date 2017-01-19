@@ -8,24 +8,27 @@ PerSequenceGCContent::PerSequenceGCContent()
 
     /* Series is in 0 and 100 -> 101 values*/
     mGCCounts.resize(101);
+    mNbSeq = 0;
 }
 
 void PerSequenceGCContent::processSequence(const Sequence& sequence)
 {
     mGCCounts[qRound(sequence.gc_percent())]++;
+    mNbSeq++;
 }
 
 void PerSequenceGCContent::reset()
 {
     mGCCounts.clear();
     mGCCounts.resize(101);
+    mNbSeq = 0;
 }
 
 QWidget* PerSequenceGCContent::createResultWidget()
 {
     /* Compute theorical distribution */
     qreal gcMean = mean_ponderate<QVector, quint64, qreal>(mGCCounts);
-    qreal gcStddev = stddev_ponderate<QVector, quint64, qreal>(mGCCounts);
+    qreal gcStddev = stddev<QVector, quint64, qreal>(mGCCounts, gcMean);
 
     QChartView * view = new QChartView;
 
@@ -35,7 +38,7 @@ QWidget* PerSequenceGCContent::createResultWidget()
     for(int i = 0; i != mGCCounts.size(); i++)
     {
         lineseries->append(QPoint(i, mGCCounts[i]));
-        normalseries->append(QPoint(i, normal_distribution<qreal, qreal, qreal>(gcMean, gcStddev, i)));
+        normalseries->append(QPoint(i, normal_distribution<qreal, qreal, qreal>(gcMean, gcStddev, i)*mNbSeq));
     }
 
     QChart * chart = new QChart();
