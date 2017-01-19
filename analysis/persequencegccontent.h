@@ -49,6 +49,7 @@ public:
 private:
 
     QVector<quint64> mGCCounts;
+    quint64 mNbSeq;
 };
 
 #endif // PERSEQUENCEGCCONTENT_H
