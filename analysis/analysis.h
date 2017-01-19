@@ -24,8 +24,10 @@ Copyright Copyright 2016-17 Sacha Schutz
 #define MODULE_H
 #include <QtCore>
 #include <QtWidgets>
+#include <QtSvg/QSvgGenerator>
 #include "qfonticon.h"
 #include "sequence.h"
+#include "analysisrunner.h"
 
 /*!
  * \class Analysis
@@ -35,7 +37,8 @@ Copyright Copyright 2016-17 Sacha Schutz
  * - reset()
  * - createResultWidget()
  */
-
+class Analysis;
+class AnalysisRunner;
 class Analysis : public QObject
 {
     Q_OBJECT
@@ -65,12 +68,34 @@ public:
      */
     virtual QWidget* createResultWidget() = 0;
 
+    /*!
+     * \brief save resultsWidget as image or svg
+     *  \return QPixmap
+     */
+    void saveResult(const QString& filename);
+
+    /*!
+     * \brief toJson
+     * \return serialisation as Json
+     *  By default do nothing
+     */
+    virtual QJsonObject toJson()const;
+
+    /*!
+     * \brief fromJson
+     * \param set analysis from json serialization data
+     * By default do nothing
+     */
+    virtual void fromJson(const QJsonObject& data);
 
     const QString& name() const {return mName;}
     const QString& description() const {return mDescription;}
 
     void setName(const QString& name){mName = name;}
     void setDescription(const QString& description){mDescription = description;}
+
+    AnalysisRunner * runner() const;
+
 
     // Not yet used
     Status status() const;
@@ -82,10 +107,6 @@ private:
     QString mName;
     QString mDescription;
     Status mStatus;
-
-
-
-
 };
 
 #endif // MODULE_H

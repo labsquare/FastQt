@@ -8,7 +8,7 @@ before_install:
   - sudo apt-get update
 
 install:
-  - sudo apt-get install qt57base qt57charts-no-lgpl
+  - sudo apt-get install qt57base qt57charts-no-lgpl qt57svg
   - source /opt/qt57/bin/qt57-env.sh
 
 
@@ -29,3 +29,6 @@ script:
   - /opt/qt57/bin/qmake 
   - make 
 
+branches:
+  only:
+    - master 

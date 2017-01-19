@@ -33,6 +33,8 @@ Copyright Copyright 2016-17 Sacha Schutz
  * \brief The AnalysisRunner class read a fastq file and computes all analysis from a QThread
  * @see AnalysisRunner
  */
+class Analysis;
+class AnalysisRunner;
 class AnalysisRunner : public QThread
 {
     Q_OBJECT

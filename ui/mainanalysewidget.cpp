@@ -128,6 +128,25 @@ void MainAnalyseWidget::analysisFinished()
 
 }
 
+void MainAnalyseWidget::saveCurrentResult(const QString& filename)
+{
+    int index = mListWidget->currentRow();
+    if (index < mRunner.analysisList().length())
+        mRunner.analysisList().at(index)->saveResult(filename);
+
+
+}
+
+bool MainAnalyseWidget::isFinished() const
+{
+    return mRunner.isFinished();
+}
+
+bool MainAnalyseWidget::isRunning() const
+{
+    return mRunner.isRunning();
+}
+
 void MainAnalyseWidget::clearResults()
 {
     mListWidget->clear();

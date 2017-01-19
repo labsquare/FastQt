@@ -4,6 +4,20 @@ from Java to [C++/Qt5](https://www.qt.io/)
 
 ![Preview](https://raw.githubusercontent.com/labsquare/fastQt/master/screenshot.gif)
 
+##Installation 
+### Ubuntu
+deb package has not yet ready. But An [AppImage](http://appimage.org/) has been made for Linux x86_64 and has been tested on ubuntu 16.04.  
+You can download it from [here](https://github.com/labsquare/fastQt/releases/download/0.1/fastqt-0.1-linux-x86_64.AppImage) and run it as follow : 
+
+    chmod +x fastqt-0.1-linux-x86_64.AppImage
+    ./fastqt-0.1-linux-x86_64.AppImage
+    
+### Archlinux
+There is an AUR package for Archlinux. [Just get it from the AUR](https://aur.archlinux.org/packages/fastqt/).
+    
+    
+Other package will come soon for Windows and MacOS. You can try to compile it anyway.
+    
 ## Compilation 
 ### Prerequisites - Install KArchive
 You need to install karchive before compiling FastQt.    
@@ -53,5 +67,4 @@ Be sure you have the correct version of Qt (>5.7) by using qmake. You will find 
      /opt/qt57/bin/qmake 
      make 
      sudo make install 
-     
      

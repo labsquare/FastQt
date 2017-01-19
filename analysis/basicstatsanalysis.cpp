@@ -107,3 +107,8 @@ QWidget *BasicStatsAnalysis::createResultWidget()
 
 
 }
+
+int BasicStatsAnalysis::readCount()
+{
+ return mReadCount;
+}

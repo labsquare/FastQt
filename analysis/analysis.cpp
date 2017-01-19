@@ -32,6 +32,50 @@ Analysis::~Analysis()
 
 }
 
+void Analysis::saveResult(const QString &filename)
+{
+    QFileInfo info(filename);
+
+    if (info.suffix().toLower() =="svg")
+    {
+        QSvgGenerator generator;
+        generator.setFileName(filename);
+        generator.setTitle(name());
+        generator.setDescription(description());
+        createResultWidget()->render(&generator);
+
+    }
+
+    else {
+        if (!createResultWidget()->grab().save(filename))
+            qWarning()<<Q_FUNC_INFO<<"cannot save "<<filename;
+    }
+
+}
+
+QJsonObject Analysis::toJson() const
+{
+    return QJsonObject();
+}
+
+void Analysis::fromJson(const QJsonObject &data)
+{
+    Q_UNUSED(data)
+
+}
+
+AnalysisRunner *Analysis::runner() const
+{
+    if (!parent())
+        return Q_NULLPTR;
+
+    if (QString(parent()->metaObject()->className()) == QString(AnalysisRunner::staticMetaObject.className()))
+        return qobject_cast<AnalysisRunner*>(parent());
+
+    return Q_NULLPTR;
+
+}
+
 Analysis::Status Analysis::status() const
 {
     return mStatus;
@@ -45,14 +89,13 @@ void Analysis::setStatus(const Status &status)
 QIcon Analysis::statusIcon() const
 {
     // @see http://fontawesome.io/icons/ to get font hex number
-//    if (mStatus == Analysis::Success)
-//        return QFontIcon::icon(0xf058);
-//    if (mStatus == Analysis::Error)
-//         return QFontIcon::icon(0xf058);
-//    if (mStatus == Analysis::Warning)
-//         return QFontIcon::icon(0xf058);
+    //    if (mStatus == Analysis::Success)
+    //        return QFontIcon::icon(0xf058);
+    //    if (mStatus == Analysis::Error)
+    //         return QFontIcon::icon(0xf058);
+    //    if (mStatus == Analysis::Warning)
+    //         return QFontIcon::icon(0xf058);
 
     return QFontIcon::icon(0xf058,qApp->palette("QWidget").highlight().color());
 
 }
-

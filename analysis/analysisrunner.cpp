@@ -129,6 +129,7 @@ void AnalysisRunner::run()
 
 void AnalysisRunner::addAnalysis(Analysis *analysis)
 {
+    analysis->setParent(this);
     mAnalysisList.append(analysis);
 }
 

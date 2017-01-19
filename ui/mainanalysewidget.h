@@ -65,6 +65,15 @@ public Q_SLOTS:
      */
     void analysisFinished();
 
+    /*!
+     * \brief save current analysis as image png, jpg , svg ..
+     * \param filename
+     */
+    void saveCurrentResult(const QString& filename);
+
+    bool isFinished() const;
+    bool isRunning() const;
+
 
 protected :
     /*!
