@@ -24,10 +24,11 @@ OUT mean_ponderate(CONTENER<TYPE>& contener)
 {
     double n = 0;
     OUT sum = 0;
-    for(size_t i = 0; i != contener.size(); i++)
+
+    for(auto it = contener.begin(); it != contener.end(); it++)
     {
-        sum += i * contener[i];
-        n += contener[i];
+        sum += (it - contener.begin()) * *it;
+        n += *it;
     }
 
     return sum/n;
@@ -39,11 +40,12 @@ OUT stddev(CONTENER<TYPE>& contener, OUT mean)
     OUT stddev = 0;
     TYPE sum = 0;
 
-    for(size_t i = 0; i != contener.size(); i++)
+    for(auto it = contener.begin(); it != contener.end(); it++)
     {
-        sum += contener[i];
-        stddev += pow(i - mean, 2) * contener[i];
+        sum += *it;
+        stddev += pow((it - contener.begin()) - mean, 2) * *it;
     }
+
     stddev /= sum - 1;
 
     return sqrt(stddev);

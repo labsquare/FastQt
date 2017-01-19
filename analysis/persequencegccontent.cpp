@@ -41,22 +41,16 @@ QWidget* PerSequenceGCContent::createResultWidget()
     for(int i = 0; i != mGCCounts.size(); i++)
     {
         lineseries->append(QPoint(i, mGCCounts[i]));
-<<<<<<< HEAD
+        normalseries->append(QPoint(i, normal_distribution<qreal, qreal, qreal>(gcMean, gcStddev, i)*mNbSeq));
+
         if(mGCCounts[i] > yMax)
             yMax = mGCCounts[i];
-=======
-        normalseries->append(QPoint(i, normal_distribution<qreal, qreal, qreal>(gcMean, gcStddev, i)*mNbSeq));
->>>>>>> sequence_gcc_theorical_dist
     }
 
     QChart * chart = new QChart();
     chart->addSeries(lineseries);
-<<<<<<< HEAD
-    chart->setTitle(tr("Sequence GC %"));
-=======
     chart->addSeries(normalseries);
     chart->setTitle("Sequence GC %");
->>>>>>> sequence_gcc_theorical_dist
     chart->setAnimationOptions(QChart::NoAnimation);
 
     QPen pen;
