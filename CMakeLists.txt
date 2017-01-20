@@ -21,7 +21,7 @@ cmake_minimum_required(VERSION 3.0)
 
 # Set projectname (must be done AFTER setting configurationtypes)
 project(fastQt)
-set(VERSION "0.2.0")
+set(VERSION "0.1.0")
 
 # add dependencies
 # Find includes in corresponding build directories
@@ -60,8 +60,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     # For g++/gcc/mingw32 compiler
     # Optimize
     set(CMAKE_CXX_FLAGS "-O3")
-    # Strip binary
-    # -shared to avoid error with libc6 (Scrt1.o link problem)
+    # Strip binary (ps: don't remove comment & note section)
     set(CMAKE_EXE_LINKER_FLAGS "-s")
     # Add flags from dpkg-buildflags
     # https://wiki.debian.org/Hardening

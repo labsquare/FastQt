@@ -38,11 +38,11 @@ IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
         # https://specifications.freedesktop.org/menu-spec/latest/apa.html
         file(WRITE "${CMAKE_BINARY_DIR}/${EXECUTABLE_NAME}.desktop"
 "[Desktop Entry]
-Encoding=UTF-8
 Type=Application
 Name=${PROJECT_NAME}
 GenericName=GUI quality control tool to analysis genomics fastq datas.
 Comment=FastQt is the clone of FastQC application ported from Java to C++/Qt5.
+Keywords=fastq;genomics;bioinformatics;sequence;pipeline;quality;control
 TryExec=${EXECUTABLE_NAME}
 Exec=${EXECUTABLE_NAME} %F
 Terminal=false
@@ -210,9 +210,12 @@ License can be found in `/usr/share/common-licenses/LGPL-3'.")
         #                 OUTPUT_FILE "${CMAKE_BINARY_DIR}/changelog.gz")
         # Non native
         # Process file & move it
+        # -n : The package contains a gzip-compressed file that has timestamps.
+        #  Such files make the packages unreproducible, because their contents depend on the time
+        # when the package was built.
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/dist_package/CHANGELOG_DEB.in
                        ${CMAKE_CURRENT_BINARY_DIR}/changelog.Debian)
-        execute_process(COMMAND gzip -9 -c ${CMAKE_CURRENT_BINARY_DIR}/changelog.Debian
+        execute_process(COMMAND gzip -n -9 -c ${CMAKE_CURRENT_BINARY_DIR}/changelog.Debian
                         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
                         OUTPUT_FILE "${CMAKE_BINARY_DIR}/changelog.Debian.gz")
         install(FILES "${CMAKE_BINARY_DIR}/changelog.Debian.gz"
