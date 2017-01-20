@@ -1,0 +1,5 @@
+${CPACK_DEBIAN_PACKAGE_NAME} (${CPACK_PACKAGE_VERSION}) unstable; urgency=low
+
+  * Initial version
+
+ -- ${CPACK_DEBIAN_PACKAGE_MAINTAINER}  Fri, 20 Jan 2017 03:03:00 +0100
