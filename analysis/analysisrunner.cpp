@@ -44,6 +44,9 @@ void AnalysisRunner::run()
 {
 
     QFileInfo fileInfo(mFilename);
+
+    mFileSize = fileInfo.size();
+
     QIODevice * file = Q_NULLPTR;
 
     if (fileInfo.suffix() == "gz")
@@ -51,7 +54,6 @@ void AnalysisRunner::run()
 
     if (fileInfo.suffix() == "bz2")
         file = new KCompressionDevice(mFilename, KCompressionDevice::BZip2);
-
 
     if (fileInfo.suffix() == "xz")
         file = new KCompressionDevice(mFilename, KCompressionDevice::Xz);
@@ -71,14 +73,15 @@ void AnalysisRunner::run()
         mProgression   = 0;
 
 
+
         FastqReader reader(file);
 
         // pre compute total size for sequencial access .
         emitUpdate(tr("Analysis ..."));
         reader.computeTotalSize();
 
-        QTime start = QTime::currentTime();
-        qDebug()<<"start"<<start;
+
+        mStartTime.start();
 
         while (reader.next())
         {
@@ -117,9 +120,10 @@ void AnalysisRunner::run()
         }
 
         mProgression = 100;
-        emitUpdate(tr("Complete in %1 sec").arg(start.msecsTo(QTime::currentTime())));
+        emitUpdate(tr("Complete "));
 
-        qDebug()<<"end"<<start.msecsTo(QTime::currentTime());
+        mDuration = mStartTime.elapsed();
+
 
     }
 
@@ -160,10 +164,42 @@ int AnalysisRunner::sequenceCount() const
     return mSequenceCount;
 }
 
+
+quint64 AnalysisRunner::fileSize() const
+{
+    return mFileSize;
+}
+
+QString AnalysisRunner::humanFileSize() const
+{
+    char unit;
+    const char *units [] = {" Bytes", " kB", " MB", " GB"};
+    quint64 size = fileSize(); // or whatever
+
+    for (unit=-1; (++unit<3) && (size>1023); size/=1024);
+
+    return QString::number(size, 'f', 1) + units[unit];
+
+}
+
 const QString &AnalysisRunner::lastMessage() const
 {
     return mMessage;
 }
+
+int AnalysisRunner::duration() const
+{
+   if (isFinished())
+       return mDuration;
+
+   else
+       return mStartTime.elapsed();
+
+}
+
+
+
+
 
 const QVector<Analysis*> &AnalysisRunner::analysisList() const
 {

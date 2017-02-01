@@ -5,12 +5,9 @@
 void MainAnalyseDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 
-    int lastCol = index.model()->columnCount() - 1;
-
-    if (index.column() == lastCol)
+    if (index.column() == MainAnalyseModel::ProgressColumn)
     {
         int progress = index.data().toInt();
-
         if (progress == 100)
         {
             QApplication::style()->drawItemText(painter,option.rect,Qt::AlignCenter,option.palette,true,"Finished");
@@ -20,7 +17,7 @@ void MainAnalyseDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
 
         QStyleOptionProgressBar progressBarOption;
-        progressBarOption.rect = option.rect;
+        progressBarOption.rect = option.rect.adjusted(5,5,-5,-5);
 
 
         progressBarOption.minimum = 0;
@@ -53,15 +50,22 @@ MainAnalyseView::MainAnalyseView(QWidget * parent )
 
     setAlternatingRowColors(true);
     setSelectionBehavior(QAbstractItemView::SelectRows);
-
+    setFocusPolicy(Qt::NoFocus);
     horizontalHeader()->setStretchLastSection(true);
     //horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
 
+    setColumnWidth(0, 400);
+
+    setIconSize(QSize(22,22));
+
+
+    setShowGrid(false);
 }
 
 void MainAnalyseView::addFile(const QString &filename)
 {
     mModel->addFile(filename);
+
 }
 
 

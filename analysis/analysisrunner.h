@@ -76,7 +76,15 @@ public:
      */
     int sequenceCount() const;
 
+
+
+    quint64 fileSize() const;
+
+    QString humanFileSize() const;
+
     const QString& lastMessage() const;
+
+    int duration() const;
 
     /*!
      * \brief analysisList
@@ -93,11 +101,15 @@ Q_SIGNALS:
 
 
 private:
+    QTime mStartTime;
     QVector<Analysis*> mAnalysisList;
     QString mFilename;
     QString mMessage;
     int mProgression = 0;
     int mSequenceCount = 0;
+    int mFileSize  = 0;
+    int mDuration  = 0;
+
 
 };
 
