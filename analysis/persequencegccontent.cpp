@@ -10,12 +10,15 @@ PerSequenceGCContent::PerSequenceGCContent(QObject * parent)
     /* Series is in 0 and 100 -> 101 values*/
     mGCCounts.resize(101);
     mNbSeq = 0;
+    mXMax = 0;
 }
 
 void PerSequenceGCContent::processSequence(const Sequence& sequence)
 {
     mGCCounts[qRound(sequence.gc_percent())]++;
     mNbSeq++;
+    if(mXMax < sequence.size())
+        mXMax = sequence.size();
 }
 
 void PerSequenceGCContent::reset()
@@ -23,10 +26,22 @@ void PerSequenceGCContent::reset()
     mGCCounts.clear();
     mGCCounts.resize(101);
     mNbSeq = 0;
+    mXMax = 0;
 }
 
 QWidget* PerSequenceGCContent::createResultWidget()
 {
+    /* Compute gc% not reacheable value */
+    QSet<int> not_reacheable;
+    QSet<int> reacheable;
+    for(int i = 0; i != mXMax; i++)
+        reacheable << qRound((i/75.0) * 100);
+
+    for(int i = 0; i != 101; i++)
+        not_reacheable << i;
+
+    not_reacheable -= reacheable;
+
     /* Compute theorical distribution */
     qreal gcMean = mean_ponderate<QVector, quint64, qreal>(mGCCounts);
     qreal gcStddev = stddev<QVector, quint64, qreal>(mGCCounts, gcMean);
@@ -40,11 +55,14 @@ QWidget* PerSequenceGCContent::createResultWidget()
     qreal yMax = 0;
     for(int i = 0; i != mGCCounts.size(); i++)
     {
-        lineseries->append(QPoint(i, mGCCounts[i]));
-        normalseries->append(QPoint(i, normal_distribution<qreal, qreal, qreal>(gcMean, gcStddev, i)*mNbSeq));
+        if(!not_reacheable.contains(i))
+        {
+            lineseries->append(QPoint(i, mGCCounts[i]));
+            normalseries->append(QPoint(i, normal_distribution<qreal, qreal, qreal>(gcMean, gcStddev, i)*mNbSeq));
 
-        if(mGCCounts[i] > yMax)
-            yMax = mGCCounts[i];
+            if(mGCCounts[i] > yMax)
+                yMax = mGCCounts[i];
+        }
     }
 
     QChart * chart = new QChart();
