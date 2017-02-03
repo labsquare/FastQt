@@ -40,6 +40,7 @@ include("ui/ui.pri")
 include("model/model.pri")
 include("utils/utils.pri")
 include("QFontIcon/QFontIcon.pri")
+include("cli/cli.pri")
 
 RESOURCES += \
     resources.qrc

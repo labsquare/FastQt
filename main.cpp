@@ -26,6 +26,8 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "sequence.h"
 #include "fastqreader.h"
 #include "qfonticon.h"
+#include "cliparser.h"
+#include "maincli.h"
 
 int main(int argc, char *argv[])
 {
@@ -40,12 +42,25 @@ int main(int argc, char *argv[])
 
     QFontIcon::addFont(":/fonts/fontawesome.ttf");
 
+    QCommandLineParser parser;
+    populateCLIParser(parser);
 
+    parser.process(a);
 
+    if(parser.positionalArguments().empty())
+    {
+        MainWindow window;
+        window.show();
 
-    MainWindow window;
-    window.show();
+        return a.exec();
+    }
 
+    else
+    {
+        MainCLI cli(&parser);
 
-    return a.exec();
+        return cli.exec();
+    }
+
+    return 0;
 }
