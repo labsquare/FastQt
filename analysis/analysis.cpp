@@ -25,6 +25,7 @@ Analysis::Analysis(QObject * parent)
     :QObject(parent)
 {
     mStatus = Analysis::Success;
+    mParentRunner = Q_NULLPTR;
 }
 
 Analysis::~Analysis()
@@ -66,14 +67,12 @@ void Analysis::fromJson(const QJsonObject &data)
 
 AnalysisRunner *Analysis::runner() const
 {
-    if (!parent())
-        return Q_NULLPTR;
+    return mParentRunner;
+}
 
-    if (QString(parent()->metaObject()->className()) == QString(AnalysisRunner::staticMetaObject.className()))
-        return qobject_cast<AnalysisRunner*>(parent());
-
-    return Q_NULLPTR;
-
+void Analysis::setRunner(AnalysisRunner *runner)
+{
+    mParentRunner = runner;
 }
 
 Analysis::Status Analysis::status() const

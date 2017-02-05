@@ -27,6 +27,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QtCore>
 #include "mainanalysewidget.h"
 #include "aboutdialog.h"
+#include "mainanalyseview.h"
 /*!
  * \class MainWindow
  * \brief Main Widget Application for FastQt
@@ -39,14 +40,13 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void addFile(const QString& filename);
 
 public Q_SLOTS:
     void run();
-    void openFile();
+    void addFiles();
+    void remFiles();
+    void showAnalysis();
     void about();
-    void closeTab(int index);
-    void saveCurrentResult();
 
 
 protected:
@@ -56,6 +56,8 @@ protected:
 private:
     QTabWidget * mTabWidget;
     QList<MainAnalyseWidget*> mMainList;
+
+    MainAnalyseView * mView;
 
     QFuture<void> mRunFuture;
 
