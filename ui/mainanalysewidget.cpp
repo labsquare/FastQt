@@ -23,7 +23,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "mainanalysewidget.h"
 
 MainAnalyseWidget::MainAnalyseWidget(QWidget *parent):
-    QWidget(parent)
+    QMainWindow(parent)
 {
 
     setAttribute(Qt::WA_DeleteOnClose, false);
@@ -31,21 +31,18 @@ MainAnalyseWidget::MainAnalyseWidget(QWidget *parent):
     mListWidget       = new QListWidget;
     mStackWidget      = new QStackedWidget;
     mResultWidget     = new QSplitter(Qt::Horizontal);
-    mToolBar          = new QToolBar;
+
 
     mResultWidget->addWidget(mListWidget);
     mResultWidget->addWidget(mStackWidget);
     mResultWidget->setStretchFactor(1,4);
 
 
-    mMainLayout = new QVBoxLayout;
-    mMainLayout->addWidget(mToolBar);
-    mMainLayout->addWidget(mResultWidget);
-    setLayout(mMainLayout);
+    setCentralWidget(mResultWidget);
 
-    mMainLayout->setContentsMargins(0,0,0,0);
 
-    mToolBar->addAction("test");
+    mToolBar = addToolBar("actions");
+
 
     connect(mListWidget,SIGNAL(currentRowChanged(int)),mStackWidget,SLOT(setCurrentIndex(int)));
 
@@ -62,6 +59,12 @@ void MainAnalyseWidget::setRunner(AnalysisRunner *runner)
     mRunner = runner;
 
 
+    mToolBar->clear();
+    mToolBar->addAction(QFontIcon::icon(0xf03e),tr("Save as Image"),this,SLOT(saveCurrentResult()));
+
+
+    setWindowTitle(mRunner->filename());
+
     for ( Analysis * a : mRunner->analysisList())
     {
 
@@ -74,14 +77,29 @@ void MainAnalyseWidget::setRunner(AnalysisRunner *runner)
 
         mStackWidget->addWidget(a->createResultWidget());
 
+    }
 
+}
+
+void MainAnalyseWidget::saveCurrentResult()
+{
+
+
+    Analysis * a = mRunner->analysisList().at(mListWidget->currentRow());
+    if (a)
+    {
+
+        QString fileName = QFileDialog::getSaveFileName(this,
+                                                        tr("Export as Image ..."),
+                                                        QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
+                                                        tr("Images (*.png *.svg"));
+        if (!fileName.isEmpty())
+            a->saveResult(fileName);
 
     }
 
-
-
-
 }
+
 
 
 

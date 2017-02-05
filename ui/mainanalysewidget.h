@@ -39,15 +39,16 @@ Copyright Copyright 2016-17 Sacha Schutz
  * \brief TabWidget witch encapsulate AnalysisRunner and display AnalysisRunner::resultWidget
  * @see Analysis
  */
-class MainAnalyseWidget : public QWidget
+class MainAnalyseWidget : public QMainWindow
 {
     Q_OBJECT
 public:
     explicit MainAnalyseWidget( QWidget *parent = 0);
     ~MainAnalyseWidget();
-
-
     void setRunner(AnalysisRunner * runner);
+
+public Q_SLOTS:
+    void saveCurrentResult();
 
 private:
     QToolBar * mToolBar;

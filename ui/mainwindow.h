@@ -44,6 +44,8 @@ public:
 public Q_SLOTS:
     void run();
     void addFiles();
+    void remFiles();
+    void showAnalysis();
     void about();
     void closeTab(int index);
     void saveCurrentResult();

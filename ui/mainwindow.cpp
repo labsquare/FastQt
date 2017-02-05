@@ -62,6 +62,16 @@ void MainWindow::addFiles()
 
 }
 
+void MainWindow::remFiles()
+{
+
+}
+
+void MainWindow::showAnalysis()
+{
+    mView->showAnalysis(mView->currentIndex());
+}
+
 void MainWindow::run()
 {
 
@@ -128,8 +138,17 @@ void MainWindow::setupActions()
     setMenuBar(new QMenuBar());
     // File menu
     QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
-    QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf115), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
+    QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf067), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
+    QAction * remAction  = fileMenu->addAction(QFontIcon::icon(0xf068), tr("&Remove file(s)"),this, SLOT(remFiles()), QKeySequence::Delete);
+    QAction * saveAction  = fileMenu->addAction(QFontIcon::icon(0xf03e), tr("&Export result(s) as image"),this, SLOT(remFiles()), QKeySequence::Save);
+    fileMenu->addSeparator();
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
+
+    //View menu
+    QMenu * viewMenu = menuBar()->addMenu(tr("&View"));
+    QAction * showAction = viewMenu->addAction(QFontIcon::icon(0xf06e), tr("&Show analysis"),this, SLOT(showAnalysis()));
+
+
 
     // Help menu
     QMenu * helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -140,8 +159,10 @@ void MainWindow::setupActions()
     QToolBar * bar = addToolBar(tr("Open"));
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     bar->addAction(openAction);
+    bar->addAction(remAction);
+    bar->addSeparator();
+    bar->addAction(showAction);
 
-    bar->addAction(QFontIcon::icon(0xf03e),tr("Export as image"), this, SLOT(saveCurrentResult()));
 
 
 }
