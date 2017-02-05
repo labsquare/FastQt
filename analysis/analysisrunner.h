@@ -33,19 +33,18 @@ Copyright Copyright 2016-17 Sacha Schutz
  * \brief The AnalysisRunner class read a fastq file and computes all analysis from a QThread
  * @see AnalysisRunner
  */
-class AnalysisRunner : public QThread
+class AnalysisRunner : public QRunnable
 {
-    Q_OBJECT
 public:
     enum Status {
         Waiting,
         Running,
         Canceled,
         Finished
-    }; Q_ENUM(Status)
+    };
 
-    AnalysisRunner(QObject * parent = 0);
-    AnalysisRunner(const QString& filename, QObject * parent = 0);
+    AnalysisRunner();
+    AnalysisRunner(const QString& filename);
 
     ~AnalysisRunner();
 
@@ -71,7 +70,6 @@ public:
     const QString& filename() const;
 
     Status status() const;
-    QString statusString() const;
 
     /*!
      * \brief progression of analysis in percent
@@ -107,9 +105,6 @@ protected:
     void setStatus(Status status);
 
 
-Q_SIGNALS:
-    void updated(QString message);
-    void statusChanged();
 
 
 private:

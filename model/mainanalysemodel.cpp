@@ -4,11 +4,13 @@ MainAnalyseModel::MainAnalyseModel(QObject * parent)
     :QAbstractListModel(parent)
 {
     mTimer = new QTimer(this);
-//   mSignalMapper = new QSignalMapper(this);
-//    connect(mSignalMapper,SIGNAL(mapped(int)),this,SLOT(updated(int)));
+    //   mSignalMapper = new QSignalMapper(this);
+    //    connect(mSignalMapper,SIGNAL(mapped(int)),this,SLOT(updated(int)));
     connect(mTimer,SIGNAL(timeout()),this,SLOT(timeUpdated()));
 
     mTimer->setInterval(1000);
+
+    QThreadPool::globalInstance()->setMaxThreadCount(2);
 }
 
 int MainAnalyseModel::rowCount(const QModelIndex &parent) const
@@ -37,7 +39,13 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
 
         if (index.column() == StatusColumn)
         {
-            return mRunners.at(index.row())->statusString();
+            switch (mRunners.at(index.row())->status())
+            {
+            case AnalysisRunner::Waiting : return tr("Waiting"); break;
+            case AnalysisRunner::Canceled : return tr("Canceled"); break;
+            case AnalysisRunner::Running : return tr("Running"); break;
+            case AnalysisRunner::Finished : return tr("Finished"); break;
+            }
 
         }
 
@@ -62,14 +70,34 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DecorationRole)
     {
-        if (index.column() == 0)
+        if (index.column() == StatusColumn)
         {
 
-            return QFontIcon::icon(0xf017, qApp->palette("QWidget").highlight().color());
-
-
+            switch (mRunners.at(index.row())->status())
+            {
+            case AnalysisRunner::Waiting : return QFontIcon::icon(0xf017, Qt::lightGray); break;
+            case AnalysisRunner::Canceled: return QFontIcon::icon(0xf071,Qt::darkRed); break;
+            case AnalysisRunner::Running : return QFontIcon::icon(0xf085,Qt::darkGray); break;
+            case AnalysisRunner::Finished: return QFontIcon::icon(0xf00c,Qt::darkGreen); break;
+            }
         }
     }
+
+    if (role == Qt::TextColorRole)
+    {
+        if (index.column() == StatusColumn)
+        {
+
+            switch (mRunners.at(index.row())->status())
+            {
+            case AnalysisRunner::Waiting : return QColor(Qt::lightGray); break;
+            case AnalysisRunner::Canceled: return QColor(Qt::darkRed); break;
+            case AnalysisRunner::Running : return QColor(Qt::darkGray); break;
+            case AnalysisRunner::Finished: return QColor(Qt::darkGreen); break;
+            }
+        }
+    }
+
 
 
     return QVariant();
@@ -104,7 +132,7 @@ void MainAnalyseModel::addFile(const QString &filename)
     runner->addAnalysis(new BasicStatsAnalysis);
     runner->addAnalysis(new PerBaseQualityAnalysis);
     runner->addAnalysis(new PerSequenceQualityAnalysis);
-//    runner->addAnalysis(new PerBaseContentAnalysis);  // create result crash with small fastq
+    //    runner->addAnalysis(new PerBaseContentAnalysis);  // create result crash with small fastq
     runner->addAnalysis(new OverRepresentedSeqsAnalysis);
     runner->addAnalysis(new PerBaseNContentAnalysis);
     runner->addAnalysis(new PerSequenceGCContent);
@@ -115,7 +143,7 @@ void MainAnalyseModel::addFile(const QString &filename)
 
     emit layoutChanged();
 
-    runner->start();
+    QThreadPool::globalInstance()->start(runner);
 
     if (!mTimer->isActive())
         mTimer->start();
@@ -131,7 +159,7 @@ bool MainAnalyseModel::removeRows(int row, int count, const QModelIndex &parent)
 
     for(int i=0; i<count; ++i) {
         delete mRunners.takeAt(row);
-      }
+    }
 
     endRemoveRows();
 

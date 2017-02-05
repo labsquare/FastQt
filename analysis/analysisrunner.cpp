@@ -23,16 +23,19 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "analysisrunner.h"
 
 
-AnalysisRunner::AnalysisRunner(QObject *parent)
-    :QThread(parent)
+AnalysisRunner::AnalysisRunner()
+    :QRunnable()
 {
-
+    setAutoDelete(false); // don't delete threads
 }
 
-AnalysisRunner::AnalysisRunner(const QString &filename, QObject *parent)
-    :QThread(parent)
+AnalysisRunner::AnalysisRunner(const QString &filename)
+    :QRunnable()
 {
+    setAutoDelete(false); // don't delete threads
+
     setFilename(filename);
+
 }
 
 AnalysisRunner::~AnalysisRunner()
@@ -42,7 +45,6 @@ AnalysisRunner::~AnalysisRunner()
 
 void AnalysisRunner::run()
 {
-
     setStatus(Running);
 
     QFileInfo fileInfo(mFilename);
@@ -77,7 +79,7 @@ void AnalysisRunner::run()
         FastqReader reader(file);
 
         // pre compute total size for sequencial access .
-        emitUpdate(tr("Analysis ..."));
+        //emitUpdate(tr("Analysis ..."));
         reader.computeTotalSize();
 
 
@@ -107,7 +109,7 @@ void AnalysisRunner::run()
                 if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
                     mProgression = percentNow;
-                    emitUpdate(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(mSequenceCount).arg(mProgression));
+                    //emitUpdate(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(mSequenceCount).arg(mProgression));
                 }
 
             }
@@ -120,11 +122,10 @@ void AnalysisRunner::run()
         }
 
         mProgression = 100;
-        emitUpdate(tr("Complete "));
+        //emitUpdate(tr("Complete "));
         setStatus(Finished);
 
         mDuration = mStartTime.elapsed();
-
 
     }
 
@@ -160,11 +161,7 @@ AnalysisRunner::Status AnalysisRunner::status() const
     return mStatus;
 }
 
-QString AnalysisRunner::statusString() const
-{
-    QMetaEnum metaEnum = QMetaEnum::fromType<AnalysisRunner::Status>();
-    return metaEnum.valueToKey(mStatus);
-}
+
 
 int AnalysisRunner::progression() const
 {
@@ -201,16 +198,13 @@ const QString &AnalysisRunner::lastMessage() const
 
 int AnalysisRunner::duration() const
 {
-    if (isFinished())
+    if (status() == Finished)
         return mDuration;
 
     else
         return mStartTime.elapsed();
 
 }
-
-
-
 
 
 const QVector<Analysis*> &AnalysisRunner::analysisList() const
@@ -221,15 +215,10 @@ const QVector<Analysis*> &AnalysisRunner::analysisList() const
 void AnalysisRunner::emitUpdate(const QString &message)
 {
     mMessage = message;
-    emit updated(mMessage);
 }
 
 void AnalysisRunner::setStatus(AnalysisRunner::Status status)
 {
-    if (mStatus != status)
-    {
-        mStatus = status;
-        emit statusChanged();
-    }
+    mStatus = status;
 
 }

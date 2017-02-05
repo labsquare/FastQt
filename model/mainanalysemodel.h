@@ -45,6 +45,7 @@ private:
     QSignalMapper *mSignalMapper;
     QTimer * mTimer;
 
+
 };
 
 #endif // MAINANALYSEMODEL_H
