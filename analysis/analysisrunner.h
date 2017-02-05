@@ -103,6 +103,8 @@ public:
      */
     const QVector<Analysis*>& analysisList() const;
 
+    void saveAllResult(const QString& path);
+
 protected:
     void emitUpdate(const QString& message);
     void setStatus(Status status);

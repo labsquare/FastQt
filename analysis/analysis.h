@@ -47,6 +47,11 @@ public:
         Success , Warning, Error
     };
 
+    enum ImageFormat {
+        PngFormat,
+        SvgFormat
+    };
+
     Analysis(QObject * parent = Q_NULLPTR);
 
     virtual ~Analysis();
@@ -72,7 +77,7 @@ public:
      * \brief save resultsWidget as image or svg
      *  \return QPixmap
      */
-    void saveResult(const QString& filename);
+    void saveResult(const QString& filename, ImageFormat format = SvgFormat);
 
     /*!
      * \brief toJson

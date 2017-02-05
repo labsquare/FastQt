@@ -33,11 +33,10 @@ Analysis::~Analysis()
 
 }
 
-void Analysis::saveResult(const QString &filename)
-{
-    QFileInfo info(filename);
 
-    if (info.suffix().toLower() =="svg")
+void Analysis::saveResult(const QString &filename, Analysis::ImageFormat format)
+{
+    if (format == SvgFormat)
     {
         QSvgGenerator generator;
         generator.setFileName(filename);

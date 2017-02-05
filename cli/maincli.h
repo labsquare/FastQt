@@ -14,7 +14,7 @@
 #include "persequencegccontent.h"
 #include "lengthdistributionanalysis.h"
 #include <iostream>
-
+#include <iomanip>
 using namespace std;
 
 class MainCLI : public QEventLoop
@@ -27,7 +27,11 @@ public:
 
 
 protected Q_SLOTS:
-    void showProgression();
+    void updateInfo();
+    void saveResult();
+
+protected:
+    bool checkFinish();
 
 private:
     QCommandLineParser* mParser;

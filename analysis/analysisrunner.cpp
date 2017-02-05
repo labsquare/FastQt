@@ -213,6 +213,21 @@ const QVector<Analysis*> &AnalysisRunner::analysisList() const
     return mAnalysisList;
 }
 
+void AnalysisRunner::saveAllResult(const QString &path)
+{
+    QDir dir(path);
+    for (Analysis * a : mAnalysisList)
+    {
+        QString name = a->name();
+        name = name.replace(" ","_");
+        QString filename = dir.filePath(name+".svg");
+        a->saveResult(filename);
+
+    }
+
+}
+
+
 void AnalysisRunner::emitUpdate(const QString &message)
 {
     mMessage = message;
