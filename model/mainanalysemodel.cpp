@@ -20,7 +20,7 @@ int MainAnalyseModel::rowCount(const QModelIndex &parent) const
 int MainAnalyseModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 5;
+    return 6;
 }
 
 QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
@@ -33,6 +33,12 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
         if (index.column() == NameColumn){
             QFileInfo info(mRunners.at(index.row())->filename());
             return info.fileName();
+        }
+
+        if (index.column() == StatusColumn)
+        {
+            return mRunners.at(index.row())->statusString();
+
         }
 
         if (index.column() == SizeColumn)
@@ -79,6 +85,7 @@ QVariant MainAnalyseModel::headerData(int section, Qt::Orientation orientation, 
             switch (section)
             {
             case NameColumn : return tr("Filename");break;
+            case StatusColumn: return tr("Status");break;
             case SizeColumn: return tr("File size"); break;
             case ProgressColumn : return tr("Progress"); break;
             case ReadsColumn : return tr("Reads");break;
@@ -97,15 +104,11 @@ void MainAnalyseModel::addFile(const QString &filename)
     runner->addAnalysis(new BasicStatsAnalysis);
     runner->addAnalysis(new PerBaseQualityAnalysis);
     runner->addAnalysis(new PerSequenceQualityAnalysis);
-    runner->addAnalysis(new PerBaseContentAnalysis);
+//    runner->addAnalysis(new PerBaseContentAnalysis);  // create result crash with small fastq
     runner->addAnalysis(new OverRepresentedSeqsAnalysis);
     runner->addAnalysis(new PerBaseNContentAnalysis);
     runner->addAnalysis(new PerSequenceGCContent);
     runner->addAnalysis(new LengthDistributionAnalysis);
-
-   // connect(runner,SIGNAL(updated(QString)), mSignalMapper,SLOT(map()));
-    int runnerRow = mRunners.size(); // this is the row number
-   // mSignalMapper->setMapping(runner,runnerRow);
 
     mRunners.append(runner);
     endInsertRows();
@@ -117,6 +120,30 @@ void MainAnalyseModel::addFile(const QString &filename)
     if (!mTimer->isActive())
         mTimer->start();
 
+}
+
+bool MainAnalyseModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    if (count == 0)
+        return false;
+
+    beginRemoveRows(parent,row, row+count-1);
+
+    for(int i=0; i<count; ++i) {
+        delete mRunners.takeAt(row);
+      }
+
+    endRemoveRows();
+
+
+}
+
+AnalysisRunner *MainAnalyseModel::runner(const QModelIndex &index)
+{
+    if (!index.isValid())
+        return Q_NULLPTR;
+
+    return mRunners.at(index.row());
 }
 
 void MainAnalyseModel::updated(int row)
@@ -135,7 +162,6 @@ void MainAnalyseModel::timeUpdated()
     if (rowCount() == 0)
         return;
 
-    qDebug()<<"update";
 
     QModelIndex top    = index(0, 1);
     QModelIndex bottom = index(rowCount(),columnCount());

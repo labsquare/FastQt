@@ -37,6 +37,13 @@ class AnalysisRunner : public QThread
 {
     Q_OBJECT
 public:
+    enum Status {
+        Waiting,
+        Running,
+        Canceled,
+        Finished
+    }; Q_ENUM(Status)
+
     AnalysisRunner(QObject * parent = 0);
     AnalysisRunner(const QString& filename, QObject * parent = 0);
 
@@ -62,6 +69,9 @@ public:
     void reset();
 
     const QString& filename() const;
+
+    Status status() const;
+    QString statusString() const;
 
     /*!
      * \brief progression of analysis in percent
@@ -94,10 +104,12 @@ public:
 
 protected:
     void emitUpdate(const QString& message);
+    void setStatus(Status status);
 
 
 Q_SIGNALS:
     void updated(QString message);
+    void statusChanged();
 
 
 private:
@@ -109,6 +121,7 @@ private:
     int mSequenceCount = 0;
     int mFileSize  = 0;
     int mDuration  = 0;
+    Status mStatus = Waiting;
 
 
 };

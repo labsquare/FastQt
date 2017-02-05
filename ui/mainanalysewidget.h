@@ -43,54 +43,17 @@ class MainAnalyseWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MainAnalyseWidget(const QString& filename, QWidget *parent = 0);
+    explicit MainAnalyseWidget( QWidget *parent = 0);
     ~MainAnalyseWidget();
 
 
-public Q_SLOTS:
-    /*!
-     * \brief run all analysis
-     */
-    void run();
-    /*!
-     * \brief this methods is called when AnalysisRunner thread has started
-     */
-    void analysisStarted();
-    /*!
-     * \brief this methods is called when AnalysisRunner thread has changed
-     */
-    void analysisUpdated(const QString & message);
-    /*!
-     * \brief this methods is called when AnalysisRunner thread has finished
-     */
-    void analysisFinished();
-
-    /*!
-     * \brief save current analysis as image png, jpg , svg ..
-     * \param filename
-     */
-    void saveCurrentResult(const QString& filename);
-
-    bool isFinished() const;
-    bool isRunning() const;
-
-
-protected :
-    /*!
-     * \brief remove widget results from the view
-     */
-    void clearResults();
+    void setRunner(AnalysisRunner * runner);
 
 private:
-
-    QStackedLayout * mMainLayout;
-
-    QLabel * mProgressLabel;
+    QToolBar * mToolBar;
+    QVBoxLayout * mMainLayout;
     QSplitter * mResultWidget;
-    QString mFilename;
-    AnalysisRunner mRunner;
-
-
+    AnalysisRunner * mRunner;
     QListWidget * mListWidget;
     QStackedWidget * mStackWidget;
 

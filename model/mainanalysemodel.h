@@ -19,17 +19,21 @@ class MainAnalyseModel : public QAbstractListModel
 public:
     enum {
         NameColumn = 0,
+        StatusColumn,
         SizeColumn,
         ProgressColumn,
         ReadsColumn,
         TimeColumn
     };
     MainAnalyseModel(QObject * parent = Q_NULLPTR);
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const Q_DECL_OVERRIDE;
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex())Q_DECL_OVERRIDE;
+
     void addFile(const QString& filename);
+    AnalysisRunner * runner(const QModelIndex& index);
 
 protected Q_SLOTS:
     void updated(int row);

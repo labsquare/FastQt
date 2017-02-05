@@ -43,8 +43,9 @@ AnalysisRunner::~AnalysisRunner()
 void AnalysisRunner::run()
 {
 
-    QFileInfo fileInfo(mFilename);
+    setStatus(Running);
 
+    QFileInfo fileInfo(mFilename);
     mFileSize = fileInfo.size();
 
     QIODevice * file = Q_NULLPTR;
@@ -64,6 +65,7 @@ void AnalysisRunner::run()
     if (file == Q_NULLPTR)
     {
         qDebug()<<Q_FUNC_INFO<<fileInfo.suffix()<< " file is not supported";
+        setStatus(Canceled);
         return;
     }
 
@@ -71,8 +73,6 @@ void AnalysisRunner::run()
     {
         mSequenceCount = 0;
         mProgression   = 0;
-
-
 
         FastqReader reader(file);
 
@@ -92,7 +92,7 @@ void AnalysisRunner::run()
                 if (!reader.sequence().isValid())
                 {
                     qCritical()<<Q_FUNC_INFO<<"Cannot read sequence. Are you sure it's a Fastq file ?";
-                    emitUpdate("Cannot read file");
+                    setStatus(Canceled);
                     return ;
                 }
             }
@@ -121,6 +121,7 @@ void AnalysisRunner::run()
 
         mProgression = 100;
         emitUpdate(tr("Complete "));
+        setStatus(Finished);
 
         mDuration = mStartTime.elapsed();
 
@@ -152,6 +153,17 @@ void AnalysisRunner::reset()
 const QString &AnalysisRunner::filename() const
 {
     return mFilename;
+}
+
+AnalysisRunner::Status AnalysisRunner::status() const
+{
+    return mStatus;
+}
+
+QString AnalysisRunner::statusString() const
+{
+    QMetaEnum metaEnum = QMetaEnum::fromType<AnalysisRunner::Status>();
+    return metaEnum.valueToKey(mStatus);
 }
 
 int AnalysisRunner::progression() const
@@ -189,11 +201,11 @@ const QString &AnalysisRunner::lastMessage() const
 
 int AnalysisRunner::duration() const
 {
-   if (isFinished())
-       return mDuration;
+    if (isFinished())
+        return mDuration;
 
-   else
-       return mStartTime.elapsed();
+    else
+        return mStartTime.elapsed();
 
 }
 
@@ -210,4 +222,14 @@ void AnalysisRunner::emitUpdate(const QString &message)
 {
     mMessage = message;
     emit updated(mMessage);
+}
+
+void AnalysisRunner::setStatus(AnalysisRunner::Status status)
+{
+    if (mStatus != status)
+    {
+        mStatus = status;
+        emit statusChanged();
+    }
+
 }

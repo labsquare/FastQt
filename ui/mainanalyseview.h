@@ -3,6 +3,7 @@
 #include <QTableView>
 #include <QtWidgets>
 #include "mainanalysemodel.h"
+#include "mainanalysewidget.h"
 
 class MainAnalyseView;
 class MainAnalyseDelegate;
@@ -18,14 +19,26 @@ void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIn
 
 class MainAnalyseView : public QTableView
 {
+    Q_OBJECT
 public:
     MainAnalyseView(QWidget * parent = Q_NULLPTR);
     void addFile(const QString& filename);
 
 
+public Q_SLOTS:
+    void removeSelection();
+
+
+protected Q_SLOTS:
+    void showAnalysis(const QModelIndex& index);
+
+
+
 private:
     MainAnalyseModel * mModel;
     MainAnalyseDelegate * mDelegate;
+    // pointer runner as unique key index. Avoid open same result widget
+    QHash<AnalysisRunner*, MainAnalyseWidget*> mAnalysisWidgets;
 };
 
 #endif // MAINANALYSEVIEW_H
