@@ -58,8 +58,8 @@ int main(int argc, char *argv[])
     else
     {
         MainCLI cli(&parser);
+        cli.exec();
 
-        return cli.exec();
     }
 
     return 0;

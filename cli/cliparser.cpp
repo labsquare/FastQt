@@ -31,8 +31,17 @@ void populateCLIParser(QCommandLineParser &parser)
 
     parser.addPositionalArgument("files", QCoreApplication::translate("files", "List of fastq files"), "[files...]");
 
-    QCommandLineOption outputOption(QStringList() << "o" << "output",
-                                    QCoreApplication::translate("main", "Create all output files in the specified output directory. Please note that this directory must exist as the program will not create it.  If this option is not set then the output file for each sequence file is created in the same directory as the sequence file which was processed."),
-                                    QCoreApplication::translate("main", "output"));
+    QCommandLineOption outputOption(QStringList() << "o" << "outdir",
+                                    QCoreApplication::tr("Create all output files in the specified output directory. Please note that this directory must exist as the program will not create it.  If this option is not set then the output file for each sequence file is created in the same directory as the sequence file which was processed."),
+                                    "outdir");
+
+    QCommandLineOption threadOption(QStringList() << "t" << "threads",
+                                    QCoreApplication::tr("Specifies the number of files which can be processed simultaneously. Use by default all avaible CPU"),
+                                    "threads");
+
+
+
     parser.addOption(outputOption);
+    parser.addOption(threadOption);
+
 }

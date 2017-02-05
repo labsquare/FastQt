@@ -13,8 +13,11 @@
 #include "perbasencontentanalysis.h"
 #include "persequencegccontent.h"
 #include "lengthdistributionanalysis.h"
+#include <iostream>
 
-class MainCLI : public QObject
+using namespace std;
+
+class MainCLI : public QEventLoop
 {
     Q_OBJECT
 public:
@@ -22,12 +25,16 @@ public:
 
     int exec();
 
-signals:
 
-public slots:
+protected Q_SLOTS:
+    void showProgression();
 
 private:
     QCommandLineParser* mParser;
+    QTimer * mTimer;
+    QList<AnalysisRunner*> mRunnerList;
+
+
 };
 
 #endif // MAINCLI_H
