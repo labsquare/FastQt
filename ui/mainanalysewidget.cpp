@@ -22,142 +22,88 @@ Copyright Copyright 2016-17 Sacha Schutz
 */
 #include "mainanalysewidget.h"
 
-MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
-    QWidget(parent)
+MainAnalyseWidget::MainAnalyseWidget(QWidget *parent):
+    QMainWindow(parent)
 {
 
-    mFilename       = filename;
-    mRunner.setFilename(filename);
+    setAttribute(Qt::WA_DeleteOnClose, false);
 
-
-    mProgressLabel    = new QLabel("Bonjour");
     mListWidget       = new QListWidget;
     mStackWidget      = new QStackedWidget;
     mResultWidget     = new QSplitter(Qt::Horizontal);
 
 
-    mProgressLabel->setAlignment(Qt::AlignCenter);
     mResultWidget->addWidget(mListWidget);
     mResultWidget->addWidget(mStackWidget);
     mResultWidget->setStretchFactor(1,4);
 
 
-    mMainLayout = new QStackedLayout;
-    mMainLayout->addWidget(mProgressLabel);
-    mMainLayout->addWidget(mResultWidget);
+    setCentralWidget(mResultWidget);
 
 
+    mToolBar = addToolBar("actions");
 
-    setLayout(mMainLayout);
 
-    QFileInfo info(mFilename);
-
-    setWindowTitle(info.fileName());
-
-    connect(&mRunner, &AnalysisRunner::started, this, &MainAnalyseWidget::analysisStarted);
-    connect(&mRunner, &AnalysisRunner::updated, this, &MainAnalyseWidget::analysisUpdated);
-    connect(&mRunner, &AnalysisRunner::finished, this, &MainAnalyseWidget::analysisFinished);
-
-    connect(mListWidget,&QListWidget::currentRowChanged, mStackWidget, &QStackedWidget::setCurrentIndex);
-
-    LengthDistributionAnalysis* len_dist_ana = new LengthDistributionAnalysis;
-    mRunner.addAnalysis(new BasicStatsAnalysis);
-    mRunner.addAnalysis(new PerBaseQualityAnalysis);
-    mRunner.addAnalysis(new PerSequenceQualityAnalysis);
-    mRunner.addAnalysis(new OverRepresentedSeqsAnalysis);
-    mRunner.addAnalysis(new PerBaseNContentAnalysis);
-    mRunner.addAnalysis(new PerSequenceGCContent);
-    mRunner.addAnalysis(len_dist_ana);
-    mRunner.addAnalysis(new PerBaseContentAnalysis(nullptr, len_dist_ana));
-
+    connect(mListWidget,SIGNAL(currentRowChanged(int)),mStackWidget,SLOT(setCurrentIndex(int)));
 
 
 }
 
 MainAnalyseWidget::~MainAnalyseWidget()
 {
-    mRunner.exit();
-    mRunner.wait();
     delete mResultWidget;
 }
 
-
-
-
-void MainAnalyseWidget::run()
+void MainAnalyseWidget::setRunner(AnalysisRunner *runner)
 {
-    mMainLayout->setCurrentWidget(mProgressLabel);
+    mRunner = runner;
 
-    mRunner.reset();
-    mRunner.start(QThread::HighPriority);
 
-}
+    mToolBar->clear();
+    mToolBar->addAction(QFontIcon::icon(0xf03e),tr("Save as Image"),this,SLOT(saveCurrentResult()));
 
-void MainAnalyseWidget::analysisStarted()
-{
 
-}
+    setWindowTitle(mRunner->filename());
 
-void MainAnalyseWidget::analysisUpdated(const QString& message)
-{
-
-    mProgressLabel->setText(message);
-}
-
-void MainAnalyseWidget::analysisFinished()
-{
-    clearResults();
-
-    for (Analysis* a : mRunner.analysisList())
+    for ( Analysis * a : mRunner->analysisList())
     {
 
-        QListWidgetItem * item = new QListWidgetItem;
-        item->setText(a->name());
-        item->setToolTip(a->description());
-        item->setIcon(a->statusIcon());
-        item->setSizeHint(QSize(item->sizeHint().width(), 30));
+        QListWidgetItem * lItem = new QListWidgetItem;
+        lItem->setText(a->name());
+        lItem->setToolTip(a->description());
+        lItem->setIcon(a->statusIcon());
 
+        mListWidget->addItem(lItem);
 
-        mListWidget->addItem(item);
         mStackWidget->addWidget(a->createResultWidget());
+
     }
 
-
-    mMainLayout->setCurrentWidget(mResultWidget);
-
-
 }
 
-void MainAnalyseWidget::saveCurrentResult(const QString& filename)
+void MainAnalyseWidget::saveCurrentResult()
 {
-    int index = mListWidget->currentRow();
-    if (index < mRunner.analysisList().length())
-        mRunner.analysisList().at(index)->saveResult(filename);
 
 
-}
-
-bool MainAnalyseWidget::isFinished() const
-{
-    return mRunner.isFinished();
-}
-
-bool MainAnalyseWidget::isRunning() const
-{
-    return mRunner.isRunning();
-}
-
-void MainAnalyseWidget::clearResults()
-{
-    mListWidget->clear();
-
-    for(int i = mStackWidget->count(); i >= 0; i--)
+    Analysis * a = mRunner->analysisList().at(mListWidget->currentRow());
+    if (a)
     {
-        QWidget* widget = mStackWidget->widget(i);
-        mStackWidget->removeWidget(widget);
-        delete widget;
+
+        QString fileName = QFileDialog::getSaveFileName(this,
+                                                        tr("Export as Image ..."),
+                                                        QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
+                                                        tr("Images (*.png *.svg"));
+        if (!fileName.isEmpty())
+            a->saveResult(fileName);
+
     }
+
 }
+
+
+
+
+
 
 
 

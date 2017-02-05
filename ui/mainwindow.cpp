@@ -25,17 +25,21 @@ Copyright Copyright 2016-17 Sacha Schutz
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    mTabWidget = new QTabWidget;
-    mTabWidget->setMovable(true);
-    mTabWidget->setTabsClosable(true);
-    setCentralWidget(mTabWidget);
+
+    mView = new MainAnalyseView;
+    setCentralWidget(mView);
+
+    //    mTabWidget = new QTabWidget;
+    //    mTabWidget->setMovable(true);
+    //    mTabWidget->setTabsClosable(true);
+    //    setCentralWidget(mTabWidget);
 
     setupActions();
     resize(800,600);
 
     move(200,200);
 
-    connect(mTabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
+    //    connect(mTabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
 
 }
@@ -45,14 +49,27 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::addFile(const QString &filename)
+void MainWindow::addFiles()
+{
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
+    if (!fileNames.isEmpty())
+    {
+        for (QString file : fileNames)
+        {
+            mView->addFile(file);
+        }
+    }
+
+}
+
+void MainWindow::remFiles()
 {
 
-    MainAnalyseWidget * w = new MainAnalyseWidget(filename);
-    mMainList.append(w);
-    int index = mTabWidget->addTab(w, w->windowIcon(), w->windowTitle());
-    mTabWidget->setCurrentIndex(index);
+}
 
+void MainWindow::showAnalysis()
+{
+    mView->showAnalysis(mView->currentIndex());
 }
 
 void MainWindow::run()
@@ -63,20 +80,20 @@ void MainWindow::run()
 
 }
 
-void MainWindow::openFile()
-{
+//void MainWindow::openFile()
+//{
 
-    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
+//    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
 
-    if (!fileNames.isEmpty())
-    {
-        for (QString file : fileNames)
-        {
-            addFile(file);
-            mMainList.last()->run();
-        }
-    }
-}
+//    if (!fileNames.isEmpty())
+//    {
+//        for (QString file : fileNames)
+//        {
+//            addFile(file);
+//            mMainList.last()->run();
+//        }
+//    }
+//}
 
 void MainWindow::about()
 {
@@ -84,35 +101,6 @@ void MainWindow::about()
     dialog.exec();
 }
 
-void MainWindow::closeTab(int index)
-{
-     if (mTabWidget->widget(index))
-     {
-         QWidget * w = mTabWidget->widget(index);
-         mTabWidget->removeTab(index);
-         delete w;
-
-     }
-
-}
-
-void MainWindow::saveCurrentResult()
-{
-    int index = mTabWidget->currentIndex();
-    if (index == -1)
-        return;
-
-    if (index < mMainList.length())
-    {
-        if (mMainList.at(index)->isFinished())
-        {
-            QString filename = QFileDialog::getSaveFileName(this,"save","save");
-            mMainList.at(index)->saveCurrentResult(filename);
-
-        }
-    }
-
-}
 
 void MainWindow::setupActions()
 {
@@ -121,8 +109,17 @@ void MainWindow::setupActions()
     setMenuBar(new QMenuBar());
     // File menu
     QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
-    QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf115), tr("&Open file"),this, SLOT(openFile()), QKeySequence::Open);
+    QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf067), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
+    QAction * remAction  = fileMenu->addAction(QFontIcon::icon(0xf068), tr("&Remove file(s)"),this, SLOT(remFiles()), QKeySequence::Delete);
+   // QAction * saveAction  = fileMenu->addAction(QFontIcon::icon(0xf03e), tr("&Export result(s) as image"),this, SLOT(remFiles()), QKeySequence::Save);
+    fileMenu->addSeparator();
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
+
+    //View menu
+    QMenu * viewMenu = menuBar()->addMenu(tr("&View"));
+    QAction * showAction = viewMenu->addAction(QFontIcon::icon(0xf06e), tr("&Show analysis"),this, SLOT(showAnalysis()));
+
+
 
     // Help menu
     QMenu * helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -133,8 +130,10 @@ void MainWindow::setupActions()
     QToolBar * bar = addToolBar(tr("Open"));
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     bar->addAction(openAction);
+    bar->addAction(remAction);
+    bar->addSeparator();
+    bar->addAction(showAction);
 
-    bar->addAction(QFontIcon::icon(0xf03e),tr("Export as image"), this, SLOT(saveCurrentResult()));
 
 
 }

@@ -95,6 +95,7 @@ public:
     void setDescription(const QString& description){mDescription = description;}
 
     AnalysisRunner * runner() const;
+    void setRunner(AnalysisRunner * runner);
 
 
     // Not yet used
@@ -107,6 +108,7 @@ private:
     QString mName;
     QString mDescription;
     Status mStatus;
+    AnalysisRunner * mParentRunner;
 };
 
 #endif // MODULE_H
