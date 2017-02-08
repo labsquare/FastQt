@@ -28,6 +28,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "qfonticon.h"
 #include "sequence.h"
 #include "analysisrunner.h"
+#include "imageformatdefinition.h"
 
 /*!
  * \class Analysis
@@ -45,11 +46,6 @@ class Analysis : public QObject
 public:
     enum Status {
         Success , Warning, Error
-    };
-
-    enum ImageFormat {
-        PngFormat,
-        SvgFormat
     };
 
     Analysis(QObject * parent = Q_NULLPTR);

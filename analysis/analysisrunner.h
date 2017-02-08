@@ -26,7 +26,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <KCompressionDevice>
 #include "analysis.h"
 #include "fastqreader.h"
-
+#include "imageformatdefinition.h"
 
 /*!
  * \class AnalysisRunner
@@ -103,7 +103,7 @@ public:
      */
     const QVector<Analysis*>& analysisList() const;
 
-    void saveAllResult(const QString& path);
+    void saveAllResult(const QString& path, ImageFormat format = ImageFormat::SvgFormat);
 
 protected:
     void emitUpdate(const QString& message);

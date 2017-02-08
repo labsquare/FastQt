@@ -34,7 +34,7 @@ Analysis::~Analysis()
 }
 
 
-void Analysis::saveResult(const QString &filename, Analysis::ImageFormat format)
+void Analysis::saveResult(const QString &filename, ImageFormat format)
 {
     if (format == SvgFormat)
     {

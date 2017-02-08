@@ -213,15 +213,20 @@ const QVector<Analysis*> &AnalysisRunner::analysisList() const
     return mAnalysisList;
 }
 
-void AnalysisRunner::saveAllResult(const QString &path)
+void AnalysisRunner::saveAllResult(const QString &path, ImageFormat format)
 {
+    QString extension;
+    if (format == ImageFormat::SvgFormat)
+        extension = ".svg";
+    else if (format == ImageFormat::PngFormat)
+        extension = ".png";
     QDir dir(path);
     for (Analysis * a : mAnalysisList)
     {
         QString name = a->name();
         name = name.replace(" ","_");
-        QString filename = dir.filePath(name+".svg");
-        a->saveResult(filename);
+        QString filename = dir.filePath(name+".png");
+        a->saveResult(filename, format);
 
     }
 

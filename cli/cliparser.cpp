@@ -39,9 +39,13 @@ void populateCLIParser(QCommandLineParser &parser)
                                     QCoreApplication::tr("Specifies the number of files which can be processed simultaneously. Use by default all avaible CPU"),
                                     "threads");
 
+    QCommandLineOption outImgFormatOption(QStringList() << "out-img-format",
+                                          QCoreApplication::tr("Specifies the format image output. By default value is \"svg\". Possible value is \"svg\" and \"png\"."),
+                                          "outimgformat",
+                                          "svg");
 
 
     parser.addOption(outputOption);
     parser.addOption(threadOption);
-
+    parser.addOption(outImgFormatOption);
 }

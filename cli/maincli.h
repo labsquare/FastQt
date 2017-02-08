@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QtCore>
-
+#include "imageformatdefinition.h"
 #include "analysisrunner.h"
 #include "basicstatsanalysis.h"
 #include "perbasequalityanalysis.h"
@@ -37,8 +37,7 @@ private:
     QCommandLineParser* mParser;
     QTimer * mTimer;
     QList<AnalysisRunner*> mRunnerList;
-
-
+    ImageFormat mFormat;
 };
 
 #endif // MAINCLI_H

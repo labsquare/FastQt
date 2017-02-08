@@ -1,6 +1,6 @@
 #include "maincli.h"
 
-MainCLI::MainCLI(QCommandLineParser* parser, QObject *parent) : QEventLoop(parent), mParser(parser)
+MainCLI::MainCLI(QCommandLineParser* parser, QObject *parent) : QEventLoop(parent), mParser(parser), mFormat(ImageFormat::SvgFormat)
 {
     mTimer = new QTimer(this);
     mTimer->start(1000);
@@ -15,6 +15,21 @@ int MainCLI::exec()
     {
         qDebug()<<"No fastq provided";
         quit();
+    }
+
+    QString tmp = mParser->value("out-img-format");
+    if (mParser->value("out-img-format") == "svg")
+    {
+        mFormat = ImageFormat::SvgFormat;
+    }
+    else if (mParser->value("out-img-format") == "png")
+    {
+        mFormat = ImageFormat::PngFormat;
+    }
+    else
+    {
+        qDebug()<<mParser->value("out-img-format")<<" isn't a valid value for out-img-format, run --help option";
+        exit();
     }
 
     // Set thread number
@@ -95,7 +110,7 @@ void MainCLI::saveResult()
     for (AnalysisRunner * r : mRunnerList)
     {
         QDir dir(path);
-        r->saveAllResult(dir.path());
+        r->saveAllResult(dir.path(), mFormat);
 
     }
 
