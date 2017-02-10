@@ -148,7 +148,7 @@ void AnalysisRunner::run()
 void AnalysisRunner::addAnalysis(Analysis *analysis)
 {
     analysis->setRunner(this);
-    mAnalysisList.append(analysis);
+    mAnalysisList.insert(analysis->metaObject()->className(),analysis);
 }
 
 void AnalysisRunner::setFilename(const QString &filename)
@@ -218,9 +218,18 @@ int AnalysisRunner::duration() const
 }
 
 
-const QVector<Analysis*> &AnalysisRunner::analysisList() const
+QList<Analysis*> AnalysisRunner::analysisList() const
 {
-    return mAnalysisList;
+    return mAnalysisList.values();
+}
+
+
+
+Analysis *AnalysisRunner::analysis(const QString &className)
+{
+    if (mAnalysisList.contains(className))
+        return mAnalysisList[className];
+    return Q_NULLPTR;
 }
 
 void AnalysisRunner::saveAllResult(const QString &path, ImageFormat format)

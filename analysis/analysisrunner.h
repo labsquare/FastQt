@@ -101,7 +101,8 @@ public:
      * \brief analysisList
      * \return all analysis avaible
      */
-    const QVector<Analysis*>& analysisList() const;
+    QList<Analysis*> analysisList() const;
+    Analysis * analysis(const QString& className);
 
     void saveAllResult(const QString& path, ImageFormat format = ImageFormat::SvgFormat);
 
@@ -116,7 +117,7 @@ protected:
 
 private:
     QTime mStartTime;
-    QVector<Analysis*> mAnalysisList;
+    QHash<QString,Analysis*> mAnalysisList;
     QString mFilename;
     QString mMessage;
     int mProgression = 0;
