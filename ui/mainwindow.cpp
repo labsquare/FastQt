@@ -69,7 +69,9 @@ void MainWindow::remFiles()
 
 void MainWindow::showAnalysis()
 {
-    mView->showAnalysis(mView->currentIndex());
+    auto cIndex = mView->currentIndex();
+    if (cIndex.isValid())
+        mView->showAnalysis(cIndex);
 }
 
 void MainWindow::run()
