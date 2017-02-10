@@ -3,18 +3,12 @@
 
 #include <QObject>
 #include <QtCore>
-#include "imageformatdefinition.h"
-#include "analysisrunner.h"
-#include "basicstatsanalysis.h"
-#include "perbasequalityanalysis.h"
-#include "persequencequalityanalysis.h"
-#include "perbasecontentanalysis.h"
-#include "overrepresentedseqsanalysis.h"
-#include "perbasencontentanalysis.h"
-#include "persequencegccontent.h"
-#include "lengthdistributionanalysis.h"
 #include <iostream>
 #include <iomanip>
+
+#include "analysisrunner.h"
+#include "imageformatdefinition.h"
+
 using namespace std;
 
 class MainCLI : public QEventLoop

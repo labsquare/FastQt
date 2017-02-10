@@ -50,22 +50,11 @@ int MainCLI::exec()
     // Set max thread number
     QThreadPool::globalInstance()->setMaxThreadCount(threadNumber);
 
+    AnalysisRunner* runner;
     for(QString filename : mParser->positionalArguments())
     {
-        AnalysisRunner* runner = new AnalysisRunner();
+        runner = AnalysisRunner::allAnalysisRunner();
         runner->setFilename(filename);
-
-
-        // ON VA FAIRE UN FACTORY POUR CA POUR QUE LE GUI ET CA , SOIT PAREIL
-        LengthDistributionAnalysis* len_dist_ana = new LengthDistributionAnalysis;
-        runner->addAnalysis(new BasicStatsAnalysis);
-        runner->addAnalysis(new PerBaseQualityAnalysis);
-        runner->addAnalysis(new PerSequenceQualityAnalysis);
-        runner->addAnalysis(new OverRepresentedSeqsAnalysis);
-        runner->addAnalysis(new PerBaseNContentAnalysis);
-        runner->addAnalysis(new PerSequenceGCContent);
-        runner->addAnalysis(len_dist_ana);
-        runner->addAnalysis(new PerBaseContentAnalysis(nullptr, len_dist_ana));
 
         mRunnerList.append(runner);
         QFileInfo info(filename);

@@ -22,6 +22,16 @@ Copyright Copyright 2016-17 Sacha Schutz
 */
 #include "analysisrunner.h"
 
+#include "analysisrunner.h"
+#include "basicstatsanalysis.h"
+#include "perbasequalityanalysis.h"
+#include "persequencequalityanalysis.h"
+#include "perbasecontentanalysis.h"
+#include "overrepresentedseqsanalysis.h"
+#include "perbasencontentanalysis.h"
+#include "persequencegccontent.h"
+#include "lengthdistributionanalysis.h"
+
 
 AnalysisRunner::AnalysisRunner()
     :QRunnable()
@@ -242,4 +252,21 @@ void AnalysisRunner::setStatus(AnalysisRunner::Status status)
 {
     mStatus = status;
 
+}
+
+AnalysisRunner* AnalysisRunner::allAnalysisRunner()
+{
+    AnalysisRunner* runner = new AnalysisRunner();
+
+    LengthDistributionAnalysis* len_dist_ana = new LengthDistributionAnalysis;
+    runner->addAnalysis(new BasicStatsAnalysis);
+    runner->addAnalysis(new PerBaseQualityAnalysis);
+    runner->addAnalysis(new PerSequenceQualityAnalysis);
+    runner->addAnalysis(new OverRepresentedSeqsAnalysis);
+    runner->addAnalysis(new PerBaseNContentAnalysis);
+    runner->addAnalysis(new PerSequenceGCContent);
+    runner->addAnalysis(len_dist_ana);
+    runner->addAnalysis(new PerBaseContentAnalysis(nullptr, len_dist_ana));
+
+    return runner;
 }

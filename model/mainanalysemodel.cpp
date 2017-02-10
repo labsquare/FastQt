@@ -128,16 +128,8 @@ void MainAnalyseModel::addFile(const QString &filename)
 {
     beginInsertRows(QModelIndex(), 0,0);
 
-    AnalysisRunner * runner = new AnalysisRunner(filename);
-    runner->addAnalysis(new BasicStatsAnalysis);
-    runner->addAnalysis(new PerBaseQualityAnalysis);
-    runner->addAnalysis(new PerSequenceQualityAnalysis);
-    //    runner->addAnalysis(new PerBaseContentAnalysis);  // create result crash with small fastq
-    runner->addAnalysis(new OverRepresentedSeqsAnalysis);
-    runner->addAnalysis(new PerBaseNContentAnalysis);
-    runner->addAnalysis(new PerSequenceGCContent);
-    runner->addAnalysis(new LengthDistributionAnalysis);
-
+    AnalysisRunner * runner = AnalysisRunner::allAnalysisRunner();
+    runner->setFilename(filename);
     mRunners.append(runner);
     endInsertRows();
 

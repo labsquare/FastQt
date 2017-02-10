@@ -105,6 +105,8 @@ public:
 
     void saveAllResult(const QString& path, ImageFormat format = ImageFormat::SvgFormat);
 
+    static AnalysisRunner* allAnalysisRunner();
+
 protected:
     void emitUpdate(const QString& message);
     void setStatus(Status status);

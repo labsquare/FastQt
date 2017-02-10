@@ -1,17 +1,11 @@
 #ifndef MAINANALYSEMODEL_H
 #define MAINANALYSEMODEL_H
+
 #include <QAbstractListModel>
 #include <QSignalMapper>
+
 #include "qfonticon.h"
 #include "analysisrunner.h"
-#include "basicstatsanalysis.h"
-#include "perbasequalityanalysis.h"
-#include "persequencequalityanalysis.h"
-#include "perbasecontentanalysis.h"
-#include "overrepresentedseqsanalysis.h"
-#include "perbasencontentanalysis.h"
-#include "persequencegccontent.h"
-#include "lengthdistributionanalysis.h"
 
 class MainAnalyseModel : public QAbstractListModel
 {
