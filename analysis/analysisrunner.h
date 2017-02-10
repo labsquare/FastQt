@@ -106,7 +106,7 @@ public:
 
     void saveAllResult(const QString& path, ImageFormat format = ImageFormat::SvgFormat);
 
-    static AnalysisRunner* allAnalysisRunner();
+    static AnalysisRunner* createAnalysisRunner();
 
 protected:
     void emitUpdate(const QString& message);
@@ -117,7 +117,7 @@ protected:
 
 private:
     QTime mStartTime;
-    QHash<QString,Analysis*> mAnalysisList;
+    QHash<QString,Analysis*> mAnalysisHash;
     QString mFilename;
     QString mMessage;
     int mProgression = 0;

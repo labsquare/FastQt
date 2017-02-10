@@ -53,7 +53,7 @@ int MainCLI::exec()
     AnalysisRunner* runner;
     for(QString filename : mParser->positionalArguments())
     {
-        runner = AnalysisRunner::allAnalysisRunner();
+        runner = AnalysisRunner::createAnalysisRunner();
         runner->setFilename(filename);
 
         mRunnerList.append(runner);

@@ -128,7 +128,7 @@ void MainAnalyseModel::addFile(const QString &filename)
 {
     beginInsertRows(QModelIndex(), 0,0);
 
-    AnalysisRunner * runner = AnalysisRunner::allAnalysisRunner();
+    AnalysisRunner * runner = AnalysisRunner::createAnalysisRunner();
     runner->setFilename(filename);
     mRunners.append(runner);
     endInsertRows();
