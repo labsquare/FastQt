@@ -50,7 +50,7 @@ AnalysisRunner::AnalysisRunner(const QString &filename)
 
 AnalysisRunner::~AnalysisRunner()
 {
-    mAnalysisList.clear();
+    mAnalysisHash.clear();
 }
 
 void AnalysisRunner::run()
@@ -58,7 +58,6 @@ void AnalysisRunner::run()
     setStatus(Running);
 
     QFileInfo fileInfo(mFilename);
-    mFileSize = fileInfo.size();
 
     QIODevice * file = Q_NULLPTR;
 
@@ -125,7 +124,7 @@ void AnalysisRunner::run()
             }
 
 
-            for (Analysis * a : mAnalysisList)
+            for (Analysis * a : mAnalysisHash)
             {
                 a->processSequence(reader.sequence());
             }
@@ -148,12 +147,14 @@ void AnalysisRunner::run()
 void AnalysisRunner::addAnalysis(Analysis *analysis)
 {
     analysis->setRunner(this);
-    mAnalysisList.insert(analysis->metaObject()->className(),analysis);
+    mAnalysisHash.insert(analysis->metaObject()->className(),analysis);
 }
 
 void AnalysisRunner::setFilename(const QString &filename)
 {
     mFilename = filename;
+    QFileInfo fileInfo(mFilename);
+    mFileSize = fileInfo.size();
 }
 
 void AnalysisRunner::reset()
@@ -220,15 +221,15 @@ int AnalysisRunner::duration() const
 
 QList<Analysis*> AnalysisRunner::analysisList() const
 {
-    return mAnalysisList.values();
+    return mAnalysisHash.values();
 }
 
 
 
 Analysis *AnalysisRunner::analysis(const QString &className)
 {
-    if (mAnalysisList.contains(className))
-        return mAnalysisList[className];
+    if (mAnalysisHash.contains(className))
+        return mAnalysisHash[className];
     return Q_NULLPTR;
 }
 
@@ -240,7 +241,7 @@ void AnalysisRunner::saveAllResult(const QString &path, ImageFormat format)
     else if (format == ImageFormat::PngFormat)
         extension = ".png";
     QDir dir(path);
-    for (Analysis * a : mAnalysisList)
+    for (Analysis * a : mAnalysisHash)
     {
         QString name = a->name();
         name = name.replace(" ","_");
@@ -263,7 +264,7 @@ void AnalysisRunner::setStatus(AnalysisRunner::Status status)
 
 }
 
-AnalysisRunner* AnalysisRunner::allAnalysisRunner()
+AnalysisRunner* AnalysisRunner::createAnalysisRunner()
 {
     AnalysisRunner* runner = new AnalysisRunner();
 
