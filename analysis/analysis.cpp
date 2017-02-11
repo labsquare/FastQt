@@ -24,7 +24,6 @@ Copyright Copyright 2016-17 Sacha Schutz
 Analysis::Analysis(QObject * parent)
     :QObject(parent)
 {
-    mStatus = Analysis::Success;
     mParentRunner = Q_NULLPTR;
 }
 
@@ -76,24 +75,18 @@ void Analysis::setRunner(AnalysisRunner *runner)
 
 Analysis::Status Analysis::status() const
 {
-    return mStatus;
-}
-
-void Analysis::setStatus(const Status &status)
-{
-    mStatus = status;
+    return Success;
 }
 
 QIcon Analysis::statusIcon() const
 {
     // @see http://fontawesome.io/icons/ to get font hex number
-    //    if (mStatus == Analysis::Success)
-    //        return QFontIcon::icon(0xf058);
-    //    if (mStatus == Analysis::Error)
-    //         return QFontIcon::icon(0xf058);
-    //    if (mStatus == Analysis::Warning)
-    //         return QFontIcon::icon(0xf058);
+    if (status() == Analysis::Success)
+        return QFontIcon::icon(0xf058, QColor("#71E096"));
+    if (status() == Analysis::Warning)
+        return QFontIcon::icon(0xf058, QColor("#F5A26F"));
+    if (status() == Analysis::Error)
+        return QFontIcon::icon(0xf058, QColor("#ED6D79"));
 
-    return QFontIcon::icon(0xf058,qApp->palette("QWidget").highlight().color());
-
+    return QIcon();
 }

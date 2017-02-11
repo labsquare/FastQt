@@ -100,15 +100,13 @@ public:
 
 
     // Not yet used
-    Status status() const;
-    void setStatus(const Status &status);
+    virtual Status status() const;
 
     QIcon statusIcon() const;
 
 private:
     QString mName;
     QString mDescription;
-    Status mStatus;
     AnalysisRunner * mParentRunner;
 };
 

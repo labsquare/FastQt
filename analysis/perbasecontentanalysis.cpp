@@ -24,13 +24,15 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "sequence.h"
 
 
-PerBaseContentAnalysis::PerBaseContentAnalysis(QObject * parent, LengthDistributionAnalysis * lenDist)
-    :Analysis(parent), mLenDist(lenDist)
+PerBaseContentAnalysis::PerBaseContentAnalysis(QObject * parent)
+    :Analysis(parent)
 {
     setName(tr("Per Base content"));
     setDescription(tr("Per base content"));
+
+
     for (int i = 0; i < 256; ++i) {
-      counts[i] = &mXCounts;
+        counts[i] = &mXCounts;
     }
     counts['G'] = &mGCounts;
     counts['A'] = &mACounts;
@@ -53,7 +55,7 @@ void PerBaseContentAnalysis::processSequence(const Sequence &sequence)
 
 
     for (int i=0; i<sequence.size(); ++i)
-      ++(*counts[static_cast<int>(sequence.sequence().at(i))])[i];
+        ++(*counts[static_cast<int>(sequence.sequence().at(i))])[i];
 }
 
 void PerBaseContentAnalysis::reset()
@@ -71,6 +73,10 @@ void PerBaseContentAnalysis::reset()
 
 QWidget *PerBaseContentAnalysis::createResultWidget()
 {
+    //get data from other analysis
+    QString className = LengthDistributionAnalysis::staticMetaObject.className();
+    LengthDistributionAnalysis * lenDist = qobject_cast<LengthDistributionAnalysis*>(runner()->analysis(className));
+
 
     computePercentages();
 
@@ -128,7 +134,7 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     /* Generate coverage gradient */
     QLinearGradient * coverage = new QLinearGradient(QPointF(0, 0), QPointF(1, 0));
 
-    const QVector<qreal>* cumLenDis = mLenDist->getCumulativeLenDis();
+    const QVector<qreal>* cumLenDis = lenDist->getCumulativeLenDis();
     qreal total = cumLenDis->at(cumLenDis->length() - 1);
     for(auto i = 0; i != cumLenDis->length(); i++)
     {

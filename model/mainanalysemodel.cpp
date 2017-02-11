@@ -71,7 +71,6 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
     {
         if (index.column() == StatusColumn)
         {
-
             switch (mRunners.at(index.row())->status())
             {
             case AnalysisRunner::Waiting : return QFontIcon::icon(0xf017, Qt::lightGray); break;
@@ -79,6 +78,19 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
             case AnalysisRunner::Running : return QFontIcon::icon(0xf085,Qt::darkGray); break;
             case AnalysisRunner::Finished: return QFontIcon::icon(0xf00c,Qt::darkGreen); break;
             }
+        }
+
+        if (index.column() == NameColumn)
+        {
+            QFileInfo info(mRunners.at(index.row())->filename());
+
+            if (info.suffix().toLower() =="fastq")
+                return QFontIcon::icon(0xf016, Qt::darkGray);
+
+            else
+                return QFontIcon::icon(0xf1c6, Qt::darkGray);
+
+
         }
     }
 
@@ -96,6 +108,16 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
             }
         }
     }
+
+    if (role == Qt::ToolTipRole)
+    {
+        if (index.column() == NameColumn)
+        {
+            return mRunners.at(index.row())->filename();
+        }
+
+    }
+
 
 
 

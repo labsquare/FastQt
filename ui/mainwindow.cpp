@@ -124,16 +124,24 @@ void MainWindow::setupActions()
     // File menu
     QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
     QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf067), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
-    QAction * remAction  = fileMenu->addAction(QFontIcon::icon(0xf068), tr("&Remove selection"),this, SLOT(remFiles()), QKeySequence::Delete);
-    QAction * stopAction = fileMenu->addAction(QFontIcon::icon(0xf04d), tr("&Stop selection"),this, SLOT(stopFiles()));
-    QAction * clearAction= fileMenu->addAction(QFontIcon::icon(0xf1f8), tr("&Clear all"),this, SLOT(clearFiles()));
 
     fileMenu->addSeparator();
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
 
+
+    //Edit menu
+    QMenu * editMenu = menuBar()->addMenu(tr("&Edit"));
+    QAction * remAction  = editMenu->addAction(QFontIcon::icon(0xf068), tr("&Remove"),this, SLOT(remFiles()), QKeySequence::Delete);
+    QAction * stopAction = editMenu->addAction(QFontIcon::icon(0xf04d), tr("&Stop"),this, SLOT(stopFiles()));
+    QAction * clearAction= editMenu->addAction(QFontIcon::icon(0xf1f8), tr("&Clear all"),this, SLOT(clearFiles()));
+    editMenu->addSeparator();
+    editMenu->addAction(tr("&Select all"),mView,SLOT(selectAll()), QKeySequence::SelectAll);
+
+
     //View menu
     QMenu * viewMenu = menuBar()->addMenu(tr("&View"));
     QAction * showAction = viewMenu->addAction(QFontIcon::icon(0xf06e), tr("&Show analysis"),this, SLOT(showAnalysis()));
+
 
 
 

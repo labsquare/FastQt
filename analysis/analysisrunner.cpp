@@ -273,15 +273,14 @@ AnalysisRunner* AnalysisRunner::createAnalysisRunner()
 {
     AnalysisRunner* runner = new AnalysisRunner();
 
-    LengthDistributionAnalysis* len_dist_ana = new LengthDistributionAnalysis;
     runner->addAnalysis(new BasicStatsAnalysis);
     runner->addAnalysis(new PerBaseQualityAnalysis);
     runner->addAnalysis(new PerSequenceQualityAnalysis);
     runner->addAnalysis(new OverRepresentedSeqsAnalysis);
     runner->addAnalysis(new PerBaseNContentAnalysis);
     runner->addAnalysis(new PerSequenceGCContent);
-    runner->addAnalysis(len_dist_ana);
-    runner->addAnalysis(new PerBaseContentAnalysis(nullptr, len_dist_ana));
+    runner->addAnalysis(new LengthDistributionAnalysis);
+    runner->addAnalysis(new PerBaseContentAnalysis);
 
     return runner;
 }

@@ -40,7 +40,7 @@ class PerBaseContentAnalysis : public Analysis
     Q_OBJECT
 
 public:
-    PerBaseContentAnalysis(QObject * parent = Q_NULLPTR, LengthDistributionAnalysis * lenDist = Q_NULLPTR);
+    PerBaseContentAnalysis(QObject * parent = Q_NULLPTR);
 
     virtual void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     virtual void reset() Q_DECL_OVERRIDE;
@@ -64,7 +64,6 @@ private:
     QVector<QString> mXCategories;
     QVector<quint64>* counts[256];
 
-    LengthDistributionAnalysis * mLenDist;
 };
 
 #endif // PERBASECONTENTANALYSIS_H
