@@ -26,6 +26,7 @@ AboutDialog::AboutDialog(QWidget * parent)
     addTab(":/text/LICENSE");
     addTab(":/text/AUTHORS");
     addTab(":/text/CREDITS");
+    addTab(":/text/CHANGELOG");
 
     mTitle = qAppName();
     mSubtitle = QString("Version %1\nGPL3 Copyright (C) 2017\nLabsquare.org").arg(qApp->applicationVersion());
