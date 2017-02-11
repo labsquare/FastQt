@@ -32,7 +32,7 @@ public Q_SLOTS:
     void showAnalysis(const QModelIndex& index);
 
 
-
+protected:
 
 
 private:

@@ -46,15 +46,15 @@ MainAnalyseView::MainAnalyseView(QWidget * parent )
     setModel(mModel);
     setItemDelegate(mDelegate);
 
+
     verticalHeader()->hide();
 
     setAlternatingRowColors(true);
     setSelectionBehavior(QAbstractItemView::SelectRows);
-    setFocusPolicy(Qt::NoFocus);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
     horizontalHeader()->setStretchLastSection(true);
-    //horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
 
-    setColumnWidth(0, 400);
+    setColumnWidth(0, 250);
 
     setIconSize(QSize(22,22));
     setShowGrid(false);

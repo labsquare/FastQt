@@ -245,7 +245,13 @@ void AnalysisRunner::saveAllResult(const QString &path, ImageFormat format)
         extension = ".svg";
     else if (format == ImageFormat::PngFormat)
         extension = ".png";
+
+    QFileInfo info(filename());
+
     QDir dir(path);
+    dir.mkpath(info.baseName());
+    dir.cd(info.baseName());
+
     for (Analysis * a : mAnalysisHash)
     {
         QString name = a->name();
