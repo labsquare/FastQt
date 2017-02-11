@@ -8,12 +8,12 @@ void MainAnalyseDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     if (index.column() == MainAnalyseModel::ProgressColumn)
     {
         int progress = index.data().toInt();
-//        if (progress == 100)
-//        {
-//            QApplication::style()->drawItemText(painter,option.rect,Qt::AlignCenter,option.palette,true,"Done");
-//            return;
+        //        if (progress == 100)
+        //        {
+        //            QApplication::style()->drawItemText(painter,option.rect,Qt::AlignCenter,option.palette,true,"Done");
+        //            return;
 
-//        }
+        //        }
 
 
         QStyleOptionProgressBar progressBarOption;
@@ -103,12 +103,40 @@ void MainAnalyseView::showAnalysis(const QModelIndex &index)
 
 void MainAnalyseView::removeSelection()
 {
+
     QList<int> rows;
-    for ( QModelIndex index : selectionModel()->selectedRows())
+    for ( QModelIndex index : selectionModel()->selectedRows()){
         rows.append(index.row());
 
-    qDebug()<<rows;
+        if (mAnalysisWidgets.contains(mModel->runner(index))){
+            mAnalysisWidgets[mModel->runner(index)]->close();
+            delete mAnalysisWidgets.take(mModel->runner(index));
+        }
 
+    }
+
+    mModel->remove(rows);
+}
+
+void MainAnalyseView::stopSelection()
+{
+    for ( QModelIndex index : selectionModel()->selectedRows()){
+        mModel->runner(index)->cancel();
+
+        if (mAnalysisWidgets.contains(mModel->runner(index))){
+            mAnalysisWidgets[mModel->runner(index)]->close();
+        }
+
+    }
+}
+
+void MainAnalyseView::clearAll()
+{
+    QList<int> rows;
+    for (int i=0; i<mModel->rowCount(); ++i)
+        rows.append(i);
+
+    mModel->remove(rows);
 }
 
 

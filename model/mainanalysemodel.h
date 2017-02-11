@@ -24,7 +24,9 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const Q_DECL_OVERRIDE;
-    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex())Q_DECL_OVERRIDE;
+
+    void remove(const QList<int>& index);
+
 
     void addFile(const QString& filename);
     AnalysisRunner * runner(const QModelIndex& index);

@@ -124,6 +124,21 @@ QVariant MainAnalyseModel::headerData(int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
+void MainAnalyseModel::remove(const QList<int> &index)
+{
+    QList<int> sorted = index;
+    qSort(sorted.begin(),sorted.end(), qGreater<int>());
+
+    for (int i : sorted)
+    {
+        beginRemoveRows(QModelIndex(), i,i);
+        AnalysisRunner * runner = mRunners.takeAt(i);
+        runner->setAutoDelete(true);
+        endInsertRows();
+    }
+}
+
+
 void MainAnalyseModel::addFile(const QString &filename)
 {
     beginInsertRows(QModelIndex(), 0,0);
@@ -142,21 +157,6 @@ void MainAnalyseModel::addFile(const QString &filename)
 
 }
 
-bool MainAnalyseModel::removeRows(int row, int count, const QModelIndex &parent)
-{
-    if (count == 0)
-        return false;
-
-    beginRemoveRows(parent,row, row+count-1);
-
-    for(int i=0; i<count; ++i) {
-        delete mRunners.takeAt(row);
-    }
-
-    endRemoveRows();
-
-    return true;
-}
 
 AnalysisRunner *MainAnalyseModel::runner(const QModelIndex &index)
 {

@@ -64,7 +64,34 @@ void MainWindow::addFiles()
 
 void MainWindow::remFiles()
 {
+    int ret=QMessageBox::warning(this,tr("Warning"),
+                                 tr("Are you sure you want to delete selected analysis ?"),
+                                 QMessageBox::Yes|QMessageBox::No );
 
+    if (ret == QMessageBox::Yes )
+        mView->removeSelection();
+
+}
+
+void MainWindow::stopFiles()
+{
+    int ret=QMessageBox::warning(this,tr("Warning"),
+                                 tr("Are you sure you want to stop selected analysis ?"),
+                                 QMessageBox::Yes|QMessageBox::No );
+
+    if (ret == QMessageBox::Yes )
+        mView->stopSelection();
+
+}
+
+void MainWindow::clearFiles()
+{
+    int ret=QMessageBox::warning(this,tr("Warning"),
+                                 tr("Are you sure you want to remove all analysis?"),
+                                 QMessageBox::Yes|QMessageBox::No );
+
+    if (ret == QMessageBox::Yes )
+        mView->clearAll();
 }
 
 void MainWindow::showAnalysis()
@@ -82,20 +109,7 @@ void MainWindow::run()
 
 }
 
-//void MainWindow::openFile()
-//{
 
-//    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
-
-//    if (!fileNames.isEmpty())
-//    {
-//        for (QString file : fileNames)
-//        {
-//            addFile(file);
-//            mMainList.last()->run();
-//        }
-//    }
-//}
 
 void MainWindow::about()
 {
@@ -112,8 +126,10 @@ void MainWindow::setupActions()
     // File menu
     QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
     QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf067), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
-    QAction * remAction  = fileMenu->addAction(QFontIcon::icon(0xf068), tr("&Remove file(s)"),this, SLOT(remFiles()), QKeySequence::Delete);
-   // QAction * saveAction  = fileMenu->addAction(QFontIcon::icon(0xf03e), tr("&Export result(s) as image"),this, SLOT(remFiles()), QKeySequence::Save);
+    QAction * remAction  = fileMenu->addAction(QFontIcon::icon(0xf068), tr("&Remove selection"),this, SLOT(remFiles()), QKeySequence::Delete);
+    QAction * stopAction = fileMenu->addAction(QFontIcon::icon(0xf04d), tr("&Stop selection"),this, SLOT(stopFiles()));
+    QAction * clearAction= fileMenu->addAction(QFontIcon::icon(0xf00d), tr("&Clear all"),this, SLOT(clearFiles()));
+
     fileMenu->addSeparator();
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
 
@@ -133,6 +149,8 @@ void MainWindow::setupActions()
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     bar->addAction(openAction);
     bar->addAction(remAction);
+    bar->addAction(stopAction);
+    bar->addAction(clearAction);
     bar->addSeparator();
     bar->addAction(showAction);
 

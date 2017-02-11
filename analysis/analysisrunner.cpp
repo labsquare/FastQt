@@ -94,7 +94,7 @@ void AnalysisRunner::run()
 
         mStartTime.start();
 
-        while (reader.next())
+        while (reader.next() && !mCancel)
         {
 
             // check if first sequence is valid..Means it's probably a good file
@@ -120,7 +120,6 @@ void AnalysisRunner::run()
                     mProgression = percentNow;
                     //emitUpdate(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(mSequenceCount).arg(mProgression));
                 }
-
             }
 
 
@@ -132,7 +131,8 @@ void AnalysisRunner::run()
 
         mProgression = 100;
         //emitUpdate(tr("Complete "));
-        setStatus(Finished);
+        if (!mCancel)
+            setStatus(Finished);
 
         mDuration = mStartTime.elapsed();
 
@@ -185,6 +185,11 @@ int AnalysisRunner::sequenceCount() const
     return mSequenceCount;
 }
 
+void AnalysisRunner::cancel()
+{
+    mCancel = true;
+    mStatus = Canceled;
+}
 
 quint64 AnalysisRunner::fileSize() const
 {

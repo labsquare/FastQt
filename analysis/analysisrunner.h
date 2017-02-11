@@ -87,7 +87,7 @@ public:
      */
     int sequenceCount() const;
 
-
+    void cancel();
 
     quint64 fileSize() const;
 
@@ -125,6 +125,7 @@ private:
     int mFileSize  = 0;
     int mDuration  = 0;
     Status mStatus = Waiting;
+    bool mCancel = false;
 
 
 };

@@ -45,6 +45,8 @@ public Q_SLOTS:
     void run();
     void addFiles();
     void remFiles();
+    void stopFiles();
+    void clearFiles();
     void showAnalysis();
     void about();
 

@@ -27,6 +27,8 @@ public:
 
 public Q_SLOTS:
     void removeSelection();
+    void stopSelection();
+    void clearAll();
     void showAnalysis(const QModelIndex& index);
 
 
