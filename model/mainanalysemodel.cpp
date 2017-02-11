@@ -10,7 +10,6 @@ MainAnalyseModel::MainAnalyseModel(QObject * parent)
 
     mTimer->setInterval(1000);
 
-    QThreadPool::globalInstance()->setMaxThreadCount(2);
 }
 
 int MainAnalyseModel::rowCount(const QModelIndex &parent) const

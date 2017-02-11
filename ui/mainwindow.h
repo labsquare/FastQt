@@ -58,10 +58,9 @@ protected:
 private:
     QTabWidget * mTabWidget;
     QList<MainAnalyseWidget*> mMainList;
-
     MainAnalyseView * mView;
-
     QFuture<void> mRunFuture;
+    QStatusBar * mStatusBar;
 
 };
 

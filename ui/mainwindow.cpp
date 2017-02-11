@@ -27,19 +27,15 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     mView = new MainAnalyseView;
+    mStatusBar = new QStatusBar;
     setCentralWidget(mView);
 
-    //    mTabWidget = new QTabWidget;
-    //    mTabWidget->setMovable(true);
-    //    mTabWidget->setTabsClosable(true);
-    //    setCentralWidget(mTabWidget);
+    setStatusBar(mStatusBar);
 
     setupActions();
     resize(800,600);
 
     move(200,200);
-
-    //    connect(mTabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
 
 }
@@ -59,6 +55,8 @@ void MainWindow::addFiles()
             mView->addFile(file);
         }
     }
+
+   statusBar()->showMessage(QString(tr("Running on %1 threads")).arg(QThreadPool::globalInstance()->activeThreadCount()));
 
 }
 
@@ -128,7 +126,7 @@ void MainWindow::setupActions()
     QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf067), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
     QAction * remAction  = fileMenu->addAction(QFontIcon::icon(0xf068), tr("&Remove selection"),this, SLOT(remFiles()), QKeySequence::Delete);
     QAction * stopAction = fileMenu->addAction(QFontIcon::icon(0xf04d), tr("&Stop selection"),this, SLOT(stopFiles()));
-    QAction * clearAction= fileMenu->addAction(QFontIcon::icon(0xf00d), tr("&Clear all"),this, SLOT(clearFiles()));
+    QAction * clearAction= fileMenu->addAction(QFontIcon::icon(0xf1f8), tr("&Clear all"),this, SLOT(clearFiles()));
 
     fileMenu->addSeparator();
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);

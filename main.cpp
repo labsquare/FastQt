@@ -33,6 +33,10 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+//    Fix the threads numbers
+//    QThreadPool::globalInstance()->setMaxThreadCount(2);
+
+
     a.setApplicationName("FastQt");
     a.setOrganizationName("Labsquare");
     a.setOrganizationDomain("labsquare.org");
