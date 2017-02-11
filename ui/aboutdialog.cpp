@@ -28,11 +28,11 @@ AboutDialog::AboutDialog(QWidget * parent)
     addTab(":/text/CREDITS");
     addTab(":/text/CHANGELOG");
 
-    mTitle = qAppName();
+    mTitle = qApp->applicationName();
     mSubtitle = QString("Version %1\nGPL3 Copyright (C) 2017\nLabsquare.org").arg(qApp->applicationVersion());
     drawHeader();
 
-    setWindowTitle(tr("About %1").arg(qAppName()));
+    setWindowTitle(tr("About %1").arg(qApp->applicationName()));
 
     setFixedSize(450, 400);
 

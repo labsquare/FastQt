@@ -147,7 +147,7 @@ void MainWindow::setupActions()
 
     // Help menu
     QMenu * helpMenu = menuBar()->addMenu(tr("&Help"));
-    helpMenu->addAction(QFontIcon::icon(0xf129),tr("About %1").arg(qAppName()),this,SLOT(about()));
+    helpMenu->addAction(QFontIcon::icon(0xf129),tr("About %1").arg(qApp->applicationName()),this,SLOT(about()));
     helpMenu->addAction(QFontIcon::icon(0xf129),tr("About &Qt"),qApp, SLOT(aboutQt()));
 
 
