@@ -215,7 +215,7 @@ const QString &AnalysisRunner::lastMessage() const
 
 int AnalysisRunner::duration() const
 {
-    if (status() == Finished)
+    if (status() != Running)
         return mDuration;
 
     else

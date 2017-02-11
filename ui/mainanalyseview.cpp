@@ -168,7 +168,12 @@ void MainAnalyseView::clearAll()
 {
     QList<int> rows;
     for (int i=0; i<mModel->rowCount(); ++i)
-        rows.append(i);
+    {
+        AnalysisRunner::Status status = mModel->runner(mModel->index(i))->status();
+
+        if (status == AnalysisRunner::Finished || status == AnalysisRunner::Canceled)
+            rows.append(i);
+    }
 
     mModel->remove(rows);
 }

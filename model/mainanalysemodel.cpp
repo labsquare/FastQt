@@ -152,13 +152,13 @@ void MainAnalyseModel::remove(const QList<int> &index)
     QList<int> sorted = index;
     qSort(sorted.begin(),sorted.end(), qGreater<int>());
 
+    beginResetModel();
     for (int i : sorted)
     {
-        beginRemoveRows(QModelIndex(), i,i);
         AnalysisRunner * runner = mRunners.takeAt(i);
         runner->setAutoDelete(true);
-        endInsertRows();
     }
+    endResetModel();
 }
 
 

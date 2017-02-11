@@ -117,7 +117,7 @@ protected:
 
 private:
     QTime mStartTime;
-    QHash<QString,Analysis*> mAnalysisHash;
+    QMap<QString,Analysis*> mAnalysisHash;
     QString mFilename;
     QString mMessage;
     int mProgression = 0;
