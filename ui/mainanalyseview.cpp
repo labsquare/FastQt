@@ -45,6 +45,9 @@ MainAnalyseView::MainAnalyseView(QWidget * parent )
 
     setModel(mModel);
     setItemDelegate(mDelegate);
+    setAcceptDrops(true);
+    setDropIndicatorShown(true);
+    setDragDropMode(QAbstractItemView::DragDrop);
 
 
     verticalHeader()->hide();
@@ -97,6 +100,37 @@ void MainAnalyseView::showAnalysis(const QModelIndex &index)
         mAnalysisWidgets.insert(runner,w);
         w->show();
     }
+
+}
+
+void MainAnalyseView::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (!event->mimeData()->hasUrls())
+        return;
+    // check if drop file have valid extension
+
+    QStringList ext;
+    ext<<"fastq"<<"fastq.gz"<<"fastq.xz"<<"fastq.bz2";
+
+    for (QUrl url : event->mimeData()->urls())
+    {
+        QFileInfo info(url.path());
+        if (!ext.contains(info.completeSuffix().toLower()))
+            return;
+    }
+
+    event->acceptProposedAction();
+}
+
+void MainAnalyseView::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void MainAnalyseView::dropEvent(QDropEvent *event)
+{
+    for (QUrl url : event->mimeData()->urls())
+        addFile(url.path());
 
 }
 

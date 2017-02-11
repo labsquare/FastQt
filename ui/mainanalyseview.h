@@ -33,7 +33,9 @@ public Q_SLOTS:
 
 
 protected:
-
+    void dragEnterEvent(QDragEnterEvent * event);
+    void dragMoveEvent(QDragMoveEvent * event);
+    void dropEvent(QDropEvent * event);
 
 private:
     MainAnalyseModel * mModel;

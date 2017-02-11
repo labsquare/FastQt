@@ -145,6 +145,8 @@ QVariant MainAnalyseModel::headerData(int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
+
+
 void MainAnalyseModel::remove(const QList<int> &index)
 {
     QList<int> sorted = index;
