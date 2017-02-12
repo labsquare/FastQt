@@ -94,6 +94,10 @@ void AnalysisRunner::run()
 
         mStartTime.start();
 
+        for (Analysis * a : mAnalysisHash)
+            a->before();
+
+
         while (reader.next() && !mCancel)
         {
 
@@ -128,6 +132,9 @@ void AnalysisRunner::run()
                 a->processSequence(reader.sequence());
             }
         }
+
+        for (Analysis * a : mAnalysisHash)
+            a->after();
 
         mProgression = 100;
         //emitUpdate(tr("Complete "));

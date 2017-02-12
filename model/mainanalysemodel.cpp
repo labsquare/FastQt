@@ -1,4 +1,5 @@
 #include "mainanalysemodel.h"
+#include "perbasequalityanalysis.h"
 
 MainAnalyseModel::MainAnalyseModel(QObject * parent)
     :QAbstractListModel(parent)
@@ -69,6 +70,9 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DecorationRole)
     {
+        if (index.column() == ReadsColumn && mRunners.at(index.row())->status() == AnalysisRunner::Finished)
+            return mRunners.at(index.row())->analysis(PerBaseQualityAnalysis::staticMetaObject.className())->statusIcon();
+
         if (index.column() == StatusColumn)
         {
             switch (mRunners.at(index.row())->status())
@@ -114,6 +118,12 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
         if (index.column() == NameColumn)
         {
             return mRunners.at(index.row())->filename();
+        }
+
+        if (index.column() == ReadsColumn)
+        {
+            return mRunners.at(index.row())->analysis(PerBaseQualityAnalysis::staticMetaObject.className())->description();
+
         }
 
     }

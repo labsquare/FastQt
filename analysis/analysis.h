@@ -45,7 +45,7 @@ class Analysis : public QObject
     Q_OBJECT
 public:
     enum Status {
-        Success , Warning, Error
+        Success , Warning, Error, Unknown
     };
 
     Analysis(QObject * parent = Q_NULLPTR);
@@ -68,6 +68,9 @@ public:
      * \return QWidget
      */
     virtual QWidget* createResultWidget() = 0;
+
+    virtual void before(){}
+    virtual void after(){}
 
     /*!
      * \brief save resultsWidget as image or svg

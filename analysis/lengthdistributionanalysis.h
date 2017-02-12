@@ -19,11 +19,14 @@ public:
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
     QWidget * createResultWidget() Q_DECL_OVERRIDE;
+    const QVector<qreal>* getCumulativeLenDis();
+
+protected:
+    virtual void after() Q_DECL_OVERRIDE;
 
     void computeDistribution();
     QVector<int> sizeDistribution (int min, int max);
 
-    const QVector<qreal>* getCumulativeLenDis();
 
 private:
 

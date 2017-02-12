@@ -78,8 +78,6 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     LengthDistributionAnalysis * lenDist = qobject_cast<LengthDistributionAnalysis*>(runner()->analysis(className));
 
 
-    computePercentages();
-
     QLineSeries  * ASerie = new QLineSeries ();
     QLineSeries  * GSerie = new QLineSeries ();
     QLineSeries  * CSerie = new QLineSeries ();
@@ -154,6 +152,11 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     view->setChart(chart);
 
     return view;
+}
+
+void PerBaseContentAnalysis::after()
+{
+    computePercentages();
 }
 
 void PerBaseContentAnalysis::computePercentages()

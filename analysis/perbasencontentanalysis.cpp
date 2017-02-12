@@ -61,7 +61,6 @@ void PerBaseNContentAnalysis::reset()
 QWidget *PerBaseNContentAnalysis::createResultWidget()
 {
 
-    computePercentages();
 
     QLineSeries * NSerie = new QLineSeries ();
 
@@ -135,4 +134,9 @@ void PerBaseNContentAnalysis::computePercentages()
 
         nPercent[i] = (nCount/(double)total)*100;
     }
+}
+
+void PerBaseNContentAnalysis::after()
+{
+    computePercentages();
 }

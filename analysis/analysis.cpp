@@ -75,7 +75,7 @@ void Analysis::setRunner(AnalysisRunner *runner)
 
 Analysis::Status Analysis::status() const
 {
-    return Success;
+    return Analysis::Unknown;
 }
 
 QIcon Analysis::statusIcon() const
@@ -88,5 +88,7 @@ QIcon Analysis::statusIcon() const
     if (status() == Analysis::Error)
         return QFontIcon::icon(0xf058, QColor("#ED6D79"));
 
-    return QIcon();
+    //Unknown
+    return QFontIcon::icon(0xf058, QColor("darkgray"));
+
 }

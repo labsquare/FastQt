@@ -26,13 +26,6 @@ void LengthDistributionAnalysis::reset()
 QWidget *LengthDistributionAnalysis::createResultWidget()
 {
 
-    // This an example for @Natir .
-    // get data from BasicStatAnalysis
-
-//    qDebug()<<"YAAA"<<runner()->analysisList().first()->property("readCount").toInt();
-
-    computeDistribution();
-
     QChartView * view = new QChartView;
     view->setRenderHint(QPainter::Antialiasing);
 
@@ -77,6 +70,11 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
     view->setChart(chart);
 
     return view;
+}
+
+void LengthDistributionAnalysis::after()
+{
+    computeDistribution();
 }
 
 void LengthDistributionAnalysis::computeDistribution()

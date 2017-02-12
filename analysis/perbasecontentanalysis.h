@@ -46,8 +46,11 @@ public:
     virtual void reset() Q_DECL_OVERRIDE;
     virtual QWidget* createResultWidget() Q_DECL_OVERRIDE;
 
+
 protected:
     void computePercentages();
+    virtual void after() Q_DECL_OVERRIDE;
+
 
 private:
     QVector<quint64> mGCounts;
