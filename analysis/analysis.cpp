@@ -82,13 +82,13 @@ QIcon Analysis::statusIcon() const
 {
     // @see http://fontawesome.io/icons/ to get font hex number
     if (status() == Analysis::Success)
-        return QFontIcon::icon(0xf058, QColor("#71E096"));
+        return QFontIcon::icon(0xf05d, QColor("#71E096"));
     if (status() == Analysis::Warning)
-        return QFontIcon::icon(0xf058, QColor("#F5A26F"));
+        return QFontIcon::icon(0xf06a, QColor("#F5A26F"));
     if (status() == Analysis::Error)
-        return QFontIcon::icon(0xf058, QColor("#ED6D79"));
+        return QFontIcon::icon(0xf057, QColor("#ED6D79"));
 
     //Unknown
-    return QFontIcon::icon(0xf058, QColor("darkgray"));
+    return QFontIcon::icon(0xf05d, qApp->palette("QWidget").highlight().color());
 
 }

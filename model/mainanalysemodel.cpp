@@ -89,10 +89,10 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
             QFileInfo info(mRunners.at(index.row())->filename());
 
             if (info.suffix().toLower() =="fastq")
-                return QFontIcon::icon(0xf016, Qt::darkGray);
+                return QFontIcon::icon(0xf016);
 
             else
-                return QFontIcon::icon(0xf1c6, Qt::darkGray);
+                return QFontIcon::icon(0xf1c6);
 
 
         }
