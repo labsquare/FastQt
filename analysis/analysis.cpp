@@ -32,8 +32,18 @@ Analysis::~Analysis()
 
 }
 
+void Analysis::save(const QString &path)
+{
+    QString name = metaObject()->className();
+    QDir dir(path);
+    QString filename = dir.filePath(QString("%1.svg").arg(name));
 
-void Analysis::saveResult(const QString &filename, ImageFormat format)
+    qDebug()<<Q_FUNC_INFO<<"save "<<filename;
+    capture(filename);
+}
+
+
+void Analysis::capture(const QString &filename, ImageFormat format)
 {
     if (format == SvgFormat)
     {
@@ -52,16 +62,6 @@ void Analysis::saveResult(const QString &filename, ImageFormat format)
 
 }
 
-QJsonObject Analysis::toJson() const
-{
-    return QJsonObject();
-}
-
-void Analysis::fromJson(const QJsonObject &data)
-{
-    Q_UNUSED(data)
-
-}
 
 AnalysisRunner *Analysis::runner() const
 {

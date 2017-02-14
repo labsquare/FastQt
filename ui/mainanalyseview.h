@@ -30,6 +30,7 @@ public Q_SLOTS:
     void stopSelection();
     void clearAll();
     void showAnalysis(const QModelIndex& index);
+    void exportSelection(const QString& path);
 
 
 protected:

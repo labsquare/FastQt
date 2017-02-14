@@ -264,9 +264,21 @@ void AnalysisRunner::saveAllResult(const QString &path, ImageFormat format)
         QString name = a->name();
         name = name.replace(" ","_");
         QString filename = dir.filePath(name+".png");
-        a->saveResult(filename, format);
+        a->capture(filename, format);
 
     }
+
+}
+
+void AnalysisRunner::saveAll(const QString &path)
+{
+    QFileInfo info(filename());
+    QDir dir(path);
+    dir.mkpath(info.baseName());
+    dir.cd(info.baseName());
+
+    for (Analysis * a : mAnalysisHash)
+        a->save(dir.path());
 
 }
 

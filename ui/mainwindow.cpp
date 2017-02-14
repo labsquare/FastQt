@@ -56,7 +56,7 @@ void MainWindow::addFiles()
         }
     }
 
-   statusBar()->showMessage(QString(tr("Running on %1 threads")).arg(QThreadPool::globalInstance()->activeThreadCount()));
+    statusBar()->showMessage(QString(tr("Running on %1 threads")).arg(QThreadPool::globalInstance()->activeThreadCount()));
 
 }
 
@@ -115,6 +115,18 @@ void MainWindow::about()
     dialog.exec();
 }
 
+void MainWindow::exportSelection()
+{
+    if (mView->selectionModel()->selectedRows().count() <= 0)
+    {
+        QMessageBox::warning(this,tr("Cannot export"),tr("Your selection is empty"));
+        return;
+    }
+
+    QString dirname = QFileDialog::getExistingDirectory(this,tr("Select a directory to save results"));
+    if (!dirname.isEmpty())
+        mView->exportSelection(dirname);
+}
 
 void MainWindow::setupActions()
 {
@@ -124,6 +136,7 @@ void MainWindow::setupActions()
     // File menu
     QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
     QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf067), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
+    QAction * exportSelAction = fileMenu->addAction(QFontIcon::icon(0xf0c7),tr("&Export selection"),this, SLOT(exportSelection()), QKeySequence::Save);
 
     fileMenu->addSeparator();
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
@@ -155,6 +168,9 @@ void MainWindow::setupActions()
     bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     bar->addAction(openAction);
     bar->addAction(remAction);
+    bar->addSeparator();
+    bar->addAction(exportSelAction);
+    bar->addSeparator();
     bar->addAction(stopAction);
     bar->addAction(clearAction);
     bar->addSeparator();

@@ -46,6 +46,7 @@ public:
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
     QWidget * createResultWidget() Q_DECL_OVERRIDE;
+    void save(const QString& path) Q_DECL_OVERRIDE;
 
     int readCount();
 

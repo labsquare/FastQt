@@ -49,6 +49,7 @@ public Q_SLOTS:
     void clearFiles();
     void showAnalysis();
     void about();
+    void exportSelection();
 
 
 protected:

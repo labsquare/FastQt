@@ -103,6 +103,19 @@ void MainAnalyseView::showAnalysis(const QModelIndex &index)
 
 }
 
+void MainAnalyseView::exportSelection(const QString &path)
+{
+    for ( QModelIndex index : selectionModel()->selectedRows()){
+        AnalysisRunner * runner = mModel->runner(index);
+        if (runner->status() == AnalysisRunner::Finished)
+        {
+            runner->saveAll(path);
+        }
+    }
+
+}
+
+
 void MainAnalyseView::dragEnterEvent(QDragEnterEvent *event)
 {
     if (!event->mimeData()->hasUrls())

@@ -69,28 +69,29 @@ public:
      */
     virtual QWidget* createResultWidget() = 0;
 
+    /*!
+     * \brief save result(s) data
+     * \arg path : Contains the directory path where results are saved
+     * By default, save a capture as svg of the result widget
+     */
+    virtual void save(const QString& path);
+    /*!
+     * \brief this methods is launch before process
+     * By default do nothing
+     */
     virtual void before(){}
+
+    /*!
+     * \brief this methods is launch after process
+     * By default do nothing
+     */
     virtual void after(){}
 
     /*!
      * \brief save resultsWidget as image or svg
      *  \return QPixmap
      */
-    void saveResult(const QString& filename, ImageFormat format = SvgFormat);
-
-    /*!
-     * \brief toJson
-     * \return serialisation as Json
-     *  By default do nothing
-     */
-    virtual QJsonObject toJson()const;
-
-    /*!
-     * \brief fromJson
-     * \param set analysis from json serialization data
-     * By default do nothing
-     */
-    virtual void fromJson(const QJsonObject& data);
+    void capture(const QString& filename, ImageFormat format = SvgFormat) ;
 
     const QString& name() const {return mName;}
     const QString& description() const {return mDescription;}

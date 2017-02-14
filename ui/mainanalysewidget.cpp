@@ -94,7 +94,7 @@ void MainAnalyseWidget::saveCurrentResult()
                                                         QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
                                                         tr("Images (*.png *.svg"));
         if (!fileName.isEmpty())
-            a->saveResult(fileName);
+            a->capture(fileName);
 
     }
 
