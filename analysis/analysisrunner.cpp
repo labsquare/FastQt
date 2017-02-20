@@ -245,30 +245,6 @@ Analysis *AnalysisRunner::analysis(const QString &className)
     return Q_NULLPTR;
 }
 
-void AnalysisRunner::saveAllResult(const QString &path, ImageFormat format)
-{
-    QString extension;
-    if (format == ImageFormat::SvgFormat)
-        extension = ".svg";
-    else if (format == ImageFormat::PngFormat)
-        extension = ".png";
-
-    QFileInfo info(filename());
-
-    QDir dir(path);
-    dir.mkpath(info.baseName());
-    dir.cd(info.baseName());
-
-    for (Analysis * a : mAnalysisHash)
-    {
-        QString name = a->name();
-        name = name.replace(" ","_");
-        QString filename = dir.filePath(name+".png");
-        a->capture(filename, format);
-
-    }
-
-}
 
 void AnalysisRunner::saveAll(const QString &path)
 {

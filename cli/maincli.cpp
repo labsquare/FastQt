@@ -17,20 +17,20 @@ int MainCLI::exec()
         quit();
     }
 
-    QString tmp = mParser->value("out-img-format");
-    if (mParser->value("out-img-format") == "svg")
-    {
-        mFormat = ImageFormat::SvgFormat;
-    }
-    else if (mParser->value("out-img-format") == "png")
-    {
-        mFormat = ImageFormat::PngFormat;
-    }
-    else
-    {
-        qDebug()<<mParser->value("out-img-format")<<" isn't a valid value for out-img-format, run --help option";
-        exit();
-    }
+//    QString tmp = mParser->value("out-img-format");
+//    if (mParser->value("out-img-format") == "svg")
+//    {
+//        mFormat = ImageFormat::SvgFormat;
+//    }
+//    else if (mParser->value("out-img-format") == "png")
+//    {
+//        mFormat = ImageFormat::PngFormat;
+//    }
+//    else
+//    {
+//        qDebug()<<mParser->value("out-img-format")<<" isn't a valid value for out-img-format, run --help option";
+//        exit();
+//    }
 
     // Set thread number
     int threadNumber;
@@ -99,7 +99,7 @@ void MainCLI::saveResult()
     for (AnalysisRunner * r : mRunnerList)
     {
         QDir dir(path);
-        r->saveAllResult(dir.path(), mFormat);
+        r->saveAll(dir.path());
 
     }
 

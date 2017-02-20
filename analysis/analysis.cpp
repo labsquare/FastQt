@@ -36,10 +36,11 @@ void Analysis::save(const QString &path)
 {
     QString name = metaObject()->className();
     QDir dir(path);
-    QString filename = dir.filePath(QString("%1.svg").arg(name));
+    QString svgPath = dir.filePath(QString("%1.svg").arg(name));
+    QString pngPath = dir.filePath(QString("%1.png").arg(name));
 
-    qDebug()<<Q_FUNC_INFO<<"save "<<filename;
-    capture(filename);
+    capture(svgPath);
+    capture(pngPath);
 }
 
 
