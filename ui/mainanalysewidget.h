@@ -47,8 +47,7 @@ public:
     ~MainAnalyseWidget();
     void setRunner(AnalysisRunner * runner);
 
-public Q_SLOTS:
-    void saveCurrentResult();
+
 
 private:
     QToolBar * mToolBar;

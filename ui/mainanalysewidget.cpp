@@ -57,10 +57,7 @@ MainAnalyseWidget::~MainAnalyseWidget()
 void MainAnalyseWidget::setRunner(AnalysisRunner *runner)
 {
     mRunner = runner;
-
-
     mToolBar->clear();
-    mToolBar->addAction(QFontIcon::icon(0xf03e),tr("Save as Image"),this,SLOT(saveCurrentResult()));
 
 
     setWindowTitle(mRunner->filename());
@@ -81,24 +78,7 @@ void MainAnalyseWidget::setRunner(AnalysisRunner *runner)
 
 }
 
-void MainAnalyseWidget::saveCurrentResult()
-{
 
-
-    Analysis * a = mRunner->analysisList().at(mListWidget->currentRow());
-    if (a)
-    {
-
-        QString fileName = QFileDialog::getSaveFileName(this,
-                                                        tr("Export as Image ..."),
-                                                        QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
-                                                        tr("Images (*.png *.svg"));
-        if (!fileName.isEmpty())
-            a->capture(fileName);
-
-    }
-
-}
 
 
 

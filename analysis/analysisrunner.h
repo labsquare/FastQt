@@ -104,6 +104,8 @@ public:
     QList<Analysis*> analysisList() const;
     Analysis * analysis(const QString& className);
 
+    // need to manage image format output in an other way
+    // for example setPreferedFormat(ImageFormat::Svg). Or save directly both format.
     void saveAllResult(const QString& path, ImageFormat format = ImageFormat::SvgFormat);
 
     void saveAll(const QString& path);
@@ -128,6 +130,8 @@ private:
     int mDuration  = 0;
     Status mStatus = Waiting;
     bool mCancel = false;
+
+
 
 
 };
