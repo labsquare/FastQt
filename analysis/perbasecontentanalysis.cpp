@@ -73,11 +73,6 @@ void PerBaseContentAnalysis::reset()
 
 QWidget *PerBaseContentAnalysis::createResultWidget()
 {
-    //get data from other analysis
-    QString className = LengthDistributionAnalysis::staticMetaObject.className();
-    LengthDistributionAnalysis * lenDist = qobject_cast<LengthDistributionAnalysis*>(runner()->analysis(className));
-
-
     QLineSeries  * ASerie = new QLineSeries ();
     QLineSeries  * GSerie = new QLineSeries ();
     QLineSeries  * CSerie = new QLineSeries ();
@@ -128,23 +123,6 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
 
     chart->setTitle(tr("Per Base content"));
     chart->setAnimationOptions(QChart::NoAnimation);
-
-    /* Generate coverage gradient */
-    QLinearGradient * coverage = new QLinearGradient(QPointF(0, 0), QPointF(1, 0));
-
-    const QVector<qreal>* cumLenDis = lenDist->getCumulativeLenDis();
-    qreal total = cumLenDis->at(cumLenDis->length() - 1);
-    for(auto i = 0; i != cumLenDis->length(); i++)
-    {
-        coverage->setColorAt(i/(float)cumLenDis->length(), //pos set in 0 and 1
-                             QColor::fromRgbF(0.5, 0.5, 0.5, 1 - cumLenDis->at(i)/total)); //use invert cumulate distribution
-    }
-
-    coverage->setCoordinateMode(QGradient::ObjectBoundingMode);
-
-    chart->setPlotAreaBackgroundBrush(*coverage);
-    chart->setPlotAreaBackgroundVisible(true);
-
 
     QChartView * view = new QChartView;
     view->setRenderHint(QPainter::Antialiasing);

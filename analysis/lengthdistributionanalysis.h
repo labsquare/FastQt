@@ -19,7 +19,6 @@ public:
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
     QWidget * createResultWidget() Q_DECL_OVERRIDE;
-    const QVector<qreal>* getCumulativeLenDis();
 
 protected:
     virtual void after() Q_DECL_OVERRIDE;
@@ -30,14 +29,11 @@ protected:
 
 private:
 
-    QVector<qreal> mCumulativeDist;
     QVector<double> mGraphCounts;
     QVector<quint64> mLengthCounts;
-    QVector<QString> mXCategories;
     double mMax;
-
-
-
+    double mMin;
+    int mIntervale;
 };
 
 #endif // SEQUENCELENGTHDISTRIBUTIONANALYSIS_H
