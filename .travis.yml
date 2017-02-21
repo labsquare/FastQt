@@ -19,6 +19,7 @@ script:
   - cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
   - make && sudo make install
   - cd ../..
+  - rm -rf karchive
   - git clone git://anongit.kde.org/karchive.git
   - cd karchive
   - mkdir build && cd build 
