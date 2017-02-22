@@ -86,13 +86,13 @@ void AnalysisRunner::run()
         mProgression   = 0;
 
         FastqReader reader(file);
+        mStartTime.start();
 
         // pre compute total size for sequencial access .
         //emitUpdate(tr("Analysis ..."));
         reader.computeTotalSize();
 
 
-        mStartTime.start();
 
         for (Analysis * a : mAnalysisHash)
             a->before();
