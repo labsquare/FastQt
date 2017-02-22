@@ -163,7 +163,8 @@ void MainWindow::setupActions()
 
 
     QToolBar * bar = addToolBar(tr("Open"));
-    bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+   // bar->setIconSize(QSize(22,22));
     bar->addAction(openAction);
     bar->addAction(remAction);
     bar->addSeparator();

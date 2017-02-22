@@ -17,7 +17,7 @@ void PerSequenceGCContent::processSequence(const Sequence& sequence)
 {
     mGCCounts[qRound(sequence.gc_percent())]++;
     mNbSeq++;
-    if(mXMax < sequence.size())
+    if(mXMax < (quint64)(sequence.size()))
         mXMax = sequence.size();
 }
 
@@ -58,7 +58,7 @@ QWidget* PerSequenceGCContent::createResultWidget()
         if(!not_reacheable.contains(i))
         {
             lineseries->append(QPoint(i, mGCCounts[i]));
-            normalseries->append(QPoint(i, normal_distribution<qreal, qreal, qreal>(gcMean, gcStddev, i)*mNbSeq));
+            normalseries->append(QPoint(i, normal_distribution(gcMean, gcStddev, i)*mNbSeq));
 
             if(mGCCounts[i] > yMax)
                 yMax = mGCCounts[i];
