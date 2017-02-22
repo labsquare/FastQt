@@ -5,7 +5,8 @@
 # define M_PI 3.14159265358979323846 /* pi */
 # define M_NEPER 2.718281828459045235359 /* e */
 
-template<template<typename> typename CONTENER, typename TYPE, typename OUT>
+
+template<template<class STUPIDWINDOW> class CONTENER, class TYPE, class OUT>
 OUT mean(CONTENER<TYPE>& contener)
 {
     double n = 0;
@@ -19,7 +20,7 @@ OUT mean(CONTENER<TYPE>& contener)
     return sum/n;
 }
 
-template<template<typename> typename CONTENER, typename TYPE, typename OUT>
+template<template<typename> class CONTENER, typename TYPE, typename OUT>
 OUT mean_ponderate(CONTENER<TYPE>& contener)
 {
     double n = 0;
@@ -34,7 +35,7 @@ OUT mean_ponderate(CONTENER<TYPE>& contener)
     return sum/n;
 }
 
-template<template<typename> typename CONTENER, typename TYPE, typename OUT>
+template<template<typename> class CONTENER, typename TYPE, typename OUT>
 OUT stddev(CONTENER<TYPE>& contener, OUT mean)
 {
     OUT stddev = 0;
