@@ -1,56 +1,53 @@
 #ifndef STATISTIC_H
 #define STATISTIC_H
-
 /* Define section */
 # define M_PI 3.14159265358979323846 /* pi */
 # define M_NEPER 2.718281828459045235359 /* e */
 
 
-template<template<class STUPIDWINDOW> class CONTENER, class TYPE, class OUT>
-OUT mean(CONTENER<TYPE>& contener)
+template <typename Container>
+inline double mean(Container &c)
 {
     double n = 0;
-    OUT sum = 0;
-    for(TYPE it : contener)
+    double sum = 0;
+    for(auto it : c)
     {
         sum += it;
         n++;
     }
-
     return sum/n;
-}
 
-template<template<typename> class CONTENER, typename TYPE, typename OUT>
-OUT mean_ponderate(CONTENER<TYPE>& contener)
+}
+template <typename Container>
+inline double mean_ponderate(Container& c)
 {
-    double n = 0;
-    OUT sum = 0;
+        double n = 0;
+        double sum = 0;
+        for(auto it = c.begin(); it != c.end(); it++)
+        {
+            sum += (it - c.begin()) * *it;
+            n += *it;
+        }
 
-    for(auto it = contener.begin(); it != contener.end(); it++)
-    {
-        sum += (it - contener.begin()) * *it;
-        n += *it;
-    }
-
-    return sum/n;
+        return sum/n;
 }
-
-template<template<typename> class CONTENER, typename TYPE, typename OUT>
-OUT stddev(CONTENER<TYPE>& contener, OUT mean)
+template <typename Container>
+inline double stddev(Container& c, double mean = 0)
 {
-    OUT stddev = 0;
-    TYPE sum = 0;
+        double stddev = 0;
+        double sum = 0;
 
-    for(auto it = contener.begin(); it != contener.end(); it++)
-    {
-        sum += *it;
-        stddev += pow((it - contener.begin()) - mean, 2) * *it;
-    }
+        for(auto it = c.begin(); it != c.end(); it++)
+        {
+            sum += *it;
+            stddev += pow((it - c.begin()) - mean, 2) * *it;
+        }
 
-    stddev /= sum - 1;
+        stddev /= sum - 1;
 
-    return sqrt(stddev);
+        return sqrt(stddev);
 }
+
 
 template<typename MEAN, typename STDDEV, typename X>
 X normal_distribution(MEAN _mean, STDDEV _stddev, X x)
