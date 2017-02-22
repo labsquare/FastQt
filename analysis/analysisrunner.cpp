@@ -145,6 +145,11 @@ void AnalysisRunner::run()
 
     }
 
+    else
+    {
+        qDebug()<<Q_FUNC_INFO<<"Cannot open file";
+    }
+
     file->close();
     delete file;
 

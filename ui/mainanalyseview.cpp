@@ -143,7 +143,7 @@ void MainAnalyseView::dragMoveEvent(QDragMoveEvent *event)
 void MainAnalyseView::dropEvent(QDropEvent *event)
 {
     for (QUrl url : event->mimeData()->urls())
-        addFile(url.path());
+        addFile(url.toLocalFile());
 
 }
 
