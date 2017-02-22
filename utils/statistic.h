@@ -1,8 +1,7 @@
 #ifndef STATISTIC_H
 #define STATISTIC_H
 /* Define section */
-# define M_PI 3.14159265358979323846 /* pi */
-# define M_NEPER 2.718281828459045235359 /* e */
+#include <cmath>
 
 
 template <typename Container>
@@ -49,11 +48,10 @@ inline double stddev(Container& c, double mean = 0)
 }
 
 
-template<typename MEAN, typename STDDEV, typename X>
-X normal_distribution(MEAN _mean, STDDEV _stddev, X x)
+double normal_distribution(double mean, double stddev, double x)
 {
-    double lhs = 1/(sqrt(2*M_PI*_stddev*_stddev));
-    double rhs = pow(M_E, 0 - (pow(x-_mean,2)/(2*_stddev*_stddev)));
+    double lhs = 1/(sqrt(2*M_PI*stddev*stddev));
+    double rhs = pow(M_E, 0 - (pow(x-mean,2)/(2*stddev*stddev)));
 
     return lhs*rhs;
 }
