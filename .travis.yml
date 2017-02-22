@@ -9,7 +9,7 @@ before_install:
 
 install:
   - sudo apt-get install qt58base qt58svg qt58charts-no-lgpl
-  - source /opt/qt57/bin/qt58-env.sh
+  - source /opt/qt58/bin/qt58-env.sh
 
 
 script:
