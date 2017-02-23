@@ -19,8 +19,8 @@ AboutDialog::AboutDialog(QWidget * parent)
 
 
 
-    vLayout->setContentsMargins(0,0,0,0);
-    vLayout->setSpacing(2);
+//    vLayout->setContentsMargins(0,0,0,0);
+//    vLayout->setSpacing(2);
     setLayout(vLayout);
 
     addTab(":/text/LICENSE");
@@ -64,7 +64,7 @@ void AboutDialog::addTab(const QString &textFile)
 void AboutDialog::drawHeader()
 {
     int pHeight = 90;
-    int pMargin = 5;
+    int pMargin = 25;
 
     mHeader->setMinimumHeight(pHeight);
     mHeader->setFrameShape(QFrame::StyledPanel);
@@ -103,7 +103,8 @@ void AboutDialog::drawHeader()
     painter.drawText(titleRect, Qt::AlignTop, mSubtitle);
 
     QPixmap labsquareLogo(":/icons/labsquare.png");
-    painter.drawPixmap(pix.rect().right()-labsquareLogo.width() - pMargin , pix.rect().bottom() - labsquareLogo.height()- pMargin, labsquareLogo);
+    labsquareLogo = labsquareLogo.scaled(64,64,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    painter.drawPixmap(pix.rect().right()-labsquareLogo.width() - pMargin , pix.rect().bottom() - labsquareLogo.height() - 15, labsquareLogo);
 
 
 

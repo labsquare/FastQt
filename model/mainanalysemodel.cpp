@@ -77,7 +77,7 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
         {
             switch (mRunners.at(index.row())->status())
             {
-            case AnalysisRunner::Waiting : return QFontIcon::icon(0xf017, Qt::lightGray); break;
+            case AnalysisRunner::Waiting : return QFontIcon::icon(0xf017, Qt::darkGray); break;
             case AnalysisRunner::Canceled: return QFontIcon::icon(0xf071,Qt::darkRed); break;
             case AnalysisRunner::Running : return QFontIcon::icon(0xf085,Qt::darkGray); break;
             case AnalysisRunner::Finished: return QFontIcon::icon(0xf00c,Qt::darkGreen); break;
@@ -93,24 +93,28 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
 
             else
                 return QFontIcon::icon(0xf1c6);
-
-
         }
     }
 
     if (role == Qt::TextColorRole)
     {
+
+        if (mRunners.at(index.row())->status() == AnalysisRunner::Waiting)
+            return QColor(Qt::lightGray);
+
         if (index.column() == StatusColumn)
         {
-
             switch (mRunners.at(index.row())->status())
             {
             case AnalysisRunner::Waiting : return QColor(Qt::lightGray); break;
             case AnalysisRunner::Canceled: return QColor(Qt::darkRed); break;
-            case AnalysisRunner::Running : return QColor(Qt::darkGray); break;
+            case AnalysisRunner::Running : return QColor(Qt::black); break;
             case AnalysisRunner::Finished: return QColor(Qt::darkGreen); break;
             }
         }
+
+        return QColor("black");
+
     }
 
     if (role == Qt::ToolTipRole)

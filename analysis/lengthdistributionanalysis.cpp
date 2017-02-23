@@ -82,7 +82,7 @@ void LengthDistributionAnalysis::computeDistribution()
     int maxLen = 0;
     int minLen = -1;
 
-    qDebug()<<mLengthCounts.length();
+//    qDebug()<<mLengthCounts.length();
     // Find the min and max lengths
     for (int i=0;i<mLengthCounts.length();i++) {
         if (mLengthCounts[i]>0) {
