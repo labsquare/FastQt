@@ -8,10 +8,12 @@ AboutDialog::AboutDialog(QWidget * parent)
     mButtonBox  = new QDialogButtonBox(this);
 
 
-    QPushButton * githubButton= mButtonBox->addButton("Github",QDialogButtonBox::HelpRole);
+    QPushButton * githubButton = mButtonBox->addButton("Github",QDialogButtonBox::HelpRole);
+    QPushButton * twitterButton= mButtonBox->addButton("Twitter",QDialogButtonBox::HelpRole);
+
     mButtonBox->addButton(QDialogButtonBox::Ok);
     githubButton->setIcon(QFontIcon::icon(0xf09b));
-
+    twitterButton->setIcon(QFontIcon::icon(0xf099));
     QVBoxLayout * vLayout = new QVBoxLayout;
     vLayout->addWidget(mHeader);
     vLayout->addWidget(mTabWidget);
@@ -38,6 +40,8 @@ AboutDialog::AboutDialog(QWidget * parent)
 
 
     connect(githubButton, SIGNAL(clicked(bool)), this,SLOT(openGithub()));
+    connect(twitterButton, SIGNAL(clicked(bool)), this,SLOT(openTwitter()));
+
     connect(mButtonBox, SIGNAL(accepted()), this, SLOT(close()));
 
 
@@ -117,4 +121,10 @@ void AboutDialog::drawHeader()
 void AboutDialog::openGithub()
 {
     QDesktopServices::openUrl(QUrl("https://github.com/labsquare/fastQt")) ;
+}
+
+void AboutDialog::openTwitter()
+{
+    QDesktopServices::openUrl(QUrl("https://twitter.com/labsquare")) ;
+
 }

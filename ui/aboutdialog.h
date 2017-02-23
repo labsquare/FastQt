@@ -20,6 +20,7 @@ protected:
 
 protected Q_SLOTS:
     void openGithub();
+    void openTwitter();
 
 private:
     QTabWidget * mTabWidget;
