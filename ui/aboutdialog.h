@@ -16,7 +16,7 @@ protected:
     void addTab(const QString& textFile);
     void drawHeader();
 
-
+    bool event(QEvent *event);
 
 protected Q_SLOTS:
     void openGithub();
@@ -28,6 +28,7 @@ private:
     QString mTitle;
     QString mSubtitle;
     QDialogButtonBox * mButtonBox;
+    QString mKonami;
 
 };
 

@@ -118,6 +118,24 @@ void AboutDialog::drawHeader()
 
 }
 
+bool AboutDialog::event(QEvent *event)
+{
+    if (event->type() == QEvent::KeyRelease)
+    {
+        QKeyEvent * keyEvent = dynamic_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Left)
+        {
+            qDebug()<<"Konami";
+        }
+    }
+
+    return QDialog::event(event);
+}
+
+
+
+
+
 void AboutDialog::openGithub()
 {
     QDesktopServices::openUrl(QUrl("https://github.com/labsquare/fastQt")) ;
