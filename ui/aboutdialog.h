@@ -10,13 +10,11 @@ class AboutDialog : public QDialog
 public:
     AboutDialog(QWidget * parent = 0);
 
-
-
 protected:
     void addTab(const QString& textFile);
     void drawHeader();
 
-
+    bool event(QEvent *e);
 
 protected Q_SLOTS:
     void openGithub();
@@ -29,6 +27,14 @@ private:
     QString mSubtitle;
     QDialogButtonBox * mButtonBox;
 
+    /* easter egg */
+    Qt::Key kc[10] = {
+        Qt::Key_Up, Qt::Key_Up,
+        Qt::Key_Down, Qt::Key_Down,
+        Qt::Key_Left, Qt::Key_Right, Qt::Key_Left, Qt::Key_Right,
+        Qt::Key_B, Qt::Key_A
+    };
+    int i_kc_offset;
 };
 
 #endif // ABOUTDIALOG_H

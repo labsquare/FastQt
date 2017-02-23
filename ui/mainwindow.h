@@ -55,6 +55,8 @@ public Q_SLOTS:
 protected:
     void setupActions();
 
+private:
+    void printEasterEggs();
 
 private:
     QTabWidget * mTabWidget;
@@ -62,7 +64,6 @@ private:
     MainAnalyseView * mView;
     QFuture<void> mRunFuture;
     QStatusBar * mStatusBar;
-
 };
 
 #endif // MAINWINDOW_H

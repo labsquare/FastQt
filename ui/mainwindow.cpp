@@ -36,8 +36,6 @@ MainWindow::MainWindow(QWidget *parent) :
     resize(800,600);
 
     move(200,200);
-
-
 }
 
 MainWindow::~MainWindow()

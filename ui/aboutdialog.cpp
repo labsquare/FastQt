@@ -44,7 +44,8 @@ AboutDialog::AboutDialog(QWidget * parent)
 
     connect(mButtonBox, SIGNAL(accepted()), this, SLOT(close()));
 
-
+    /* easter egg */
+    i_kc_offset = 0;
 }
 
 void AboutDialog::addTab(const QString &textFile)
@@ -127,4 +128,26 @@ void AboutDialog::openTwitter()
 {
     QDesktopServices::openUrl(QUrl("https://twitter.com/labsquare")) ;
 
+}
+
+bool AboutDialog::event(QEvent *e)
+{
+    qDebug()<<"test "<<e<<" kc offset "<<i_kc_offset;
+    if (e->type() == QEvent::KeyRelease)
+     {
+        QKeyEvent * keyEvent = dynamic_cast<QKeyEvent*>(e);
+        /* easter eggs sequence handling */
+        if ( keyEvent->key() == kc[ i_kc_offset ] )
+            i_kc_offset++;
+        else
+            i_kc_offset = 0;
+
+        if ( i_kc_offset == (sizeof( kc ) / sizeof( Qt::Key )) )
+        {
+            i_kc_offset = 0;
+            QDesktopServices::openUrl(QUrl("http://easteregg.labsquare.org/fastqt/enigme.html"));
+        }
+    }
+
+    return this->QDialog::event(e);
 }
