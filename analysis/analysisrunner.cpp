@@ -80,6 +80,12 @@ void AnalysisRunner::run()
         return;
     }
 
+    if (fileInfo.size() == 0)
+    {
+        setStatus(Canceled);
+        return;
+    }
+
     if (file->open(QIODevice::ReadOnly))
     {
         mSequenceCount = 0;

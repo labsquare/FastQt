@@ -74,6 +74,7 @@ MainAnalyseView::MainAnalyseView(QWidget * parent )
 
 void MainAnalyseView::addFile(const QString &filename)
 {
+
     mModel->addFile(filename);
 
 }
@@ -120,18 +121,12 @@ void MainAnalyseView::dragEnterEvent(QDragEnterEvent *event)
 {
     if (!event->mimeData()->hasUrls())
         return;
-    // check if drop file have valid extension
-
-    QStringList ext;
-    ext<<"fastq"<<"fastq.gz"<<"fastq.xz"<<"fastq.bz2";
 
     for (QUrl url : event->mimeData()->urls())
     {
-        QFileInfo info(url.path());
-        if (!ext.contains(info.completeSuffix().toLower()))
+        if (!checkFile(url.toLocalFile()))
             return;
     }
-
     event->acceptProposedAction();
 }
 
@@ -145,6 +140,25 @@ void MainAnalyseView::dropEvent(QDropEvent *event)
     for (QUrl url : event->mimeData()->urls())
         addFile(url.toLocalFile());
 
+}
+
+bool MainAnalyseView::checkFile(const QString &path)
+{
+    QFileInfo info(path);
+
+    QStringList ext;
+    ext<<"fastq"<<"fastq.gz"<<"fastq.xz"<<"fastq.bz2";
+
+    if (!ext.contains(info.completeSuffix().toLower()))
+        return false;
+
+    if (!info.exists())
+        return false;
+
+    if (info.size() == 0)
+        return false;
+
+    return true;
 }
 
 

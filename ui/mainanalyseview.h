@@ -37,6 +37,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent * event);
     void dragMoveEvent(QDragMoveEvent * event);
     void dropEvent(QDropEvent * event);
+    bool checkFile(const QString& path);
 
 private:
     MainAnalyseModel * mModel;
