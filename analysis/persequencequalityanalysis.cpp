@@ -93,12 +93,15 @@ QWidget *PerSequenceQualityAnalysis::createResultWidget()
     axisX->setTickCount(10);
     axisX->setRange(keys.first(), keys.last());
     axisX->setLabelFormat("%i");
+    axisX->setTitleText(tr("Score quality (phred)"));
     chart->setAxisX(axisX);
 
     QValueAxis * axisY= new QValueAxis;
     axisY->setTickCount(10);
     axisY->setRange(values.first(), values.last());
     axisY->setLabelFormat("%i");
+    axisY->setTitleText(tr("Read count(s)"));
+
 
     chart->setAxisY(axisY);
 

@@ -80,12 +80,15 @@ QWidget* PerSequenceGCContent::createResultWidget()
     axisX->setTickCount(10);
     axisX->setRange(0, 100);
     axisX->setLabelFormat("%.2f %");
+    axisX->setTitleText(tr("Percent of GC (%)"));
+
     chart->setAxisX(axisX);
 
     QValueAxis * axisY= new QValueAxis;
     axisY->setTickCount(10);
     axisY->setRange(0, yMax);
     axisY->setLabelFormat("%d");
+    axisY->setTitleText(tr("Read count(s)"));
 
     chart->setAxisY(axisY);
 

@@ -87,6 +87,10 @@ QWidget *PerBaseNContentAnalysis::createResultWidget()
     dynamic_cast<QValueAxis*>(chart->axisX())->setLabelFormat("%d");
     dynamic_cast<QValueAxis*>(chart->axisY())->setLabelFormat("%.2f %");
 
+    chart->axisX()->setTitleText(tr("Position in read (bp)"));
+    chart->axisY()->setTitleText(tr("N percent (%)"));
+
+
     QPen pen;
     pen.setWidth(2);
     pen.setColor(QColor("#71e096"));

@@ -55,6 +55,9 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
     chart->addSeries(fakeSerie);
 
     chart->createDefaultAxes();
+    chart->axisX()->setTitleText(tr("Position in read (bp)"));
+    chart->axisY()->setTitleText(tr("Sequence count"));
+
 
     /* Set label of axis */
     dynamic_cast<QValueAxis*>(chart->axisX())->setMin(mMin);

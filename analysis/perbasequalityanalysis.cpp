@@ -189,6 +189,8 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     chart->axisX(qualSerie)->setLabelsFont(font);
     chart->axisX(qualSerie)->setLabelsAngle(-90);
     chart->axisX(qualSerie)->setTitleText(tr("Position in read(bp)"));
+    chart->axisY(qualSerie)->setTitleText(tr("Quality score (phred)"));
+
     chart->axisX(lineseries)->hide();
 
 

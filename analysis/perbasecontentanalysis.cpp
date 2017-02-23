@@ -85,6 +85,11 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
         GSerie->append(i * xMul, gPercent[i]);
         CSerie->append(i * xMul, cPercent[i]);
         TSerie->append(i * xMul, tPercent[i]);
+        ASerie->setName("A");
+        GSerie->setName("G");
+        CSerie->setName("C");
+        TSerie->setName("T");
+
     }
 
     QChart * chart = new QChart();
@@ -105,6 +110,9 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     /* Set label of axis */
     dynamic_cast<QValueAxis*>(chart->axisX())->setLabelFormat("%d");
     dynamic_cast<QValueAxis*>(chart->axisY())->setLabelFormat("%.2f %");
+    chart->axisX()->setTitleText(tr("Position in read (bp)"));
+    chart->axisY()->setTitleText(tr("Percent of Base (%)"));
+
 
     QPen pen;
     pen.setWidth(2);
