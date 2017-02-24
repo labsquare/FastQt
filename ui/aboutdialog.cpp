@@ -119,24 +119,6 @@ void AboutDialog::drawHeader()
 
 }
 
-bool AboutDialog::event(QEvent *event)
-{
-    if (event->type() == QEvent::KeyRelease)
-    {
-        QKeyEvent * keyEvent = dynamic_cast<QKeyEvent*>(event);
-        if (keyEvent->key() == Qt::Key_Left)
-        {
-            qDebug()<<"Konami";
-        }
-    }
-
-    return QDialog::event(event);
-}
-
-
-
-
-
 void AboutDialog::openGithub()
 {
     QDesktopServices::openUrl(QUrl("https://github.com/labsquare/fastQt")) ;
@@ -150,7 +132,6 @@ void AboutDialog::openTwitter()
 
 bool AboutDialog::event(QEvent *e)
 {
-    qDebug()<<"test "<<e<<" kc offset "<<i_kc_offset;
     if (e->type() == QEvent::KeyRelease)
      {
         QKeyEvent * keyEvent = dynamic_cast<QKeyEvent*>(e);
