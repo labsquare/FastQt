@@ -26,6 +26,7 @@ private:
     QString mTitle;
     QString mSubtitle;
     QDialogButtonBox * mButtonBox;
+    QString mKonami;
 
     /* easter egg */
     Qt::Key kc[10] = {
