@@ -36,7 +36,6 @@ AboutDialog::AboutDialog(QWidget * parent)
 
     setWindowTitle(tr("About %1").arg(qApp->applicationName()));
 
-    setFixedSize(450, 400);
 
 
     connect(githubButton, SIGNAL(clicked(bool)), this,SLOT(openGithub()));
@@ -59,6 +58,7 @@ void AboutDialog::addTab(const QString &textFile)
         edit->setPlainText(file.readAll());
         mTabWidget->addTab(edit,info.baseName());
         edit->setFrameShape(QFrame::NoFrame);
+        edit->setReadOnly(true);
     }
 
     file.close();
