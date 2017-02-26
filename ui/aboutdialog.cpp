@@ -77,11 +77,8 @@ void AboutDialog::drawHeader()
     mHeader->setContentsMargins(0,0,0,0);
 
     QPixmap pix(450, pHeight);
-    pix.fill(Qt::white);
+    pix.fill(Qt::transparent);
     QPainter painter(&pix);
-
-    painter.setPen(palette().highlight().color());
-    painter.drawLine(pix.rect().bottomRight(), pix.rect().bottomLeft());
 
     int iconY = (pHeight - 64)/2;
     QRect logoRect(pMargin,iconY,64,64);
@@ -107,9 +104,9 @@ void AboutDialog::drawHeader()
 
     painter.drawText(titleRect, Qt::AlignTop, mSubtitle);
 
-    QPixmap labsquareLogo(":/icons/labsquare.png");
-    labsquareLogo = labsquareLogo.scaled(64,64,Qt::KeepAspectRatio,Qt::SmoothTransformation);
-    painter.drawPixmap(pix.rect().right()-labsquareLogo.width() - pMargin , pix.rect().bottom() - labsquareLogo.height() - 15, labsquareLogo);
+//    QPixmap labsquareLogo(":/icons/labsquare.png");
+//    labsquareLogo = labsquareLogo.scaled(64,64,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+//    painter.drawPixmap(pix.rect().right()-labsquareLogo.width() - pMargin , pix.rect().bottom() - labsquareLogo.height() - 15, labsquareLogo);
 
 
 

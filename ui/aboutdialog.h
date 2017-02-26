@@ -16,6 +16,8 @@ protected:
 
     bool event(QEvent *e);
 
+
+
 protected Q_SLOTS:
     void openGithub();
     void openTwitter();

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - You can now drop file into the view
 - Fastqt can be now used as a CLI
 - Thread number can be set from the CLI. By default  QThread::idealThreadCount()
+- Export results 
 
 ## Analysis 
 
