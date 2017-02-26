@@ -67,4 +67,16 @@ Be sure you have the correct version of Qt (>5.7) by using qmake. You will find 
      /opt/qt57/bin/qmake 
      make 
      sudo make install 
-     
+
+## Usage
+
+You can use FastQt as GUI application or in Command Line Interface.
+
+Some usage example :
+
+```
+fastqt file1.fastq # File is save in file1 directory
+fastqt file1.fastq file2.fastq.gz file3.fastq.bzip # File save in file1 file 2 file3 directory
+fastqt file1.fastq -o specific_path # Create specific directory for each file in specific_path
+fastqt file1.fastq -t 2 # Fastqt run maximal two process this option is valid for GUI too
+```

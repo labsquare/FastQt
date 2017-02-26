@@ -26,19 +26,28 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <KCompressionDevice>
 #include "analysis.h"
 #include "fastqreader.h"
-
+#include "imageformatdefinition.h"
 
 /*!
  * \class AnalysisRunner
  * \brief The AnalysisRunner class read a fastq file and computes all analysis from a QThread
  * @see AnalysisRunner
  */
-class AnalysisRunner : public QThread
+class Analysis;
+class AnalysisRunner;
+class AnalysisRunner : public QRunnable
+
 {
-    Q_OBJECT
 public:
-    AnalysisRunner(QObject * parent = 0);
-    AnalysisRunner(const QString& filename, QObject * parent = 0);
+    enum Status {
+        Waiting,
+        Running,
+        Canceled,
+        Finished
+    };
+
+    AnalysisRunner();
+    AnalysisRunner(const QString& filename);
 
     ~AnalysisRunner();
 
@@ -61,19 +70,65 @@ public:
      */
     void reset();
 
+    const QString& filename() const;
+
+    Status status() const;
+
+    /*!
+     * \brief progression of analysis in percent
+     * \return value between 0 and 100
+     */
+    int progression() const;
+
+    /*!
+     * \brief return how many sequence has been analysed.
+     * This value can be access during analysis from updated signals
+     * \return number of sequence
+     */
+    int sequenceCount() const;
+
+    void cancel();
+
+    quint64 fileSize() const;
+
+    QString humanFileSize() const;
+
+    const QString& lastMessage() const;
+
+    int duration() const;
+
     /*!
      * \brief analysisList
      * \return all analysis avaible
      */
-    const QVector<Analysis*>& analysisList() const;
+    QList<Analysis*> analysisList() const;
+    Analysis * analysis(const QString& className);
 
-Q_SIGNALS:
-    void updated(QString message);
+    void saveAll(const QString& path);
+
+    static AnalysisRunner* createAnalysisRunner();
+
+protected:
+    void emitUpdate(const QString& message);
+    void setStatus(Status status);
+
+
 
 
 private:
-    QVector<Analysis*> mAnalysisList;
+    QTime mStartTime;
+    QMap<QString,Analysis*> mAnalysisHash;
     QString mFilename;
+    QString mMessage;
+    int mProgression = 0;
+    int mSequenceCount = 0;
+    int mFileSize  = 0;
+    int mDuration  = 0;
+    Status mStatus = Waiting;
+    bool mCancel = false;
+
+
+
 
 };
 

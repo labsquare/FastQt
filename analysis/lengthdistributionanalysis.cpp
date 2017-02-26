@@ -26,8 +26,6 @@ void LengthDistributionAnalysis::reset()
 QWidget *LengthDistributionAnalysis::createResultWidget()
 {
 
-    computeDistribution();
-
     QChartView * view = new QChartView;
     view->setRenderHint(QPainter::Antialiasing);
 
@@ -36,13 +34,14 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
     if (mGraphCounts.isEmpty())
         return view;
 
-    qreal xMul = mLengthCounts.size()/mGraphCounts.size();
     int yMax = 0;
-    for (int i=0; i<mGraphCounts.length(); ++i)
+    auto graph_count_it = mGraphCounts.begin();
+    for (int i=mMin; i < mMax+mIntervale; i += mIntervale)
     {
-        serie->append(i * xMul, mGraphCounts[i]);
-        if(yMax < mGraphCounts[i])
-            yMax = mGraphCounts[i];
+        serie->append(i, *graph_count_it);
+        if(yMax < *graph_count_it)
+            yMax = *graph_count_it;
+        graph_count_it++;
     }
 
     QChart * chart = new QChart ;
@@ -56,25 +55,37 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
     chart->addSeries(fakeSerie);
 
     chart->createDefaultAxes();
+    chart->axisX()->setTitleText(tr("Position in read (bp)"));
+    chart->axisY()->setTitleText(tr("Sequence count"));
+
 
     /* Set label of axis */
+    dynamic_cast<QValueAxis*>(chart->axisX())->setMin(mMin);
     dynamic_cast<QValueAxis*>(chart->axisX())->setLabelFormat("%d");
     dynamic_cast<QValueAxis*>(chart->axisY())->setLabelFormat("%d");
+
+    if (mGraphCounts.size() < 5)
+        dynamic_cast<QValueAxis*>(chart->axisX())->setTickCount(mGraphCounts.size());
 
     chart->setTitle(tr("Distribution of sequence length over all sequences"));
     chart->setAnimationOptions(QChart::NoAnimation);
 
     view->setChart(chart);
 
-    return view;}
+    return view;
+}
+
+void LengthDistributionAnalysis::after()
+{
+    computeDistribution();
+}
 
 void LengthDistributionAnalysis::computeDistribution()
 {
     int maxLen = 0;
     int minLen = -1;
-    mMax = 0;
 
-    qDebug()<<mLengthCounts.length();
+//    qDebug()<<mLengthCounts.length();
     // Find the min and max lengths
     for (int i=0;i<mLengthCounts.length();i++) {
         if (mLengthCounts[i]>0) {
@@ -101,9 +112,6 @@ void LengthDistributionAnalysis::computeDistribution()
     }
 
     mGraphCounts.resize(categories);
-    mXCategories.resize(categories);
-
-
 
     for (int i=0;i<mGraphCounts.length();i++) {
 
@@ -120,18 +128,12 @@ void LengthDistributionAnalysis::computeDistribution()
             }
         }
 
-
-        if (startAndInterval[1] == 1) {
-            mXCategories[i] = QString::number(minValue);
-        }
-        else {
-            mXCategories[i] = QString("%1-%2").arg(minValue).arg(maxValue);
-        }
-
         if (mGraphCounts[i] > mMax) mMax = mGraphCounts[i];
     }
 
-
+    mIntervale = startAndInterval[1];
+    mMin = minLen;
+    mMax = maxLen;
 }
 
 QVector<int> LengthDistributionAnalysis::sizeDistribution(int min, int max)

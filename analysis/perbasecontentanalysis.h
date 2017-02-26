@@ -26,6 +26,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QtCharts>
 #include "analysis.h"
 #include "basegroup.h"
+#include "lengthdistributionanalysis.h"
 
 using namespace QT_CHARTS_NAMESPACE;
 /*!
@@ -45,8 +46,11 @@ public:
     virtual void reset() Q_DECL_OVERRIDE;
     virtual QWidget* createResultWidget() Q_DECL_OVERRIDE;
 
+
 protected:
     void computePercentages();
+    virtual void after() Q_DECL_OVERRIDE;
+
 
 private:
     QVector<quint64> mGCounts;
@@ -62,6 +66,7 @@ private:
 
     QVector<QString> mXCategories;
     QVector<quint64>* counts[256];
+
 };
 
 #endif // PERBASECONTENTANALYSIS_H

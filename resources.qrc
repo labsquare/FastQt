@@ -6,6 +6,7 @@
         <file>LICENSE</file>
         <file>AUTHORS</file>
         <file>CREDITS</file>
+        <file>CHANGELOG</file>
     </qresource>
     <qresource prefix="/icons">
         <file>labsquare.png</file>

@@ -107,3 +107,29 @@ QWidget *BasicStatsAnalysis::createResultWidget()
 
 
 }
+
+void BasicStatsAnalysis::save(const QString &path)
+{
+    QJsonObject json;
+
+    QDir dir(path);
+    QString filename = dir.filePath(QString("%1.json").arg(metaObject()->className()));
+
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        json.insert("total_sequence",mReadCount);
+        json.insert("sequence_min_length",mMinLength);
+        json.insert("sequence_max_length",mMaxLength);
+        json.insert("encoding",PhredEncoding::fastqEncodingOffset(mLowestChar).name());
+
+        QJsonDocument doc(json);
+        file.write(doc.toJson());
+    }
+
+}
+
+int BasicStatsAnalysis::readCount()
+{
+ return mReadCount;
+}

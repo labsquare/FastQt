@@ -23,14 +23,16 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "perbasecontentanalysis.h"
 #include "sequence.h"
 
+
 PerBaseContentAnalysis::PerBaseContentAnalysis(QObject * parent)
     :Analysis(parent)
 {
-
     setName(tr("Per Base content"));
     setDescription(tr("Per base content"));
+
+
     for (int i = 0; i < 256; ++i) {
-      counts[i] = &mXCounts;
+        counts[i] = &mXCounts;
     }
     counts['G'] = &mGCounts;
     counts['A'] = &mACounts;
@@ -53,7 +55,7 @@ void PerBaseContentAnalysis::processSequence(const Sequence &sequence)
 
 
     for (int i=0; i<sequence.size(); ++i)
-      ++(*counts[static_cast<int>(sequence.sequence().at(i))])[i];
+        ++(*counts[static_cast<int>(sequence.sequence().at(i))])[i];
 }
 
 void PerBaseContentAnalysis::reset()
@@ -71,9 +73,6 @@ void PerBaseContentAnalysis::reset()
 
 QWidget *PerBaseContentAnalysis::createResultWidget()
 {
-
-    computePercentages();
-
     QLineSeries  * ASerie = new QLineSeries ();
     QLineSeries  * GSerie = new QLineSeries ();
     QLineSeries  * CSerie = new QLineSeries ();
@@ -86,6 +85,11 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
         GSerie->append(i * xMul, gPercent[i]);
         CSerie->append(i * xMul, cPercent[i]);
         TSerie->append(i * xMul, tPercent[i]);
+        ASerie->setName("A");
+        GSerie->setName("G");
+        CSerie->setName("C");
+        TSerie->setName("T");
+
     }
 
     QChart * chart = new QChart();
@@ -106,6 +110,9 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     /* Set label of axis */
     dynamic_cast<QValueAxis*>(chart->axisX())->setLabelFormat("%d");
     dynamic_cast<QValueAxis*>(chart->axisY())->setLabelFormat("%.2f %");
+    chart->axisX()->setTitleText(tr("Position in read (bp)"));
+    chart->axisY()->setTitleText(tr("Percent of Base (%)"));
+
 
     QPen pen;
     pen.setWidth(2);
@@ -122,12 +129,8 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     pen.setColor(QColor("darkgray"));
     GSerie->setPen(pen);
 
-
-
     chart->setTitle(tr("Per Base content"));
     chart->setAnimationOptions(QChart::NoAnimation);
-
-
 
     QChartView * view = new QChartView;
     view->setRenderHint(QPainter::Antialiasing);
@@ -135,6 +138,11 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     view->setChart(chart);
 
     return view;
+}
+
+void PerBaseContentAnalysis::after()
+{
+    computePercentages();
 }
 
 void PerBaseContentAnalysis::computePercentages()

@@ -8,10 +8,12 @@ AboutDialog::AboutDialog(QWidget * parent)
     mButtonBox  = new QDialogButtonBox(this);
 
 
-    QPushButton * githubButton= mButtonBox->addButton("Github",QDialogButtonBox::HelpRole);
+    QPushButton * githubButton = mButtonBox->addButton("Github",QDialogButtonBox::HelpRole);
+    QPushButton * twitterButton= mButtonBox->addButton("Twitter",QDialogButtonBox::HelpRole);
+
     mButtonBox->addButton(QDialogButtonBox::Ok);
     githubButton->setIcon(QFontIcon::icon(0xf09b));
-
+    twitterButton->setIcon(QFontIcon::icon(0xf099));
     QVBoxLayout * vLayout = new QVBoxLayout;
     vLayout->addWidget(mHeader);
     vLayout->addWidget(mTabWidget);
@@ -19,27 +21,30 @@ AboutDialog::AboutDialog(QWidget * parent)
 
 
 
-    vLayout->setContentsMargins(0,0,0,0);
-    vLayout->setSpacing(2);
+//    vLayout->setContentsMargins(0,0,0,0);
+//    vLayout->setSpacing(2);
     setLayout(vLayout);
 
     addTab(":/text/LICENSE");
     addTab(":/text/AUTHORS");
     addTab(":/text/CREDITS");
+    addTab(":/text/CHANGELOG");
 
-    mTitle = qAppName();
+    mTitle = qApp->applicationName();
     mSubtitle = QString("Version %1\nGPL3 Copyright (C) 2017\nLabsquare.org").arg(qApp->applicationVersion());
     drawHeader();
 
-    setWindowTitle(tr("About %1").arg(qAppName()));
+    setWindowTitle(tr("About %1").arg(qApp->applicationName()));
 
-    setFixedSize(450, 400);
 
 
     connect(githubButton, SIGNAL(clicked(bool)), this,SLOT(openGithub()));
+    connect(twitterButton, SIGNAL(clicked(bool)), this,SLOT(openTwitter()));
+
     connect(mButtonBox, SIGNAL(accepted()), this, SLOT(close()));
 
-
+    /* easter egg */
+    i_kc_offset = 0;
 }
 
 void AboutDialog::addTab(const QString &textFile)
@@ -53,6 +58,7 @@ void AboutDialog::addTab(const QString &textFile)
         edit->setPlainText(file.readAll());
         mTabWidget->addTab(edit,info.baseName());
         edit->setFrameShape(QFrame::NoFrame);
+        edit->setReadOnly(true);
     }
 
     file.close();
@@ -63,7 +69,7 @@ void AboutDialog::addTab(const QString &textFile)
 void AboutDialog::drawHeader()
 {
     int pHeight = 90;
-    int pMargin = 5;
+    int pMargin = 25;
 
     mHeader->setMinimumHeight(pHeight);
     mHeader->setFrameShape(QFrame::StyledPanel);
@@ -102,7 +108,8 @@ void AboutDialog::drawHeader()
     painter.drawText(titleRect, Qt::AlignTop, mSubtitle);
 
     QPixmap labsquareLogo(":/icons/labsquare.png");
-    painter.drawPixmap(pix.rect().right()-labsquareLogo.width() - pMargin , pix.rect().bottom() - labsquareLogo.height()- pMargin, labsquareLogo);
+    labsquareLogo = labsquareLogo.scaled(64,64,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    painter.drawPixmap(pix.rect().right()-labsquareLogo.width() - pMargin , pix.rect().bottom() - labsquareLogo.height() - 15, labsquareLogo);
 
 
 
@@ -115,4 +122,31 @@ void AboutDialog::drawHeader()
 void AboutDialog::openGithub()
 {
     QDesktopServices::openUrl(QUrl("https://github.com/labsquare/fastQt")) ;
+}
+
+void AboutDialog::openTwitter()
+{
+    QDesktopServices::openUrl(QUrl("https://twitter.com/labsquare")) ;
+
+}
+
+bool AboutDialog::event(QEvent *e)
+{
+    if (e->type() == QEvent::KeyRelease)
+     {
+        QKeyEvent * keyEvent = dynamic_cast<QKeyEvent*>(e);
+        /* easter eggs sequence handling */
+        if ( keyEvent->key() == kc[ i_kc_offset ] )
+            i_kc_offset++;
+        else
+            i_kc_offset = 0;
+
+        if ( i_kc_offset == (sizeof( kc ) / sizeof( Qt::Key )) )
+        {
+            i_kc_offset = 0;
+            QDesktopServices::openUrl(QUrl("http://easteregg.labsquare.org/fastqt/enigme.html"));
+        }
+    }
+
+    return this->QDialog::event(e);
 }

@@ -22,122 +22,68 @@ Copyright Copyright 2016-17 Sacha Schutz
 */
 #include "mainanalysewidget.h"
 
-MainAnalyseWidget::MainAnalyseWidget(const QString& filename, QWidget *parent):
-    QWidget(parent)
+MainAnalyseWidget::MainAnalyseWidget(QWidget *parent):
+    QMainWindow(parent)
 {
 
-    mFilename       = filename;
-    mRunner.setFilename(filename);
+    setAttribute(Qt::WA_DeleteOnClose, false);
 
-
-    mProgressLabel    = new QLabel("Bonjour");
     mListWidget       = new QListWidget;
     mStackWidget      = new QStackedWidget;
     mResultWidget     = new QSplitter(Qt::Horizontal);
 
 
-    mProgressLabel->setAlignment(Qt::AlignCenter);
     mResultWidget->addWidget(mListWidget);
     mResultWidget->addWidget(mStackWidget);
     mResultWidget->setStretchFactor(1,4);
 
 
-    mMainLayout = new QStackedLayout;
-    mMainLayout->addWidget(mProgressLabel);
-    mMainLayout->addWidget(mResultWidget);
+    setCentralWidget(mResultWidget);
 
 
+//    mToolBar = addToolBar("actions");
 
-    setLayout(mMainLayout);
 
-    QFileInfo info(mFilename);
-
-    setWindowTitle(info.fileName());
-
-    connect(&mRunner, &AnalysisRunner::started, this, &MainAnalyseWidget::analysisStarted);
-    connect(&mRunner, &AnalysisRunner::updated, this, &MainAnalyseWidget::analysisUpdated);
-    connect(&mRunner, &AnalysisRunner::finished, this, &MainAnalyseWidget::analysisFinished);
-
-    connect(mListWidget,&QListWidget::currentRowChanged, mStackWidget, &QStackedWidget::setCurrentIndex);
-
-    mRunner.addAnalysis(new BasicStatsAnalysis);
-    mRunner.addAnalysis(new PerBaseQualityAnalysis);
-    mRunner.addAnalysis(new PerSequenceQualityAnalysis);
-    mRunner.addAnalysis(new PerBaseContentAnalysis);
-    mRunner.addAnalysis(new OverRepresentedSeqsAnalysis);
-    mRunner.addAnalysis(new PerBaseNContentAnalysis);
-    mRunner.addAnalysis(new PerSequenceGCContent);
-    mRunner.addAnalysis(new LengthDistributionAnalysis);
-
+    connect(mListWidget,SIGNAL(currentRowChanged(int)),mStackWidget,SLOT(setCurrentIndex(int)));
 
 
 }
 
 MainAnalyseWidget::~MainAnalyseWidget()
 {
-    mRunner.exit();
-    mRunner.wait();
     delete mResultWidget;
 }
 
-
-
-
-void MainAnalyseWidget::run()
+void MainAnalyseWidget::setRunner(AnalysisRunner *runner)
 {
-    mMainLayout->setCurrentWidget(mProgressLabel);
+    mRunner = runner;
+//    mToolBar->clear();
 
-    mRunner.reset();
-    mRunner.start(QThread::HighPriority);
 
-}
+    setWindowTitle(mRunner->filename());
 
-void MainAnalyseWidget::analysisStarted()
-{
-
-}
-
-void MainAnalyseWidget::analysisUpdated(const QString& message)
-{
-
-    mProgressLabel->setText(message);
-}
-
-void MainAnalyseWidget::analysisFinished()
-{
-    clearResults();
-
-    for (Analysis* a : mRunner.analysisList())
+    for ( Analysis * a : mRunner->analysisList())
     {
 
-        QListWidgetItem * item = new QListWidgetItem;
-        item->setText(a->name());
-        item->setToolTip(a->description());
-        item->setIcon(a->statusIcon());
-        item->setSizeHint(QSize(item->sizeHint().width(), 30));
+        QListWidgetItem * lItem = new QListWidgetItem;
+        lItem->setText(a->name());
+        lItem->setToolTip(a->description());
+        lItem->setIcon(a->statusIcon());
 
+        mListWidget->addItem(lItem);
 
-        mListWidget->addItem(item);
         mStackWidget->addWidget(a->createResultWidget());
+
     }
-
-
-    mMainLayout->setCurrentWidget(mResultWidget);
-
 
 }
 
-void MainAnalyseWidget::clearResults()
-{
-    mListWidget->clear();
 
-    for(int i = mStackWidget->count(); i >= 0; i--)
-    {
-        QWidget* widget = mStackWidget->widget(i);
-        mStackWidget->removeWidget(widget);
-        delete widget;
-    }
-}
+
+
+
+
+
 
 
 

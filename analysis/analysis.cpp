@@ -24,7 +24,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 Analysis::Analysis(QObject * parent)
     :QObject(parent)
 {
-    mStatus = Analysis::Success;
+    mParentRunner = Q_NULLPTR;
 }
 
 Analysis::~Analysis()
@@ -32,27 +32,64 @@ Analysis::~Analysis()
 
 }
 
-Analysis::Status Analysis::status() const
+void Analysis::save(const QString &path)
 {
-    return mStatus;
+    QString name = metaObject()->className();
+    QDir dir(path);
+    QString svgPath = dir.filePath(QString("%1.svg").arg(name));
+    QString pngPath = dir.filePath(QString("%1.png").arg(name));
+
+    capture(svgPath);
+    capture(pngPath);
 }
 
-void Analysis::setStatus(const Status &status)
+
+void Analysis::capture(const QString &filename, ImageFormat format)
 {
-    mStatus = status;
+    if (format == SvgFormat)
+    {
+        QSvgGenerator generator;
+        generator.setFileName(filename);
+        generator.setTitle(name());
+        generator.setDescription(description());
+        createResultWidget()->render(&generator);
+
+    }
+
+    else {
+        if (!createResultWidget()->grab().save(filename))
+            qWarning()<<Q_FUNC_INFO<<"cannot save "<<filename;
+    }
+
+}
+
+
+AnalysisRunner *Analysis::runner() const
+{
+    return mParentRunner;
+}
+
+void Analysis::setRunner(AnalysisRunner *runner)
+{
+    mParentRunner = runner;
+}
+
+Analysis::Status Analysis::status() const
+{
+    return Analysis::Unknown;
 }
 
 QIcon Analysis::statusIcon() const
 {
     // @see http://fontawesome.io/icons/ to get font hex number
-//    if (mStatus == Analysis::Success)
-//        return QFontIcon::icon(0xf058);
-//    if (mStatus == Analysis::Error)
-//         return QFontIcon::icon(0xf058);
-//    if (mStatus == Analysis::Warning)
-//         return QFontIcon::icon(0xf058);
+    if (status() == Analysis::Success)
+        return QFontIcon::icon(0xf05d, QColor("#71E096"));
+    if (status() == Analysis::Warning)
+        return QFontIcon::icon(0xf06a, QColor("#F5A26F"));
+    if (status() == Analysis::Error)
+        return QFontIcon::icon(0xf057, QColor("#ED6D79"));
 
-    return QFontIcon::icon(0xf058,qApp->palette("QWidget").highlight().color());
+    //Unknown
+    return QFontIcon::icon(0xf05d, qApp->palette("QWidget").highlight().color());
 
 }
-
