@@ -54,7 +54,7 @@ For exemple for xenial
 
     sudo add-apt-repository ppa:beineri/opt-qt57-xenial
     sudo apt-get install qt57base qt57charts-no-lgpl
-    source /opt/qt57/bin/qt57-env.shf
+    source /opt/qt57/bin/qt57-env.sh
 
 **From fedora** : Qt 5.7 is avaible
 
