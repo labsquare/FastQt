@@ -42,7 +42,7 @@ script:
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -bundle-non-qt-libs
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -appimage 
-  - curl --upload-file ./fastQt*.AppImage https://transfer.sh/fastQt-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
+  - curl --upload-file ./FastQt*.AppImage https://transfer.sh/FastQt-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
 
 # For gitter 
 notifications:
