@@ -22,6 +22,8 @@ Copyright Copyright 2016-17 Sacha Schutz
 */
 #include "analysisrunner.h"
 
+#include "format_detection.h"
+
 #include "analysisrunner.h"
 #include "basicstatsanalysis.h"
 #include "perbasequalityanalysis.h"
@@ -61,17 +63,29 @@ void AnalysisRunner::run()
 
     QIODevice * file = Q_NULLPTR;
 
-    if (fileInfo.suffix() == "gz")
+    file = new QFile(mFilename);
+    if (is_gz(file))
+    {
         file = new KCompressionDevice(mFilename, KCompressionDevice::GZip);
-
-    if (fileInfo.suffix() == "bz2")
+        if (!is_fastq(file))
+            file = Q_NULLPTR;
+    }
+    else if (is_bz2(file))
+    {
         file = new KCompressionDevice(mFilename, KCompressionDevice::BZip2);
-
-    if (fileInfo.suffix() == "xz")
+        if (!is_fastq(file))
+            file = Q_NULLPTR;
+    }
+    else if (is_xz(file))
+    {
         file = new KCompressionDevice(mFilename, KCompressionDevice::Xz);
-
-    if (fileInfo.suffix() == "fastq")
+        if (!is_fastq(file))
+            file = Q_NULLPTR;
+    }
+    else if (is_fastq(file))
+    {
         file = new QFile(mFilename);
+    }
 
     if (file == Q_NULLPTR)
     {
