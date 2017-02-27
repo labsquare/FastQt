@@ -61,7 +61,6 @@ void PerBaseNContentAnalysis::reset()
 QWidget *PerBaseNContentAnalysis::createResultWidget()
 {
 
-    computePercentages();
 
     QLineSeries * NSerie = new QLineSeries ();
 
@@ -87,6 +86,10 @@ QWidget *PerBaseNContentAnalysis::createResultWidget()
     /* Set label of axis */
     dynamic_cast<QValueAxis*>(chart->axisX())->setLabelFormat("%d");
     dynamic_cast<QValueAxis*>(chart->axisY())->setLabelFormat("%.2f %");
+
+    chart->axisX()->setTitleText(tr("Position in read (bp)"));
+    chart->axisY()->setTitleText(tr("N percent (%)"));
+
 
     QPen pen;
     pen.setWidth(2);
@@ -135,4 +138,9 @@ void PerBaseNContentAnalysis::computePercentages()
 
         nPercent[i] = (nCount/(double)total)*100;
     }
+}
+
+void PerBaseNContentAnalysis::after()
+{
+    computePercentages();
 }

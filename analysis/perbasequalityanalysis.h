@@ -48,9 +48,10 @@ public:
     virtual void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     virtual void reset() Q_DECL_OVERRIDE;
     virtual QWidget* createResultWidget() Q_DECL_OVERRIDE;
-
+    virtual Status status() const Q_DECL_OVERRIDE;
 
 protected:
+    virtual void after() Q_DECL_OVERRIDE;
     qreal mean(int maxbp, int minbp, int offset);
     qreal percentile(int minbp, int offset, int maxbp,int percentile);
     void computePercentages();

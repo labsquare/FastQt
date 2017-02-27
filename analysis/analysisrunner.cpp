@@ -22,28 +22,43 @@ Copyright Copyright 2016-17 Sacha Schutz
 */
 #include "analysisrunner.h"
 
+#include "analysisrunner.h"
+#include "basicstatsanalysis.h"
+#include "perbasequalityanalysis.h"
+#include "persequencequalityanalysis.h"
+#include "perbasecontentanalysis.h"
+#include "overrepresentedseqsanalysis.h"
+#include "perbasencontentanalysis.h"
+#include "persequencegccontent.h"
+#include "lengthdistributionanalysis.h"
 
-AnalysisRunner::AnalysisRunner(QObject *parent)
-    :QThread(parent)
+
+AnalysisRunner::AnalysisRunner()
+    :QRunnable()
 {
-
+    setAutoDelete(false); // don't delete threads
 }
 
-AnalysisRunner::AnalysisRunner(const QString &filename, QObject *parent)
-    :QThread(parent)
+AnalysisRunner::AnalysisRunner(const QString &filename)
+    :QRunnable()
 {
+    setAutoDelete(false); // don't delete threads
+
     setFilename(filename);
+
 }
 
 AnalysisRunner::~AnalysisRunner()
 {
-    mAnalysisList.clear();
+    mAnalysisHash.clear();
 }
 
 void AnalysisRunner::run()
 {
+    setStatus(Running);
 
     QFileInfo fileInfo(mFilename);
+
     QIODevice * file = Q_NULLPTR;
 
     if (fileInfo.suffix() == "gz")
@@ -51,7 +66,6 @@ void AnalysisRunner::run()
 
     if (fileInfo.suffix() == "bz2")
         file = new KCompressionDevice(mFilename, KCompressionDevice::BZip2);
-
 
     if (fileInfo.suffix() == "xz")
         file = new KCompressionDevice(mFilename, KCompressionDevice::Xz);
@@ -62,63 +76,84 @@ void AnalysisRunner::run()
     if (file == Q_NULLPTR)
     {
         qDebug()<<Q_FUNC_INFO<<fileInfo.suffix()<< " file is not supported";
+        setStatus(Canceled);
+        return;
+    }
+
+    if (fileInfo.size() == 0)
+    {
+        setStatus(Canceled);
         return;
     }
 
     if (file->open(QIODevice::ReadOnly))
     {
-        int seqCount = 0;
-        int percentCompleted = 0;
-
+        mSequenceCount = 0;
+        mProgression   = 0;
 
         FastqReader reader(file);
+        mStartTime.start();
 
         // pre compute total size for sequencial access .
-        emit updated(tr("Analysis ..."));
+        //emitUpdate(tr("Analysis ..."));
         reader.computeTotalSize();
 
-        QTime start = QTime::currentTime();
-        qDebug()<<"start"<<start;
 
-        while (reader.next())
+
+        for (Analysis * a : mAnalysisHash)
+            a->before();
+
+
+        while (reader.next() && !mCancel)
         {
 
             // check if first sequence is valid..Means it's probably a good file
-            if (seqCount == 0)
+            if (mSequenceCount == 0)
             {
                 if (!reader.sequence().isValid())
                 {
                     qCritical()<<Q_FUNC_INFO<<"Cannot read sequence. Are you sure it's a Fastq file ?";
-                    emit updated("Cannot read file");
+                    setStatus(Canceled);
                     return ;
                 }
             }
 
 
-            ++seqCount;
-
-            if (seqCount % 1000 == 0)
+            ++mSequenceCount;
+            // this is critcal and can decrease the speed. Send message only 1 sequence / 1000
+            if (mSequenceCount % 1000 == 0)
             {
                 int percentNow = reader.percentComplete();
-                // Quazip cannot return percentComplete() actually ...
-                // Then if percentNow is still null, return empty percent ...
-                if ( (percentNow >= percentCompleted + 5) || (percentNow == 0))
+                // if percentNow is still null, return empty percent ...
+                if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
-                    percentCompleted = percentNow;
-                    emit updated(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(seqCount).arg(percentCompleted));
+                    mProgression = percentNow;
+                    //emitUpdate(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(mSequenceCount).arg(mProgression));
                 }
-
             }
 
 
-            for (Analysis * a : mAnalysisList)
+            for (Analysis * a : mAnalysisHash)
             {
                 a->processSequence(reader.sequence());
             }
         }
 
-        qDebug()<<"end"<<start.msecsTo(QTime::currentTime());
+        for (Analysis * a : mAnalysisHash)
+            a->after();
 
+        mProgression = 100;
+        //emitUpdate(tr("Complete "));
+        if (!mCancel)
+            setStatus(Finished);
+
+        mDuration = mStartTime.elapsed();
+
+    }
+
+    else
+    {
+        qDebug()<<Q_FUNC_INFO<<"Cannot open file";
     }
 
     file->close();
@@ -129,12 +164,15 @@ void AnalysisRunner::run()
 
 void AnalysisRunner::addAnalysis(Analysis *analysis)
 {
-    mAnalysisList.append(analysis);
+    analysis->setRunner(this);
+    mAnalysisHash.insert(analysis->metaObject()->className(),analysis);
 }
 
 void AnalysisRunner::setFilename(const QString &filename)
 {
     mFilename = filename;
+    QFileInfo fileInfo(mFilename);
+    mFileSize = fileInfo.size();
 }
 
 void AnalysisRunner::reset()
@@ -143,7 +181,118 @@ void AnalysisRunner::reset()
         a->reset();
 }
 
-const QVector<Analysis*> &AnalysisRunner::analysisList() const
+const QString &AnalysisRunner::filename() const
 {
-    return mAnalysisList;
+    return mFilename;
+}
+
+AnalysisRunner::Status AnalysisRunner::status() const
+{
+    return mStatus;
+}
+
+
+
+int AnalysisRunner::progression() const
+{
+    return mProgression;
+}
+
+int AnalysisRunner::sequenceCount() const
+{
+    return mSequenceCount;
+}
+
+void AnalysisRunner::cancel()
+{
+    mCancel = true;
+    mStatus = Canceled;
+}
+
+quint64 AnalysisRunner::fileSize() const
+{
+    return mFileSize;
+}
+
+QString AnalysisRunner::humanFileSize() const
+{
+    char unit;
+    const char *units [] = {" Bytes", " kB", " MB", " GB"};
+    quint64 size = fileSize(); // or whatever
+
+    for (unit=-1; (++unit<3) && (size>1023); size/=1024);
+
+    return QString::number(size, 'f', 1) + QString(units[unit]);
+
+}
+
+const QString &AnalysisRunner::lastMessage() const
+{
+    return mMessage;
+}
+
+int AnalysisRunner::duration() const
+{
+    if (status() != Running)
+        return mDuration;
+
+    else
+        return mStartTime.elapsed();
+
+}
+
+
+QList<Analysis*> AnalysisRunner::analysisList() const
+{
+    return mAnalysisHash.values();
+}
+
+
+
+Analysis *AnalysisRunner::analysis(const QString &className)
+{
+    if (mAnalysisHash.contains(className))
+        return mAnalysisHash[className];
+    return Q_NULLPTR;
+}
+
+
+void AnalysisRunner::saveAll(const QString &path)
+{
+    QFileInfo info(filename());
+    QDir dir(path);
+    dir.mkpath(info.baseName());
+    dir.cd(info.baseName());
+
+    for (Analysis * a : mAnalysisHash)
+        a->save(dir.path());
+
+}
+
+
+void AnalysisRunner::emitUpdate(const QString &message)
+{
+    mMessage = message;
+}
+
+void AnalysisRunner::setStatus(AnalysisRunner::Status status)
+{
+    mStatus = status;
+
+}
+
+AnalysisRunner* AnalysisRunner::createAnalysisRunner()
+{
+    AnalysisRunner* runner = new AnalysisRunner();
+
+    runner->addAnalysis(new BasicStatsAnalysis);
+    runner->addAnalysis(new PerBaseQualityAnalysis);
+    runner->addAnalysis(new PerSequenceQualityAnalysis);
+    runner->addAnalysis(new OverRepresentedSeqsAnalysis);
+    runner->addAnalysis(new PerBaseNContentAnalysis);
+    runner->addAnalysis(new PerSequenceGCContent);
+    runner->addAnalysis(new LengthDistributionAnalysis);
+    runner->addAnalysis(new PerBaseContentAnalysis);
+
+    return runner;
 }

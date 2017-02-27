@@ -22,7 +22,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 */
 #include "abstractsequencereader.h"
 #include "sequence.h"
-
+#include <qmath.h>
 
 AbstractSequenceReader::AbstractSequenceReader(QIODevice *device)
     :mDevice(device)
@@ -36,7 +36,7 @@ int AbstractSequenceReader::percentComplete() const
     if (totalSize() == 0)
         return 0;
 
-    int percent = (double)(mDevice->pos()) / totalSize() * 100;
+    quint64 percent = qFloor(qreal(mDevice->pos()) / totalSize() * 100);
     return percent;
 
 }
@@ -60,7 +60,7 @@ void AbstractSequenceReader::computeTotalSize()
     }
 }
 
-int AbstractSequenceReader::totalSize() const
+long long AbstractSequenceReader::totalSize() const
 {
     return mTotalSize;
 }

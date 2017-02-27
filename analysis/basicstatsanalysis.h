@@ -39,12 +39,16 @@ Copyright Copyright 2016-17 Sacha Schutz
 class BasicStatsAnalysis : public Analysis
 {
     Q_OBJECT
+    Q_PROPERTY(int readCount READ readCount)
 
 public:
     BasicStatsAnalysis(QObject * parent = Q_NULLPTR);
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
     QWidget * createResultWidget() Q_DECL_OVERRIDE;
+    void save(const QString& path) Q_DECL_OVERRIDE;
+
+    int readCount();
 
 private:
     QString mEncoding;

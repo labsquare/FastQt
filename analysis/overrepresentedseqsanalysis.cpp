@@ -85,6 +85,36 @@ QWidget *OverRepresentedSeqsAnalysis::createResultWidget()
     return view;
 
 }
+
+void OverRepresentedSeqsAnalysis::save(const QString &path)
+{
+    QDir dir(path);
+    QString tsvPath     = dir.filePath(QString("%1.tsv").arg(metaObject()->className()));
+    QString fastaPath   = dir.filePath(QString("%1.fasta").arg(metaObject()->className()));
+
+    QFile tsvFile(tsvPath);
+    QFile fastaFile(fastaPath);
+
+    if (tsvFile.open(QIODevice::WriteOnly) && fastaFile.open(QIODevice::WriteOnly))
+    {
+        QTextStream tsvStream(&tsvFile);
+        QTextStream fastaStream(&fastaFile);
+
+        tsvStream<<"#Sequence"<<"Count"<<"Percentage";
+        int index = 0;
+        for (QByteArray s : mSequences.keys())
+        {
+            double percentage = ((double)mSequences[s] / mCount) * 100;
+            tsvStream<<s<<"\t"<<mSequences[s]<<"\t"<<percentage<<"\n";
+            fastaStream<<QString(">Seq_%1;count=%2;percentage=%3").arg(index).arg(mSequences[s]).arg(percentage)<<"\n";
+            fastaStream<<s<<endl;
+
+            ++index;
+        }
+
+        tsvFile.close();
+    }
+}
 //============================ OVERREPRESENTEDSEQ Class ===============================
 
 OverRepresentedSeq::OverRepresentedSeq(const QByteArray &seq, quint64 count, double percentage)

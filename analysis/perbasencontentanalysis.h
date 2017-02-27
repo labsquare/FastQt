@@ -46,6 +46,7 @@ public:
 
 protected:
     void computePercentages();
+    virtual void after() Q_DECL_OVERRIDE;
 
 private:
     QVector<quint64> mNCounts;

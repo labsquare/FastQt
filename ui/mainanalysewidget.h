@@ -39,49 +39,21 @@ Copyright Copyright 2016-17 Sacha Schutz
  * \brief TabWidget witch encapsulate AnalysisRunner and display AnalysisRunner::resultWidget
  * @see Analysis
  */
-class MainAnalyseWidget : public QWidget
+class MainAnalyseWidget : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainAnalyseWidget(const QString& filename, QWidget *parent = 0);
+    explicit MainAnalyseWidget( QWidget *parent = 0);
     ~MainAnalyseWidget();
+    void setRunner(AnalysisRunner * runner);
 
 
-public Q_SLOTS:
-    /*!
-     * \brief run all analysis
-     */
-    void run();
-    /*!
-     * \brief this methods is called when AnalysisRunner thread has started
-     */
-    void analysisStarted();
-    /*!
-     * \brief this methods is called when AnalysisRunner thread has changed
-     */
-    void analysisUpdated(const QString & message);
-    /*!
-     * \brief this methods is called when AnalysisRunner thread has finished
-     */
-    void analysisFinished();
-
-
-protected :
-    /*!
-     * \brief remove widget results from the view
-     */
-    void clearResults();
 
 private:
-
-    QStackedLayout * mMainLayout;
-
-    QLabel * mProgressLabel;
+    QToolBar * mToolBar;
+    QVBoxLayout * mMainLayout;
     QSplitter * mResultWidget;
-    QString mFilename;
-    AnalysisRunner mRunner;
-
-
+    AnalysisRunner * mRunner;
     QListWidget * mListWidget;
     QStackedWidget * mStackWidget;
 

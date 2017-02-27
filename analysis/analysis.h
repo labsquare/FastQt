@@ -24,8 +24,11 @@ Copyright Copyright 2016-17 Sacha Schutz
 #define MODULE_H
 #include <QtCore>
 #include <QtWidgets>
+#include <QtSvg/QSvgGenerator>
 #include "qfonticon.h"
 #include "sequence.h"
+#include "analysisrunner.h"
+#include "imageformatdefinition.h"
 
 /*!
  * \class Analysis
@@ -35,13 +38,14 @@ Copyright Copyright 2016-17 Sacha Schutz
  * - reset()
  * - createResultWidget()
  */
-
+class Analysis;
+class AnalysisRunner;
 class Analysis : public QObject
 {
     Q_OBJECT
 public:
     enum Status {
-        Success , Warning, Error
+        Success , Warning, Error, Unknown
     };
 
     Analysis(QObject * parent = Q_NULLPTR);
@@ -65,6 +69,29 @@ public:
      */
     virtual QWidget* createResultWidget() = 0;
 
+    /*!
+     * \brief save result(s) data
+     * \arg path : Contains the directory path where results are saved
+     * By default, save a capture as svg of the result widget
+     */
+    virtual void save(const QString& path);
+    /*!
+     * \brief this methods is launch before process
+     * By default do nothing
+     */
+    virtual void before(){}
+
+    /*!
+     * \brief this methods is launch after process
+     * By default do nothing
+     */
+    virtual void after(){}
+
+    /*!
+     * \brief save resultsWidget as image or svg
+     *  \return QPixmap
+     */
+    void capture(const QString& filename, ImageFormat format = SvgFormat) ;
 
     const QString& name() const {return mName;}
     const QString& description() const {return mDescription;}
@@ -72,20 +99,19 @@ public:
     void setName(const QString& name){mName = name;}
     void setDescription(const QString& description){mDescription = description;}
 
+    AnalysisRunner * runner() const;
+    void setRunner(AnalysisRunner * runner);
+
+
     // Not yet used
-    Status status() const;
-    void setStatus(const Status &status);
+    virtual Status status() const;
 
     QIcon statusIcon() const;
 
 private:
     QString mName;
     QString mDescription;
-    Status mStatus;
-
-
-
-
+    AnalysisRunner * mParentRunner;
 };
 
 #endif // MODULE_H

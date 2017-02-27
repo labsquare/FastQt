@@ -107,6 +107,7 @@ PerBaseQualityAnalysis::PerBaseQualityAnalysis(QObject * parent)
     :Analysis(parent)
 {
     setName(tr("PerBase analysis"));
+    setDescription(tr("Per base quality analysis"));
 }
 
 void PerBaseQualityAnalysis::processSequence(const Sequence &sequence)
@@ -132,8 +133,6 @@ void PerBaseQualityAnalysis::reset()
 
 QWidget *PerBaseQualityAnalysis::createResultWidget()
 {
-
-    computePercentages();
 
     QBoxPlotSeries *qualSerie = new QBoxPlotSeries();
     QLineSeries  *lineseries = new QLineSeries ();
@@ -190,6 +189,8 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     chart->axisX(qualSerie)->setLabelsFont(font);
     chart->axisX(qualSerie)->setLabelsAngle(-90);
     chart->axisX(qualSerie)->setTitleText(tr("Position in read(bp)"));
+    chart->axisY(qualSerie)->setTitleText(tr("Quality score (phred)"));
+
     chart->axisX(lineseries)->hide();
 
 
@@ -201,6 +202,27 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
 
     return view;
 
+}
+
+Analysis::Status PerBaseQualityAnalysis::status() const
+{
+    for (int i=0; i< lowerQuartile.size(); ++i)
+    {
+        if (lowerQuartile[i] < 5 || medians[i] < 20){
+            return Analysis::Error;
+        }
+
+        if (lowerQuartile[i] < 10 || medians[i] < 25){
+            return Analysis::Warning;
+        }
+
+    }
+    return Analysis::Success;
+}
+
+void PerBaseQualityAnalysis::after()
+{
+    computePercentages();
 }
 
 qreal PerBaseQualityAnalysis::mean(int minbp, int maxbp, int offset)

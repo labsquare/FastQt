@@ -20,18 +20,20 @@ public:
     void reset() Q_DECL_OVERRIDE;
     QWidget * createResultWidget() Q_DECL_OVERRIDE;
 
+protected:
+    virtual void after() Q_DECL_OVERRIDE;
+
     void computeDistribution();
     QVector<int> sizeDistribution (int min, int max);
 
 
 private:
-    QVector<quint64> mLengthCounts;
+
     QVector<double> mGraphCounts;
-    QVector<QString> mXCategories;
+    QVector<quint64> mLengthCounts;
     double mMax;
-
-
-
+    double mMin;
+    int mIntervale;
 };
 
 #endif // SEQUENCELENGTHDISTRIBUTIONANALYSIS_H

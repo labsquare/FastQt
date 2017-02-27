@@ -25,19 +25,17 @@ Copyright Copyright 2016-17 Sacha Schutz
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    mTabWidget = new QTabWidget;
-    mTabWidget->setMovable(true);
-    mTabWidget->setTabsClosable(true);
-    setCentralWidget(mTabWidget);
+
+    mView = new MainAnalyseView;
+    mStatusBar = new QStatusBar;
+    setCentralWidget(mView);
+
+    setStatusBar(mStatusBar);
 
     setupActions();
     resize(800,600);
 
     move(200,200);
-
-    connect(mTabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
-
-
 }
 
 MainWindow::~MainWindow()
@@ -45,14 +43,58 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::addFile(const QString &filename)
+void MainWindow::addFiles()
 {
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
+    if (!fileNames.isEmpty())
+    {
+        for (QString file : fileNames)
+        {
+            mView->addFile(file);
+        }
+    }
 
-    MainAnalyseWidget * w = new MainAnalyseWidget(filename);
-    mainList.append(w);
-    int index = mTabWidget->addTab(w, w->windowIcon(), w->windowTitle());
-    mTabWidget->setCurrentIndex(index);
+    statusBar()->showMessage(QString(tr("Running on %1 threads")).arg(QThreadPool::globalInstance()->activeThreadCount()));
 
+}
+
+void MainWindow::remFiles()
+{
+    int ret=QMessageBox::warning(this,tr("Warning"),
+                                 tr("Are you sure you want to delete selected analysis ?"),
+                                 QMessageBox::Yes|QMessageBox::No );
+
+    if (ret == QMessageBox::Yes )
+        mView->removeSelection();
+
+}
+
+void MainWindow::stopFiles()
+{
+    int ret=QMessageBox::warning(this,tr("Warning"),
+                                 tr("Are you sure you want to stop selected analysis ?"),
+                                 QMessageBox::Yes|QMessageBox::No );
+
+    if (ret == QMessageBox::Yes )
+        mView->stopSelection();
+
+}
+
+void MainWindow::clearFiles()
+{
+    int ret=QMessageBox::warning(this,tr("Warning"),
+                                 tr("Are you sure you want to remove all analysis?"),
+                                 QMessageBox::Yes|QMessageBox::No );
+
+    if (ret == QMessageBox::Yes )
+        mView->clearAll();
+}
+
+void MainWindow::showAnalysis()
+{
+    auto cIndex = mView->currentIndex();
+    if (cIndex.isValid())
+        mView->showAnalysis(cIndex);
 }
 
 void MainWindow::run()
@@ -63,20 +105,7 @@ void MainWindow::run()
 
 }
 
-void MainWindow::openFile()
-{
 
-    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Files (*.fastq *.fastq.gz *.fastq.bz2 *.fastq.xz)"));
-
-    if (!fileNames.isEmpty())
-    {
-        for (QString file : fileNames)
-        {
-            addFile(file);
-            mainList.last()->run();
-        }
-    }
-}
 
 void MainWindow::about()
 {
@@ -84,16 +113,17 @@ void MainWindow::about()
     dialog.exec();
 }
 
-void MainWindow::closeTab(int index)
+void MainWindow::exportSelection()
 {
-     if (mTabWidget->widget(index))
-     {
-         QWidget * w = mTabWidget->widget(index);
-         mTabWidget->removeTab(index);
-         delete w;
+    if (mView->selectionModel()->selectedRows().count() <= 0)
+    {
+        QMessageBox::warning(this,tr("Cannot export"),tr("Your selection is empty"));
+        return;
+    }
 
-     }
-
+    QString dirname = QFileDialog::getExistingDirectory(this,tr("Select a directory to save results"));
+    if (!dirname.isEmpty())
+        mView->exportSelection(dirname);
 }
 
 void MainWindow::setupActions()
@@ -103,18 +133,48 @@ void MainWindow::setupActions()
     setMenuBar(new QMenuBar());
     // File menu
     QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
-    QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf115), tr("&Open file"),this, SLOT(openFile()), QKeySequence::Open);
+    QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf067), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
+    QAction * exportSelAction = fileMenu->addAction(QFontIcon::icon(0xf0c7),tr("&Export selection"),this, SLOT(exportSelection()), QKeySequence::Save);
+
+    fileMenu->addSeparator();
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
+
+
+    //Edit menu
+    QMenu * editMenu = menuBar()->addMenu(tr("&Edit"));
+    QAction * remAction  = editMenu->addAction(QFontIcon::icon(0xf068), tr("&Remove"),this, SLOT(remFiles()), QKeySequence::Delete);
+    QAction * stopAction = editMenu->addAction(QFontIcon::icon(0xf04d), tr("&Stop"),this, SLOT(stopFiles()));
+    QAction * clearAction= editMenu->addAction(QFontIcon::icon(0xf1f8), tr("&Clear all"),this, SLOT(clearFiles()));
+    editMenu->addSeparator();
+    editMenu->addAction(tr("&Select all"),mView,SLOT(selectAll()), QKeySequence::SelectAll);
+
+
+    //View menu
+    QMenu * viewMenu = menuBar()->addMenu(tr("&View"));
+    QAction * showAction = viewMenu->addAction(QFontIcon::icon(0xf06e), tr("&Show analysis"),this, SLOT(showAnalysis()));
+
+
+
 
     // Help menu
     QMenu * helpMenu = menuBar()->addMenu(tr("&Help"));
-    helpMenu->addAction(QFontIcon::icon(0xf129),tr("About %1").arg(qAppName()),this,SLOT(about()));
+    helpMenu->addAction(QFontIcon::icon(0xf129),tr("About %1").arg(qApp->applicationName()),this,SLOT(about()));
     helpMenu->addAction(QFontIcon::icon(0xf129),tr("About &Qt"),qApp, SLOT(aboutQt()));
 
 
     QToolBar * bar = addToolBar(tr("Open"));
-    bar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+   // bar->setIconSize(QSize(22,22));
     bar->addAction(openAction);
+    bar->addAction(remAction);
+    bar->addSeparator();
+    bar->addAction(exportSelAction);
+    bar->addSeparator();
+    bar->addAction(stopAction);
+    bar->addAction(clearAction);
+    bar->addSeparator();
+    bar->addAction(showAction);
+
 
 
 }
