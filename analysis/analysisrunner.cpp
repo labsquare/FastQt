@@ -33,6 +33,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "perbasencontentanalysis.h"
 #include "persequencegccontent.h"
 #include "lengthdistributionanalysis.h"
+#include "PerBase3DAnalysis.h"
 
 
 AnalysisRunner::AnalysisRunner()
@@ -307,6 +308,7 @@ AnalysisRunner* AnalysisRunner::createAnalysisRunner()
     runner->addAnalysis(new PerSequenceGCContent);
     runner->addAnalysis(new LengthDistributionAnalysis);
     runner->addAnalysis(new PerBaseContentAnalysis);
+    runner->addAnalysis(new PerBase3DAnalysis);
 
     return runner;
 }

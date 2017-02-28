@@ -28,6 +28,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "qfonticon.h"
 #include "cliparser.h"
 #include "maincli.h"
+#include "PerBase3DAnalysis.h"
 
 int main(int argc, char *argv[])
 {
@@ -35,6 +36,12 @@ int main(int argc, char *argv[])
 
 //    Fix the threads numbers
 //    QThreadPool::globalInstance()->setMaxThreadCount(2);
+
+    PerBase3DAnalysis * test = new PerBase3DAnalysis;
+    test->createResultWidget()->show();
+    a.exec();
+
+    return 0 ;
 
 
     a.setApplicationName("FastQt");

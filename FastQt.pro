@@ -3,7 +3,7 @@
 # Project created by QtCreator 2016-10-27T15:00:28
 #
 #-------------------------------------------------
-QT       += core gui concurrent charts svg
+QT       += core gui concurrent charts svg datavisualization
 #QMAKE_CXXFLAGS  += -Ofast
 QMAKE_CXXFLAGS += -std=c++11
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
