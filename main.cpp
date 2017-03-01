@@ -40,7 +40,11 @@ int main(int argc, char *argv[])
     a.setApplicationName("FastQt");
     a.setOrganizationName("Labsquare");
     a.setOrganizationDomain("labsquare.org");
-    a.setApplicationVersion("0.2");
+    a.setApplicationVersion("0.2");  
+
+    QTranslator translator;
+    translator.load("/home/sacha/Dev/fastQt/fastqc_fr");
+    a.installTranslator(&translator);
 
     qRegisterMetaType<Sequence>();
 
