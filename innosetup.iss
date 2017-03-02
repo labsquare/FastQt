@@ -36,12 +36,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "release\fastqt.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\fastqt.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "release\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libKF5Archive.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\liblzma-5.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "release\liblzma-5.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
