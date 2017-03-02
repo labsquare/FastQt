@@ -21,7 +21,6 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\labsquare\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\home\Documents\GitHub\fastQt\LICENSE
 OutputBaseFilename=fastqt-0.2-rc
 Compression=lzma
 SolidCompression=yes
@@ -33,28 +32,28 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\fastqt.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\fastqt.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\libKF5Archive.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\liblzma-5.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\Qt5Charts.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\home\Documents\GitHub\build-FastQt-msys2-Release\release\deploy\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\fastqt.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\fastqt.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\libKF5Archive.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\liblzma-5.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Charts.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 
 
