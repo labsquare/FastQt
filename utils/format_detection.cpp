@@ -62,7 +62,7 @@ bool is_xz(QIODevice* file)
 {
     if (file->open(QIODevice::ReadOnly))
     {
-        QByteArray magic_number = file->read(2);
+        QByteArray magic_number = file->read(6);
         file->close();
 
         if (magic_number.isEmpty())

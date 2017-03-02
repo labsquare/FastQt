@@ -41,7 +41,7 @@ MainAnalyseWidget::MainAnalyseWidget(QWidget *parent):
     setCentralWidget(mResultWidget);
 
 
-//    mToolBar = addToolBar("actions");
+    mToolBar = addToolBar("actions");
 
 
     connect(mListWidget,SIGNAL(currentRowChanged(int)),mStackWidget,SLOT(setCurrentIndex(int)));
@@ -57,7 +57,7 @@ MainAnalyseWidget::~MainAnalyseWidget()
 void MainAnalyseWidget::setRunner(AnalysisRunner *runner)
 {
     mRunner = runner;
-//    mToolBar->clear();
+    mToolBar->clear();
 
 
     setWindowTitle(mRunner->filename());
