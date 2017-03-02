@@ -61,6 +61,6 @@ RESOURCES += \
     resources.qrc
 
 
-TRANSLATIONS = fastqc_fr.ts
+TRANSLATIONS = localization/fastqc_fr.ts
 
 
