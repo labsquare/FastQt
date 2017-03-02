@@ -1,6 +1,7 @@
 install:
   - cmd: mkdir release
   - cmd: cp C:\MinGW\bin\{zlib1.dll} release"
+  - cmd : ls C:\MinGW\bin\
   - cmd: cp C:\MinGW\bin\{libbz2-1.dll} release"
 
   - cmd: cp /win32/KArchive/lib/libKF5Archive.dll.a release"
