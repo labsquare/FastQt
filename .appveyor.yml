@@ -1,7 +1,7 @@
 install:
   - cmd: mkdir release
   - cmd: cp C:\MinGW\bin\{zlib1.dll} release"
-  - cmd : ls C:\MinGW\msys\1.0
+  - cmd : ls C:\MinGW\msys\1.0\bin
   - cmd: cp C:\MinGW\bin\{libbz2-1.dll} release"
   - cmd: pacman -S libbz2 -y
 
