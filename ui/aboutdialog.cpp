@@ -69,7 +69,7 @@ void AboutDialog::addTab(const QString &textFile)
 void AboutDialog::drawHeader()
 {
     int pHeight = 90;
-    int pMargin = 25;
+    int pMargin = 15;
 
     mHeader->setMinimumHeight(pHeight);
     mHeader->setFrameShape(QFrame::StyledPanel);
