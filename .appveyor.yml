@@ -7,10 +7,10 @@ build_script:
   - mingw32-make
 after_build:
   - windeployqt release/fastqt.exe
-  - cmd: cp C:\MinGW\bin\{zlib1.dll} release"
   - cmd: cp win32/KArchive/lib/libKF5Archive.dll.a release"
+  - cmd: cp win32/KArchive/bin/libKF5Archive.dll release"
   - cmd: cp win32/zlib1.dll release"
-  - cmd: cp win32/liblzma-5 release"
+  - cmd: cp win32/liblzma-5.dll release"
   - cmd: cp win32/libbz2-1.dll release"
   - iscc innosetup.iss
 
