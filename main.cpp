@@ -42,8 +42,10 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain("labsquare.org");
     a.setApplicationVersion("0.2");  
 
+    QString locale = QLocale::system().name().section('_', 0, 0);
+
     QTranslator translator;
-    translator.load("/home/sacha/Dev/fastQt/fastqc_fr");
+    translator.load(QString("translations/fastqc_")+locale);
     a.installTranslator(&translator);
 
     qRegisterMetaType<Sequence>();
