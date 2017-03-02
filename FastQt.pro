@@ -22,9 +22,13 @@ LIBS +=  -L"/usr/lib"  -lKF5Archive
 }
 
 win32{
-LIBS += -L$$PWD/win32/KArchive/bin -llibKF5Archive.dll
+LIBS += -L$$PWD/win32/KArchive/bin -lKF5Archive.dll
 INCLUDEPATH += $$PWD/win32/KArchive/include/KF5/KArchive
 RC_FILE = myapp.rc
+message("compile for windows")
+message($$PWD)
+message($$LIBS)
+
 
 }
 
