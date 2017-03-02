@@ -7,11 +7,11 @@ build_script:
   - mingw32-make
 after_build:
   - windeployqt release/fastqt.exe
-  - cmd: cp /mingw32/bin/{libbz2-1.dll,zlib1.dll} release"
+  - cmd: cp C:\MinGW\bin\{libbz2-1.dll,zlib1.dll} release"
   - cmd: cp /win32/KArchive/lib/libKF5Archive.dll.a release"
   - cmd: cp /win32/KArchive/bin/libKF5Archive.dll release"
   - iscc innosetup.iss
-  
+
 artifacts:
   - path: Output\qtpass-*.exe
   - path: src\release\qtpass.exe
