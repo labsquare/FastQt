@@ -24,7 +24,7 @@ DisableProgramGroupPage=yes
 OutputBaseFilename=fastqt-0.2-rc
 Compression=lzma
 SolidCompression=yes
-
+LicenseFile=release\LICENSE.txt
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -51,6 +51,9 @@ Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\liblzma-5.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+
 Source: "release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
