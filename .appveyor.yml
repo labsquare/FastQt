@@ -5,7 +5,6 @@ install:
 build_script:
   - qmake FastQt.pro
   - mingw32-make
-#after_build:
-  - cmd: copy README.md src\release\README.txt
-  - cmd: copy LICENSE src\release\LICENSE.txt
-  - iscc wind32/innosetup.iss
+after_build:
+  - windeployqt release/fastqt.exe
+  
