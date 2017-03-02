@@ -1,5 +1,5 @@
 install:
-  - cmd: ls C:\msys64\"
+  - cmd: ls C:\msys64\mingw32\bin"
   - cmd: dsfsdf
 
   - set QTDIR=C:\Qt\5.8\mingw53_32
