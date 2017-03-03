@@ -47,6 +47,7 @@ QWidget* PerSequenceGCContent::createResultWidget()
     qreal gcStddev = stddev(mGCCounts, gcMean);
 
     QChartView * view = new QChartView;
+    view->setRubberBand(QChartView::HorizontalRubberBand);
     view->setRenderHint(QPainter::Antialiasing);
 
     QLineSeries * normalseries = new QLineSeries();
@@ -93,6 +94,23 @@ QWidget* PerSequenceGCContent::createResultWidget()
     chart->setAxisY(axisY);
 
     view->setChart(chart);
+
+    // add Actions
+    QAction * zoomReset = new QAction(QFontIcon::icon(0xf002), tr("Zoom reset"), view);
+    QAction * zoomIn    = new QAction(QFontIcon::icon(0xf00e), tr("Zoom in"), view);
+    QAction * zoomOut   = new QAction(QFontIcon::icon(0xf010), tr("Zoom out"), view);
+
+    connect(zoomReset, &QAction::triggered, [chart](){chart->zoomReset();});
+    connect(zoomIn, &QAction::triggered, [chart](){chart->zoomIn();});
+    connect(zoomOut, &QAction::triggered, [chart](){chart->zoomOut();});
+
+    view->addAction(zoomReset);
+    view->addAction(zoomIn);
+    view->addAction(zoomOut);
+
+
+
+
     return view;
 
 }

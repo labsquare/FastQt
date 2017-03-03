@@ -41,10 +41,11 @@ MainAnalyseWidget::MainAnalyseWidget(QWidget *parent):
     setCentralWidget(mResultWidget);
 
 
-//    mToolBar = addToolBar("actions");
+    mToolBar = addToolBar("actions");
+    mToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 
-    connect(mListWidget,SIGNAL(currentRowChanged(int)),mStackWidget,SLOT(setCurrentIndex(int)));
+    connect(mListWidget,SIGNAL(currentRowChanged(int)),this,SLOT(setCurrentIndex(int)));
 
 
 }
@@ -57,7 +58,6 @@ MainAnalyseWidget::~MainAnalyseWidget()
 void MainAnalyseWidget::setRunner(AnalysisRunner *runner)
 {
     mRunner = runner;
-//    mToolBar->clear();
 
 
     setWindowTitle(mRunner->filename());
@@ -71,12 +71,43 @@ void MainAnalyseWidget::setRunner(AnalysisRunner *runner)
         lItem->setIcon(a->statusIcon());
 
         mListWidget->addItem(lItem);
-
         mStackWidget->addWidget(a->createResultWidget());
 
     }
 
 }
+
+void MainAnalyseWidget::setCurrentIndex(int index)
+{
+    mStackWidget->setCurrentIndex(index);
+    //Create tool bar
+    mToolBar->clear();
+    mToolBar->addAction(QFontIcon::icon(0xf0c7),tr("Save"), this, SLOT(saveCurrentAnalysis()));
+    mToolBar->addActions(mStackWidget->widget(index)->actions());
+
+    if (mStackWidget->widget(index)->metaObject()->className() == QChartView::staticMetaObject.className())
+    {
+        QChartView * view = qobject_cast<QChartView*>(mStackWidget->widget(index));
+        view->chart()->zoomReset();
+    }
+
+
+
+
+}
+
+void MainAnalyseWidget::saveCurrentAnalysis()
+{
+
+    QString path = QFileDialog::getExistingDirectory(this,tr("result directory"));
+    if (!path.isEmpty())
+    {
+       mRunner->saveAll(path);
+    }
+
+}
+
+
 
 
 

@@ -80,7 +80,7 @@ QWidget *BasicStatsAnalysis::createResultWidget()
     QString length = mMinLength == mMaxLength ? QString("%1").arg(mMaxLength) :  QString("%1-%2").arg(mMinLength).arg(mMaxLength);
 
 
-    model->addValue(tr("Total Sequences"), mReadCount);
+    model->addValue(tr("Total Sequences"), QLocale::system().toString(mReadCount));
     model->addValue(tr("Sequence length"), length);
     model->addValue(tr("Encoding"), PhredEncoding::fastqEncodingOffset(mLowestChar).name());
 

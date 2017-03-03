@@ -108,12 +108,11 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
             {
             case AnalysisRunner::Waiting : return QColor(Qt::lightGray); break;
             case AnalysisRunner::Canceled: return QColor(Qt::darkRed); break;
-            case AnalysisRunner::Running : return QColor(Qt::black); break;
             case AnalysisRunner::Finished: return QColor(Qt::darkGreen); break;
             }
         }
 
-        return QColor("black");
+        return qApp->palette("QWidget").text().color();
 
     }
 

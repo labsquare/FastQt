@@ -6,7 +6,7 @@
 QT       += core gui concurrent charts svg
 #QMAKE_CXXFLAGS  += -Ofast
 QMAKE_CXXFLAGS += -std=c++11
-CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
+#CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
 
 # METHOD 1 : If KArchive is not installed as a Qt Module then copy to your Qt installation :
@@ -22,9 +22,13 @@ LIBS +=  -L"/usr/lib"  -lKF5Archive
 }
 
 win32{
-LIBS += -L$$PWD/win32/KArchive/bin -llibKF5Archive.dll
+LIBS += -L$$PWD/win32/KArchive/lib -llibKF5Archive.dll
 INCLUDEPATH += $$PWD/win32/KArchive/include/KF5/KArchive
 RC_FILE = myapp.rc
+message("compile for windows")
+message($$PWD)
+message($$LIBS)
+
 
 }
 
@@ -57,6 +61,6 @@ RESOURCES += \
     resources.qrc
 
 
-TRANSLATIONS = fastqc_fr.ts
+TRANSLATIONS = localization/fastqc_fr.ts
 
 

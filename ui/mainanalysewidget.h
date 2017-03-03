@@ -47,6 +47,9 @@ public:
     ~MainAnalyseWidget();
     void setRunner(AnalysisRunner * runner);
 
+protected Q_SLOTS:
+    void setCurrentIndex(int index);
+    void saveCurrentAnalysis();
 
 
 private:

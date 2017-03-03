@@ -105,7 +105,19 @@ QWidget *PerSequenceQualityAnalysis::createResultWidget()
 
     chart->setAxisY(axisY);
 
+    // add Actions
+    view->setRubberBand(QChartView::HorizontalRubberBand);
+    QAction * zoomReset = new QAction(QFontIcon::icon(0xf002), tr("Zoom reset"), view);
+    QAction * zoomIn    = new QAction(QFontIcon::icon(0xf00e), tr("Zoom in"), view);
+    QAction * zoomOut   = new QAction(QFontIcon::icon(0xf010), tr("Zoom out"), view);
 
+    connect(zoomReset, &QAction::triggered, [chart](){chart->zoomReset();});
+    connect(zoomIn, &QAction::triggered, [chart](){chart->zoomIn();});
+    connect(zoomOut, &QAction::triggered, [chart](){chart->zoomOut();});
+
+    view->addAction(zoomReset);
+    view->addAction(zoomIn);
+    view->addAction(zoomOut);
     view->setChart(chart);
 
     return view;
