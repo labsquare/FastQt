@@ -4,8 +4,8 @@ install:
   - cmd: ls C:\MinGW\bin\
   - cmd: C:\msys64\usr\bin\pacman.exe --noconfirm --sync --refresh pacman"
   - cmd: C:\msys64\usr\bin\pacman.exe --noconfirm --sync --refresh --refresh --sysupgrade --sysupgrade"
-
   - cmd: C:\msys64\usr\bin\pacman.exe -S --noconfirm liblzma 
+  - cmd: ls C:\msys64\mingw32\bin\"
   - cmd: cp C:\MinGW\bin\{liblzma-5.dll} release"
   - cmd: dsfsdf
 
