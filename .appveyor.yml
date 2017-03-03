@@ -1,3 +1,8 @@
+branches:
+  only:
+    - master
+    - devel
+
 install:
   - set QTDIR=C:\Qt\5.8\mingw53_32
   - choco install -y InnoSetup
