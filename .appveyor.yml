@@ -18,3 +18,5 @@ after_build:
 
 artifacts:
   - path: Output\fastqt-*.exe
+  - path: Output
+    type: zip
