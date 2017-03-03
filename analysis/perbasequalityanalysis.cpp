@@ -160,6 +160,7 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     chart->setAnimationOptions(QChart::NoAnimation);
     chart->setBackgroundRoundness(5);
 
+
     // customize look
     QPen pen;
     QBrush brush("#249de4");
@@ -198,6 +199,19 @@ QWidget *PerBaseQualityAnalysis::createResultWidget()
     QChartView * view = new QChartView;
     view->setChart(chart);
     view->setRenderHint(QPainter::Antialiasing);
+    // add Actions
+    view->setRubberBand(QChartView::HorizontalRubberBand);
+    QAction * zoomReset = new QAction(QFontIcon::icon(0xf002), tr("Zoom reset"), view);
+    QAction * zoomIn    = new QAction(QFontIcon::icon(0xf00e), tr("Zoom in"), view);
+    QAction * zoomOut   = new QAction(QFontIcon::icon(0xf010), tr("Zoom out"), view);
+
+    connect(zoomReset, &QAction::triggered, [chart](){chart->zoomReset();});
+    connect(zoomIn, &QAction::triggered, [chart](){chart->zoomIn();});
+    connect(zoomOut, &QAction::triggered, [chart](){chart->zoomOut();});
+
+    view->addAction(zoomReset);
+    view->addAction(zoomIn);
+    view->addAction(zoomOut);
 
 
     return view;
