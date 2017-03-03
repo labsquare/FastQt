@@ -1,14 +1,9 @@
-install:
-  - cmd: mkdir release
-  - cmd: cp C:\msys64\mingw32\bin\{zlib1.dll,libbz2-1.dll} release"
-  - cmd: ls C:\MinGW\bin\
-  - cmd: C:\msys64\usr\bin\pacman.exe --noconfirm --sync --refresh pacman"
-  - cmd: C:\msys64\usr\bin\pacman.exe --noconfirm --sync --refresh --refresh --sysupgrade --sysupgrade"
-  - cmd: C:\msys64\usr\bin\pacman.exe -S --noconfirm liblzma 
-  - cmd: ls C:\msys64\mingw32\bin\"
-  - cmd: cp C:\MinGW\bin\{liblzma-5.dll} release"
-  - cmd: dsfsdf
+branches:
+  only:
+    - master
+    - devel
 
+install:
   - set QTDIR=C:\Qt\5.8\mingw53_32
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
@@ -17,10 +12,17 @@ build_script:
   - mingw32-make
 after_build:
   - windeployqt release/fastqt.exe
-  - cmd: cp C:\MinGW\bin\{zlib1.dll} release"
   - cmd: cp win32/KArchive/lib/libKF5Archive.dll.a release"
   - cmd: cp win32/KArchive/bin/libKF5Archive.dll release"
+  - cmd: cp win32/zlib1.dll release"
+  - cmd: cp win32/liblzma-5.dll release"
+  - cmd: cp win32/libbz2-1.dll release"
+  - cmd: cp LICENSE release/LICENSE.txt"
   - iscc innosetup.iss
+  - rm release/*.o
+  - rm release/*.cpp
 
 artifacts:
   - path: Output\fastqt-*.exe
+  - path: release
+    type: zip
