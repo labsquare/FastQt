@@ -40,7 +40,7 @@ void Analysis::save(const QString &path)
     QString pngPath = dir.filePath(QString("%1.png").arg(name));
 
     capture(svgPath);
-    capture(pngPath);
+    capture(pngPath, ImageFormat::PngFormat);
 }
 
 
