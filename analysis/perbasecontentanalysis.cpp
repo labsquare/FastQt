@@ -113,21 +113,34 @@ QWidget *PerBaseContentAnalysis::createResultWidget()
     chart->axisX()->setTitleText(tr("Position in read (bp)"));
     chart->axisY()->setTitleText(tr("Percent of Base (%)"));
 
+    QPen* pen = new QPen();
+    pen->setWidth(2);
+    pen->setColor(QColor("#71e096"));
+    pen->setStyle(Qt::DashLine);
+    ASerie->setPen(*pen);
+    chart->legend()->markers()[0]->setPen(*pen);
 
-    QPen pen;
-    pen.setWidth(2);
-    pen.setColor(QColor("#71e096"));
-    ASerie->setPen(pen);
+    pen = new QPen();
+    pen->setWidth(2);
+    pen->setColor(QColor("#5AD0E5"));
+    pen->setStyle(Qt::DotLine);
+    CSerie->setPen(*pen);
+    chart->legend()->markers()[1]->setPen(*pen);
 
-    pen.setColor(QColor("#5AD0E5"));
-    CSerie->setPen(pen);
+    pen = new QPen();
+    pen->setWidth(2);
+    pen->setColor(QColor("#ED6D79"));
+    pen->setStyle(Qt::DashDotDotLine);
+    TSerie->setPen(*pen);
+    TSerie->setBrush(QBrush(Qt::BrushStyle::Dense5Pattern));
+    chart->legend()->markers()[2]->setBrush(QBrush(Qt::BrushStyle::Dense5Pattern));
+    chart->legend()->markers()[2]->setPen(*pen);
 
-    pen.setColor(QColor("#ED6D79"));
-    TSerie->setPen(pen);
-
-
-    pen.setColor(QColor("darkgray"));
-    GSerie->setPen(pen);
+    pen = new QPen();
+    pen->setWidth(2);
+    pen->setColor(QColor("darkgray"));
+    GSerie->setPen(*pen);
+    chart->legend()->markers()[3]->setPen(*pen);
 
     chart->setTitle(tr("Per Base content"));
     chart->setAnimationOptions(QChart::NoAnimation);

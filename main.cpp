@@ -29,8 +29,11 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "cliparser.h"
 #include "maincli.h"
 
+#include <bamtools/api/BamAlignment.h>
+
 int main(int argc, char *argv[])
 {
+    BamTools::BamAlignment* test = new BamTools::BamAlignment();
     QApplication a(argc, argv);
 
 //    Fix the threads numbers

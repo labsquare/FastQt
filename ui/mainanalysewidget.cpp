@@ -22,6 +22,8 @@ Copyright Copyright 2016-17 Sacha Schutz
 */
 #include "mainanalysewidget.h"
 
+#include "imageformatdefinition.h"
+
 MainAnalyseWidget::MainAnalyseWidget(QWidget *parent):
     QMainWindow(parent)
 {
@@ -98,11 +100,13 @@ void MainAnalyseWidget::setCurrentIndex(int index)
 
 void MainAnalyseWidget::saveCurrentAnalysis()
 {
-
-    QString path = QFileDialog::getExistingDirectory(this,tr("result directory"));
+    Analysis* ana =  dynamic_cast<Analysis*>(mStackWidget->currentWidget());
+    QString path = QFileDialog::getSaveFileName(this, tr("Save Image without extension"),
+                                                QString(),
+                                                tr(""));
     if (!path.isEmpty())
     {
-       mRunner->saveAll(path);
+       ana->save(path);
     }
 
 }

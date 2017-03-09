@@ -13,12 +13,15 @@ install:
 
 
 script:
+  # Karchive build
+  ## cmake module
   - git clone git://anongit.kde.org/extra-cmake-modules
   - cd extra-cmake-modules
   - mkdir build && cd build    
   - cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
   - make && sudo make install
   - cd ../..
+  ## real karchive build
   - git clone git://anongit.kde.org/karchive.git
   - cd karchive
   - mkdir build && cd build 
@@ -26,6 +29,14 @@ script:
   - make 
   - sudo make install
   - cd ../..
+  # bamtools build
+  - git submodule update
+  - mkdir -p bamtools/build
+  - cd bamtools/build
+  - cmake .. -DCMAKE_INSTALL_PREFIX=../bamtools
+  - make
+  - make install
+  # fastqt bulid
   - /opt/qt58/bin/qmake PREFIX=/usr
   - make 
   - # Generate AppImage

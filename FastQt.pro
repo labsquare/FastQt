@@ -32,6 +32,10 @@ message($$LIBS)
 
 }
 
+# Add bamtools dependencies
+LIBS += $$PWD/bamtools/bamtools/lib/bamtools/libbamtools.a
+INCLUDEPATH += $$PWD/bamtools/bamtools/include/bamtools/
+INCLUDEPATH += $$PWD/bamtools/bamtools/include/
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
