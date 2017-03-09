@@ -20,6 +20,7 @@ build_script:
   # build bamtools
   - git submodule update
   - cd bamtools
+  - dir
   - md build
   - cd build
   - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools
