@@ -25,7 +25,8 @@ build_script:
   - dir
   - md build
   - cd build
-  - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools -G "MinGW Makefiles" -DCMAKE_C_COMPILER="mingw32-gcc.exe" -DCMAKE_CXX_COMPILER="mingw32-g++.exe" -DCMAKE_MAKE_PROGRAM="mingw32-make.exe"
+  - cmake -G "Visual Studio 10" -DCMAKE_INSTALL_PREFIX=..\bamtools
+    #  - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools -G "MinGW Makefiles" -DCMAKE_C_COMPILER="mingw32-gcc.exe" -DCMAKE_CXX_COMPILER="mingw32-g++.exe" -DCMAKE_MAKE_PROGRAM="mingw32-make.exe"
   - mingw32-make.exe
   - cd ..\..
   # build fastqt
