@@ -25,7 +25,7 @@ build_script:
   - dir
   - md build
   - cd build
-  - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools -G "Ninja" -DCMAKE_C_COMPILER="C:\MinGW\bin\mingw32-gcc.exe" -DCMAKE_CXX_COMPILER="C:\MinGW\bin\mingw32-g++.exe" -DCMAKE_MAKE_PROGRAME="C:\MinGW\bin\mingw32-make.exe"
+  - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools -G "Unix Makefiles" -DCMAKE_C_COMPILER="C:\MinGW\bin\mingw32-gcc.exe" -DCMAKE_CXX_COMPILER="C:\MinGW\bin\mingw32-g++.exe" -DCMAKE_MAKE_PROGRAME="C:\MinGW\bin\mingw32-make.exe"
   - dir 
   - ninja
   - cd ..\..
