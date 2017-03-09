@@ -36,6 +36,7 @@ script:
   - cmake .. -DCMAKE_INSTALL_PREFIX=../bamtools
   - make
   - make install
+  - cd ../..
   # fastqt bulid
   - /opt/qt58/bin/qmake PREFIX=/usr FastQt.pro
   - make 
