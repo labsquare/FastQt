@@ -26,7 +26,7 @@ build_script:
   - md build
   - cd build
   - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools -G "MinGW Makefiles" -DCMAKE_C_COMPILER="mingw32-gcc.exe" -DCMAKE_CXX_COMPILER="mingw32-g++.exe" -DCMAKE_MAKE_PROGRAM="mingw32-make.exe"
-  - ninja
+  - mingw32-make.exe
   - cd ..\..
   # build fastqt
   - qmake FastQt.pro
