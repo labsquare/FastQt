@@ -26,7 +26,7 @@ build_script:
   - md build
   - cd build
   - cmake -G "Visual Studio 10" -DCMAKE_INSTALL_PREFIX=..\bamtools ..
-  - dir
+  - msbuild BamTools.sln /m
   - cd ..\..
   # build fastqt
   - qmake FastQt.pro
