@@ -37,7 +37,7 @@ script:
   - make
   - make install
   # fastqt bulid
-  - /opt/qt58/bin/qmake PREFIX=/usr
+  - /opt/qt58/bin/qmake PREFIX=/usr FastQt.pro
   - make 
   - # Generate AppImage
   - sudo apt-get -y install checkinstall
