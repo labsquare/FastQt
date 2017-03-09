@@ -18,6 +18,7 @@ install:
 
 build_script:
   # build bamtools
+  - git submodule init
   - git submodule update
   - cd bamtools
   - dir
