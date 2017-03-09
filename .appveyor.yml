@@ -18,13 +18,14 @@ install:
 
 build_script:
   # build bamtools
+  - set Path=C:\MinGW\bin;%Path%
   - git submodule init
   - git submodule update
   - cd bamtools
   - dir
   - md build
   - cd build
-  - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools -G "Unix Makefiles"
+  - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools -G "Unix Makefiles" -DCMAKE_C_COMPILER=C:\MinGW\bin
   - dir
   - mingw32-make
   - cd ..\..
