@@ -24,7 +24,7 @@ build_script:
   - dir
   - md build
   - cd build
-  - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools
+  - cmake .. -DCMAKE_INSTALL_PREFIX=..\bamtools -G "Unix Makefiles"
   - dir
   - mingw32-make
   - cd ..\..
