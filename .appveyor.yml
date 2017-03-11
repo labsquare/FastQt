@@ -9,7 +9,7 @@ install:
   - choco install -y InnoSetup
   - choco install -y cmake
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5";"C:\Program Files\CMake\bin"
-  - dir "C:\Program Files\CMake\bin"
+  - dir "C:\Qt\Tools\mingw530_32\bin"
 
 build_script:
   # build bamtools
@@ -20,7 +20,7 @@ build_script:
   - dir
   - md build
   - cd build
-  - cmake.exe -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=..\bamtools ..
+  - cmake.exe -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=..\bamtools -DCMAKE_C_COMPILER..
   - make install
   - cd ..\..
   # build fastqt
