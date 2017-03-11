@@ -20,7 +20,7 @@ build_script:
   - dir
   - md build
   - cd build
-  - cmake.exe -G "MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=..\bamtools -DCMAKE_C_COMPILER=C:/Qt/Tools/mingw530_32/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw530_32/bin/g++.exe ..
+  - cmake.exe -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=..\bamtools -DCMAKE_C_COMPILER=C:/Qt/Tools/mingw530_32/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw530_32/bin/g++.exe ..
   - make install
   - cd ..\..
   # build fastqt
