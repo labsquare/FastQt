@@ -20,7 +20,7 @@ build_script:
   - dir
   - md build
   - cd build
-  - cmake.exe -G "Mingw Makefile" -DCMAKE_INSTALL_PREFIX=..\bamtools ..
+  - cmake.exe -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=..\bamtools ..
   - make install
   - cd ..\..
   # build fastqt
