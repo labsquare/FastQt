@@ -7,14 +7,9 @@ branches:
 install:
   - set QTDIR=C:\Qt\5.8\mingw53_32
   - choco install -y InnoSetup
+  - choco install -y cmake
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
-  # Install a recent cmake
-  - set CMAKE_URL="https://cmake.org/files/v3.7/cmake-3.7.2-win64-x64.zip"
-  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
-  - 7z x cmake.zip -oC:\projects\deps > nul
-  - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
-  - set PATH=C:\projects\deps\cmake\bin;%PATH%
-  - cmake --version
+  - dir "C:\Program Files (x86)\cmake"
 
 build_script:
   # build bamtools
