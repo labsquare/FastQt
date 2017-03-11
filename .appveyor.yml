@@ -9,7 +9,7 @@ install:
   - choco install -y InnoSetup
   - choco install -y cmake
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5";"C:\Program Files (x86)\CMake"
-  - dir "C:\Program Files (x86)\CMake"
+  - dir "C:\Program Files\CMake"
 
 build_script:
   # build bamtools
