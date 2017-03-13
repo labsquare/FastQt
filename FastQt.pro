@@ -17,6 +17,18 @@ QMAKE_CXXFLAGS += -std=c++11
 
 # METHOD 2 : Otherwise link it as a common library
 unix {
+# COMPILE HTSLIB
+mytarget.target = $$PWD/htslib/libhts.so
+mytarget.commands = cd $$PWD/htslib; make -j4
+mytarget_clean.commands = cd $$PWD/htslib; make clean
+QMAKE_EXTRA_TARGETS += mytarget
+PRE_TARGETDEPS += $$PWD/htslib/libhts.so
+INCLUDEPATH+=$$PWD/htslib
+LIBS += -L$$PWD/htslib -lhts
+
+
+
+
 INCLUDEPATH += "/usr/include/KF5/KArchive"
 LIBS +=  -L"/usr/lib"  -lKF5Archive
 }

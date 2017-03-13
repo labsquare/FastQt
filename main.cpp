@@ -29,12 +29,15 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "cliparser.h"
 #include "maincli.h"
 
+#include "bamreader.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
 //    Fix the threads numbers
 //    QThreadPool::globalInstance()->setMaxThreadCount(2);
+
 
 
     a.setApplicationName("FastQt");
