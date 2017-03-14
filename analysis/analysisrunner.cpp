@@ -62,9 +62,8 @@ void AnalysisRunner::run()
     QFileInfo fileInfo(mFilename);
 
     QFile * compressFile = new QFile(mFilename);
-    QIODevice * file = Q_NULLPTR;
+    QIODevice * file = new QFile(mFilename);
 
-    file = new QFile(mFilename);
     if (is_gz(file))
     {
         file = new KCompressionDevice(compressFile,true,KCompressionDevice::GZip);
