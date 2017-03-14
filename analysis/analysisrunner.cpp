@@ -61,30 +61,30 @@ void AnalysisRunner::run()
 
     QFileInfo fileInfo(mFilename);
 
-    QFile * compressFile = new QFile(mFilename);
-    QIODevice * file = new QFile(mFilename);
+    QIODevice * file    = Q_NULLPTR;
+    QIODevice * rawFile = new QFile(mFilename);
 
-    if (is_gz(file))
+    if (is_gz(rawFile))
     {
-        file = new KCompressionDevice(compressFile,true,KCompressionDevice::GZip);
+        file = new KCompressionDevice(rawFile,true,KCompressionDevice::GZip);
         if (!is_fastq(file))
             file = Q_NULLPTR;
     }
-    else if (is_bz2(file))
+    else if (is_bz2(rawFile))
     {
-        file = new KCompressionDevice(compressFile, true, KCompressionDevice::BZip2);
+        file = new KCompressionDevice(rawFile, true, KCompressionDevice::BZip2);
         if (!is_fastq(file))
             file = Q_NULLPTR;
     }
-    else if (is_xz(file))
+    else if (is_xz(rawFile))
     {
-        file = new KCompressionDevice(compressFile,true, KCompressionDevice::Xz);
+        file = new KCompressionDevice(rawFile,true, KCompressionDevice::Xz);
         if (!is_fastq(file))
             file = Q_NULLPTR;
     }
-    else if (is_fastq(file))
+    else if (is_fastq(rawFile))
     {
-        file = new QFile(mFilename);
+        file = rawFile;
     }
 
     if (file == Q_NULLPTR)
@@ -132,7 +132,7 @@ void AnalysisRunner::run()
             // this is critcal and can decrease the speed. Send message only 1 sequence / 1000
             if (mSequenceCount % 1000 == 0)
             {
-                int percentNow = (float)(compressFile->pos()) / fileInfo.size() * 100;
+                int percentNow = (float)(rawFile->pos()) / fileInfo.size() * 100;
                 // if percentNow is still null, return empty percent ...
                 if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
