@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("FastQt");
     a.setOrganizationName("Labsquare");
     a.setOrganizationDomain("labsquare.org");
-    a.setApplicationVersion("0.2.2");
+    a.setApplicationVersion("0.2.3");
 
     QString locale = QLocale::system().name().section('_', 0, 0);
 

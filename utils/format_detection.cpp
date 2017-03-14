@@ -92,8 +92,10 @@ bool is_fastq(QIODevice* file)
 
         line = file->readLine();
         // Some not alphabetic caractere are in range but you know isn't a problem
-        if (line[0] < 'A' || line[0] > 'z')
+        if (line[0] < 'A' || line[0] > 'z'){
+            file->close();
             return false;
+        }
 
         line = file->readLine();
         if (line[0] != '+')
@@ -103,11 +105,14 @@ bool is_fastq(QIODevice* file)
         }
 
         line = file->readLine();
-        if (line[0] < '!' || line[0] > '~')
+        if (line[0] < '!' || line[0] > '~'){
+            file->close();
             return false;
-
+        }
+        file->close();
         return true;
     }
+
     else
     {
         return false;

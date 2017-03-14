@@ -21,10 +21,10 @@ void MainAnalyseDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
 
         progressBarOption.minimum = 0;
-        progressBarOption.maximum = 100;
+        progressBarOption.maximum = progress == -1 ? 0 : 100;
         progressBarOption.textAlignment = Qt::AlignCenter;
         progressBarOption.progress = progress;
-        progressBarOption.text = QString ( "%1%" ).arg ( progress );
+        progressBarOption.text = progress == -1 ? QString("∞") : QString ( "%1%" ).arg ( progress );
         progressBarOption.textVisible = true;
         QApplication::style()->drawControl ( QStyle::CE_ProgressBar, &progressBarOption, painter );
 

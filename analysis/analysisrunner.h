@@ -24,6 +24,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #define ANALYSISRUNNER_H
 #include <QtCore>
 #include <KCompressionDevice>
+#include <KFilterBase>
 #include "analysis.h"
 #include "fastqreader.h"
 #include "imageformatdefinition.h"
