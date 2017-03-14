@@ -43,7 +43,8 @@ public:
         Waiting,
         Running,
         Canceled,
-        Finished
+        Finished,
+        Prepare
     };
 
     AnalysisRunner();

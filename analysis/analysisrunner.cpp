@@ -57,7 +57,7 @@ AnalysisRunner::~AnalysisRunner()
 
 void AnalysisRunner::run()
 {
-    setStatus(Running);
+    setStatus(Prepare);
 
     QFileInfo fileInfo(mFilename);
 
@@ -112,6 +112,7 @@ void AnalysisRunner::run()
         //emitUpdate(tr("Analysis ..."));
         reader.computeTotalSize();
 
+        setStatus(Running);
 
 
         for (Analysis * a : mAnalysisHash)
