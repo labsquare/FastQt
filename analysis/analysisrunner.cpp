@@ -57,28 +57,29 @@ AnalysisRunner::~AnalysisRunner()
 
 void AnalysisRunner::run()
 {
-    setStatus(Prepare);
+    setStatus(Running);
 
     QFileInfo fileInfo(mFilename);
 
+    QFile * compressFile = new QFile(mFilename);
     QIODevice * file = Q_NULLPTR;
 
     file = new QFile(mFilename);
     if (is_gz(file))
     {
-        file = new KCompressionDevice(mFilename, KCompressionDevice::GZip);
+        file = new KCompressionDevice(compressFile,true,KCompressionDevice::GZip);
         if (!is_fastq(file))
             file = Q_NULLPTR;
     }
     else if (is_bz2(file))
     {
-        file = new KCompressionDevice(mFilename, KCompressionDevice::BZip2);
+        file = new KCompressionDevice(compressFile, true, KCompressionDevice::BZip2);
         if (!is_fastq(file))
             file = Q_NULLPTR;
     }
     else if (is_xz(file))
     {
-        file = new KCompressionDevice(mFilename, KCompressionDevice::Xz);
+        file = new KCompressionDevice(compressFile,true, KCompressionDevice::Xz);
         if (!is_fastq(file))
             file = Q_NULLPTR;
     }
@@ -108,12 +109,6 @@ void AnalysisRunner::run()
         FastqReader reader(file);
         mStartTime.start();
 
-        // pre compute total size for sequencial access .
-        //emitUpdate(tr("Analysis ..."));
-        reader.computeTotalSize();
-
-        setStatus(Running);
-
 
         for (Analysis * a : mAnalysisHash)
             a->before();
@@ -138,7 +133,7 @@ void AnalysisRunner::run()
             // this is critcal and can decrease the speed. Send message only 1 sequence / 1000
             if (mSequenceCount % 1000 == 0)
             {
-                int percentNow = reader.percentComplete();
+                int percentNow = (float)(compressFile->pos()) / fileInfo.size() * 100;
                 // if percentNow is still null, return empty percent ...
                 if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {

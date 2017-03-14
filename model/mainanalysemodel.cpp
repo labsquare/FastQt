@@ -45,8 +45,6 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
             case AnalysisRunner::Canceled : return tr("Canceled"); break;
             case AnalysisRunner::Running : return tr("Running"); break;
             case AnalysisRunner::Finished : return tr("Finished"); break;
-            case AnalysisRunner::Prepare : return tr("Preparing ..."); break;
-
             }
 
         }
@@ -55,12 +53,9 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
             return mRunners.at(index.row())->humanFileSize();
 
 
-        if (index.column() == ProgressColumn){
-            if (mRunners.at(index.row())->status() == AnalysisRunner::Prepare )
-                return -1;
-            else
-                return mRunners.at(index.row())->progression();
-        }
+        if (index.column() == ProgressColumn)
+            return mRunners.at(index.row())->progression();
+
 
         if (index.column() == ReadsColumn)
             return mRunners.at(index.row())->sequenceCount();
