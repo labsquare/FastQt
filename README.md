@@ -6,7 +6,7 @@ from Java to [C++/Qt5](https://www.qt.io/)
 
 ![Preview](https://raw.githubusercontent.com/labsquare/fastQt/master/screenshot.gif)
 
-##Installation 
+## Installation 
 
 ### Linux 
 An [AppImage](http://appimage.org/) has been created and should work on recent Linux distribution.     
