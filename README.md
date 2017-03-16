@@ -28,7 +28,7 @@ On Linux, you need to install karchive before compiling FastQt.
  
      sudo apt install libkf5archive-dev
 
-**From fedoar** >= 24 you can install it from repositories :
+**From fedora** >= 24 you can install it from repositories :
 
     sudo dnf install kf5-karchive-devel
 
@@ -46,6 +46,9 @@ On Linux, you need to install karchive before compiling FastQt.
     cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
     make 
     sudo make install
+    
+** From Windows **    
+Nothing to do. Compiled library are avaible in win32 directory.  
 
 ### Install Qt >5.7
 
