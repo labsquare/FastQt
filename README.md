@@ -76,7 +76,14 @@ Be sure you have the correct version of Qt (>5.7) by using qmake --version. For 
 
 ## Usage
 
-You can use FastQt as GUI application or in Command Line Interface.
+FastQt can analyse uncompress and compress fastq files. The following extensions are supported :
+
+- *.fastq
+- *.fastq.gz
+- *.fastq.xz
+- *.fastq.bz2
+
+You can use FastQt as GUI application or as a Command Line Interface.
 
 Some usage example :
 
