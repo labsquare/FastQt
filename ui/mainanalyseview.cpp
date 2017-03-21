@@ -15,6 +15,11 @@ void MainAnalyseDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
         //        }
 
+        if( option.state & QStyle::State_Selected )
+        {
+        painter->fillRect( option.rect, option.palette.highlight() );
+        }
+
 
         QStyleOptionProgressBar progressBarOption;
         progressBarOption.rect = option.rect.adjusted(5,5,-5,-5);
