@@ -10,7 +10,7 @@ from Java to [C++/Qt5](https://www.qt.io/)
 
 ### Linux 
 An [AppImage](http://appimage.org/) has been created and should work on recent Linux distribution.     
-Download le last release from [here](https://github.com/labsquare/fastQt/releases/) and run it as follow : 
+Download the last release from [here](https://github.com/labsquare/fastQt/releases/) and run it as follow : 
 
     chmod +x fastqt-0.2.3-linux-x86_64.AppImage
     ./fastqt-0.2.3-linux-x86_64.AppImage
