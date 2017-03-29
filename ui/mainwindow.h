@@ -54,6 +54,9 @@ public Q_SLOTS:
 
 protected:
     void setupActions();
+    void addRecent(const QString& path);
+    QStringList loadRecent();
+    void updateRecentMenu();
 
 private:
     void printEasterEggs();
@@ -64,6 +67,8 @@ private:
     MainAnalyseView * mView;
     QFuture<void> mRunFuture;
     QStatusBar * mStatusBar;
+    QMenu * mRecentMenu;
+    static const int MAX_RECENT=10;
 };
 
 #endif // MAINWINDOW_H
