@@ -6,7 +6,6 @@
 QT       += core gui concurrent charts svg
 #QMAKE_CXXFLAGS  += -Ofast
 QMAKE_CXXFLAGS += -std=c++11
-QMAKE_CXXFLAGS += -Wsuggest-override
 
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
