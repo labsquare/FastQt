@@ -225,7 +225,7 @@ quint64 AnalysisRunner::fileSize() const
 
 QString AnalysisRunner::humanFileSize() const
 {
-    char unit;
+    int unit;
     const char *units [] = {" Bytes", " kB", " MB", " GB"};
     quint64 size = fileSize(); // or whatever
 

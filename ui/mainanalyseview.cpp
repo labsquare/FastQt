@@ -15,6 +15,11 @@ void MainAnalyseDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
         //        }
 
+        if( option.state & QStyle::State_Selected )
+        {
+            painter->fillRect( option.rect, option.palette.highlight() );
+        }
+
 
         QStyleOptionProgressBar progressBarOption;
         progressBarOption.rect = option.rect.adjusted(5,5,-5,-5);
@@ -40,8 +45,13 @@ void MainAnalyseDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 MainAnalyseView::MainAnalyseView(QWidget * parent )
     :QTableView(parent)
 {
-    mModel    = new MainAnalyseModel;
-    mDelegate = new MainAnalyseDelegate;
+    mModel        = new MainAnalyseModel;
+    mDelegate     = new MainAnalyseDelegate;
+    mExportDialog = new QProgressDialog();
+    mExportDialog->close();
+
+
+
 
     setModel(mModel);
     setItemDelegate(mDelegate);
@@ -107,14 +117,33 @@ void MainAnalyseView::showAnalysis(const QModelIndex &index)
 
 void MainAnalyseView::exportSelection(const QString &path)
 {
-    for ( QModelIndex index : selectionModel()->selectedRows()){
+    QModelIndexList list = selectionModel()->selectedRows();
+    if (list.isEmpty())
+        return;
+
+    QProgressDialog dialog(tr("Exporting ..."), tr("Cancel"), 0, list.length(), this);
+    dialog.setWindowTitle(tr("Export analysis"));
+    dialog.setWindowModality(Qt::WindowModal);
+    dialog.setMinimumDuration(0);
+    dialog.resize(300,80);
+    dialog.show();
+    int progress = 0;
+
+    for ( QModelIndex index : list){
+
+        if (dialog.wasCanceled())
+            break;
+
         AnalysisRunner * runner = mModel->runner(index);
         if (runner->status() == AnalysisRunner::Finished)
         {
             runner->saveAll(path);
         }
+        progress++;
+        dialog.setValue(progress);
+        QFileInfo info(runner->filename());
+        dialog.setLabelText(info.fileName());
     }
-
 }
 
 

@@ -4,11 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/)
 
+<<<<<<< HEAD
 ## [0.2.3] - 2017-14-03
 ### Changed
 - Fix delay time before running. Now analysis doesn't wait to run
 - Remove debugging message
 - Fix bug when exporting PNG data.
+=======
+## [0.2.3] - 2017-29-03
+### Changed
+- Exporting file displays a progress dialog
+
+>>>>>>> devel
 
 ## [0.2.2] - 2017-03-03
 ### Changed
