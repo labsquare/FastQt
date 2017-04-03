@@ -95,3 +95,6 @@ fastqt file1.fastq file2.fastq.gz file3.fastq.bzip # File save in file1 file 2 f
 fastqt file1.fastq -o specific_path # Create specific directory for each file in specific_path
 fastqt file1.fastq -t 2 # Fastqt run maximal two process this option is valid for GUI too
 ```
+
+## How to cite FastQt 
+Labsquare Team, et al (2017). FastQt: a quality control tool for high throughput sequence data. Available online at: https://github.com/labsquare/fastQt
