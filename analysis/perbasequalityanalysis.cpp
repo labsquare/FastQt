@@ -298,7 +298,7 @@ void PerBaseQualityAnalysis::computePercentages()
     highest.fill(0,groups.length());
     lowerQuartile.fill(0,groups.length());
     upperQuartile.fill(0,groups.length());
-    xLabels.fill(QString(), groups.length());
+    xLabels.fill(QStringLiteral(), groups.length());
 
     for (int i=0;i<groups.length();i++) {
         int minBase = groups[i].lowerCount();

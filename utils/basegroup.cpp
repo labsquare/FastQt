@@ -53,7 +53,7 @@ QString BaseGroup::toString() const
     if (lowerCount() == upperCount())
         return QString::number(lowerCount());
     else
-        return QString("%1-%2").arg(lowerCount()).arg(upperCount());
+        return QStringLiteral("%1-%2").arg(lowerCount()).arg(upperCount());
 }
 
 QVector<BaseGroup> BaseGroup::makeBaseGroups(int maxLength)
@@ -228,7 +228,7 @@ int BaseGroup::getLinearInterval(int length)
         multiplier *= 10;
 
         if (multiplier == 10000000) {
-            qCritical()<<Q_FUNC_INFO<<QString("Couldn't find a sensible interval grouping for length '%1'").arg(length);
+            qCritical()<<Q_FUNC_INFO<<QStringLiteral("Couldn't find a sensible interval grouping for length '%1'").arg(length);
         }
     }
 }

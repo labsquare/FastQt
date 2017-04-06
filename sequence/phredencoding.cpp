@@ -33,7 +33,7 @@ PhredEncoding PhredEncoding::fastqEncodingOffset(char lowestChar)
     qDebug()<< int(lowestChar);
 
     if (lowestChar < 33){
-        qCritical()<<QString("No known encodings with chars < 33 (Yours was %1)").arg(lowestChar);
+        qCritical()<<QStringLiteral("No known encodings with chars < 33 (Yours was %1)").arg(lowestChar);
         return PhredEncoding();
     }
     else if (lowestChar < 64)
@@ -51,7 +51,7 @@ PhredEncoding PhredEncoding::fastqEncodingOffset(char lowestChar)
         return PhredEncoding("Illumina 1.5", ILLUMINA_1_3_ENCODING_OFFSET);
     }
 
-    qCritical()<<QString("No known encodings with chars > 126 (Yours was %1)").arg(lowestChar);
+    qCritical()<<QStringLiteral("No known encodings with chars > 126 (Yours was %1)").arg(lowestChar);
     return PhredEncoding();
 
 }
