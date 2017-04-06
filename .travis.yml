@@ -11,7 +11,6 @@ install:
   - sudo apt-get install qt58base qt58svg qt58charts-no-lgpl
   - source /opt/qt58/bin/qt58-env.sh
 
-
 script:
   - git clone git://anongit.kde.org/extra-cmake-modules
   - cd extra-cmake-modules
@@ -29,7 +28,6 @@ script:
   - /opt/qt58/bin/qmake PREFIX=/usr
   - make 
   - # Generate AppImage
-  - sudo apt-get -y install checkinstall
   - make INSTALL_ROOT=appdir install ; find appdir/
   - cd appdir
   - mv ./usr/local/bin/* ./usr/bin/ || true # Why is this needed despite PREFIX=/usr? Bug?
