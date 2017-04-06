@@ -82,6 +82,12 @@ MainAnalyseView::MainAnalyseView(QWidget * parent )
 
 }
 
+MainAnalyseView::~MainAnalyseView()
+{
+    mModel->deleteLater();
+    mDelegate->deleteLater();
+}
+
 void MainAnalyseView::addFile(const QString &filename)
 {
     checkFile(filename);

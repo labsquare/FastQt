@@ -23,6 +23,7 @@ class MainAnalyseView : public QTableView
     Q_OBJECT
 public:
     MainAnalyseView(QWidget * parent = nullptr);
+    ~MainAnalyseView();
     void addFile(const QString& filename);
 
 
