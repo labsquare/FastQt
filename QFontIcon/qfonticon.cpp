@@ -25,7 +25,7 @@ SOFTWARE.
 #include "qfonticon.h"
 #include <QDebug>
 #include <QFontDatabase>
-QFontIcon * QFontIcon::mInstance = Q_NULLPTR;
+QFontIcon * QFontIcon::mInstance = nullptr;
 
 bool QFontIcon::addFont(const QString &filename)
 {

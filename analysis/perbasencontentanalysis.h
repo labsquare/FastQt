@@ -38,7 +38,7 @@ class PerBaseNContentAnalysis : public Analysis
     Q_OBJECT
 
 public:
-    PerBaseNContentAnalysis(QObject * parent = Q_NULLPTR);
+    PerBaseNContentAnalysis(QObject * parent = nullptr);
 
     virtual void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     virtual void reset() Q_DECL_OVERRIDE;

@@ -48,7 +48,7 @@ public:
         Success , Warning, Error, Unknown
     };
 
-    Analysis(QObject * parent = Q_NULLPTR);
+    Analysis(QObject * parent = nullptr);
 
     virtual ~Analysis();
     /*!

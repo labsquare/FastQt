@@ -30,7 +30,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 class PhredEncoding
 {
 public:
-    PhredEncoding(const QString& n = QString(), int offset = 0);
+    PhredEncoding(const QString& n = QStringLiteral(), int offset = 0);
 
     static PhredEncoding fastqEncodingOffset(char lowestChar);
     bool isValid();

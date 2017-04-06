@@ -19,7 +19,7 @@ public:
         ReadsColumn,
         TimeColumn
     };
-    MainAnalyseModel(QObject * parent = Q_NULLPTR);
+    MainAnalyseModel(QObject * parent = nullptr);
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;

@@ -89,8 +89,8 @@ QWidget *OverRepresentedSeqsAnalysis::createResultWidget()
 void OverRepresentedSeqsAnalysis::save(const QString &path)
 {
     QDir dir(path);
-    QString tsvPath     = dir.filePath(QString("%1.tsv").arg(metaObject()->className()));
-    QString fastaPath   = dir.filePath(QString("%1.fasta").arg(metaObject()->className()));
+    QString tsvPath     = dir.filePath(QStringLiteral("%1.tsv").arg(metaObject()->className()));
+    QString fastaPath   = dir.filePath(QStringLiteral("%1.fasta").arg(metaObject()->className()));
 
     QFile tsvFile(tsvPath);
     QFile fastaFile(fastaPath);
@@ -106,7 +106,7 @@ void OverRepresentedSeqsAnalysis::save(const QString &path)
         {
             double percentage = ((double)mSequences[s] / mCount) * 100;
             tsvStream<<s<<"\t"<<mSequences[s]<<"\t"<<percentage<<"\n";
-            fastaStream<<QString(">Seq_%1;count=%2;percentage=%3").arg(index).arg(mSequences[s]).arg(percentage)<<"\n";
+            fastaStream<<QStringLiteral(">Seq_%1;count=%2;percentage=%3").arg(index).arg(mSequences[s]).arg(percentage)<<"\n";
             fastaStream<<s<<endl;
 
             ++index;

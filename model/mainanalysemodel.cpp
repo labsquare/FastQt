@@ -199,7 +199,7 @@ void MainAnalyseModel::addFile(const QString &filename)
 AnalysisRunner *MainAnalyseModel::runner(const QModelIndex &index)
 {
     if (!index.isValid())
-        return Q_NULLPTR;
+        return nullptr;
 
     return mRunners.at(index.row());
 }

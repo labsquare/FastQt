@@ -61,42 +61,54 @@ void AnalysisRunner::run()
 
     QFileInfo fileInfo(mFilename);
 
-    QIODevice * file    = Q_NULLPTR;
-    QIODevice * rawFile = new QFile(mFilename);
+    QIODevice * file    = nullptr;
+    QFile rawFile(mFilename);
 
-    if (is_gz(rawFile))
+    if (is_gz(&rawFile))
     {
-        file = new KCompressionDevice(rawFile,true,KCompressionDevice::GZip);
+        file = new KCompressionDevice(&rawFile,true,KCompressionDevice::GZip);
         if (!is_fastq(file))
-            file = Q_NULLPTR;
+        {
+            delete file;
+            file = nullptr;
+        }
     }
-    else if (is_bz2(rawFile))
+    else if (is_bz2(&rawFile))
     {
-        file = new KCompressionDevice(rawFile, true, KCompressionDevice::BZip2);
+        file = new KCompressionDevice(&rawFile, true, KCompressionDevice::BZip2);
         if (!is_fastq(file))
-            file = Q_NULLPTR;
+        {
+            delete file;
+            file = nullptr;
+        }
     }
-    else if (is_xz(rawFile))
+    else if (is_xz(&rawFile))
     {
-        file = new KCompressionDevice(rawFile,true, KCompressionDevice::Xz);
+        file = new KCompressionDevice(&rawFile,true, KCompressionDevice::Xz);
         if (!is_fastq(file))
-            file = Q_NULLPTR;
+        {
+            delete file;
+            file = nullptr;
+        }
     }
-    else if (is_fastq(rawFile))
+    else if (is_fastq(&rawFile))
     {
-        file = rawFile;
+        rawFile.close();
+        file = new QFile(mFilename);
     }
 
-    if (file == Q_NULLPTR)
+    if (file == nullptr)
     {
         qDebug()<<Q_FUNC_INFO<<fileInfo.suffix()<< " file is not supported";
         setStatus(Canceled);
+        delete file;
         return;
     }
 
     if (fileInfo.size() == 0)
     {
         setStatus(Canceled);
+        delete file;
         return;
     }
 
@@ -123,6 +135,7 @@ void AnalysisRunner::run()
                 {
                     qCritical()<<Q_FUNC_INFO<<"Cannot read sequence. Are you sure it's a Fastq file ?";
                     setStatus(Canceled);
+                    delete file;
                     return ;
                 }
             }
@@ -132,12 +145,12 @@ void AnalysisRunner::run()
             // this is critcal and can decrease the speed. Send message only 1 sequence / 1000
             if (mSequenceCount % 1000 == 0)
             {
-                int percentNow = (float)(rawFile->pos()) / fileInfo.size() * 100;
+                int percentNow = qRound(static_cast<qreal>(file->pos()) / fileInfo.size() * 100);
                 // if percentNow is still null, return empty percent ...
                 if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
                     mProgression = percentNow;
-                    //emitUpdate(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(mSequenceCount).arg(mProgression));
+                    //emitUpdate(tr("%1 Sequences procceed ( %2 \% )").arg(mSequenceCount).arg(mProgression));
                 }
             }
 
@@ -218,7 +231,7 @@ void AnalysisRunner::cancel()
     mStatus = Canceled;
 }
 
-quint64 AnalysisRunner::fileSize() const
+qint64 AnalysisRunner::fileSize() const
 {
     return mFileSize;
 }
@@ -227,11 +240,11 @@ QString AnalysisRunner::humanFileSize() const
 {
     int unit;
     const char *units [] = {" Bytes", " kB", " MB", " GB"};
-    quint64 size = fileSize(); // or whatever
+    qint64 size = fileSize(); // or whatever
 
     for (unit=-1; (++unit<3) && (size>1023); size/=1024);
 
-    return QString::number(size, 'f', 1) + QString(units[unit]);
+    return QString::number(size, 'f', 1) + QString::fromLatin1(units[unit]);
 
 }
 
@@ -262,7 +275,7 @@ Analysis *AnalysisRunner::analysis(const QString &className)
 {
     if (mAnalysisHash.contains(className))
         return mAnalysisHash[className];
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 
