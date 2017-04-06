@@ -149,7 +149,7 @@ void AnalysisRunner::run()
                 if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
                     mProgression = percentNow;
-                    //emitUpdate(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(mSequenceCount).arg(mProgression));
+                    //emitUpdate(tr("%1 Sequences procceed ( %2 \% )").arg(mSequenceCount).arg(mProgression));
                 }
             }
 
