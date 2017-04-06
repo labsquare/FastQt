@@ -56,7 +56,7 @@ void MainWindow::addFiles()
         }
     }
 
-    statusBar()->showMessage(QString(tr("Running on %1 threads")).arg(QThreadPool::globalInstance()->activeThreadCount()));
+    statusBar()->showMessage(tr("Running on %1 threads").arg(QThreadPool::globalInstance()->activeThreadCount()));
     updateRecentMenu();
 }
 

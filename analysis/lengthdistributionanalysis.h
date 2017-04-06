@@ -15,7 +15,7 @@ class LengthDistributionAnalysis : public Analysis
 {
     Q_OBJECT
 public:
-    LengthDistributionAnalysis(QObject * parent = Q_NULLPTR);
+    LengthDistributionAnalysis(QObject * parent = nullptr);
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
     QWidget * createResultWidget() Q_DECL_OVERRIDE;

@@ -38,7 +38,7 @@ class PerSequenceQualityAnalysis : public Analysis
 {
     Q_OBJECT
 public:
-    PerSequenceQualityAnalysis(QObject * parent = Q_NULLPTR);
+    PerSequenceQualityAnalysis(QObject * parent = nullptr);
 
     virtual void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     virtual void reset() Q_DECL_OVERRIDE;

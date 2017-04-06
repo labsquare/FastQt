@@ -90,7 +90,7 @@ public:
 
     void cancel();
 
-    quint64 fileSize() const;
+    qint64 fileSize() const;
 
     QString humanFileSize() const;
 
@@ -123,7 +123,7 @@ private:
     QString mMessage;
     int mProgression = 0;
     int mSequenceCount = 0;
-    int mFileSize  = 0;
+    qint64 mFileSize  = 0;
     int mDuration  = 0;
     Status mStatus = Waiting;
     bool mCancel = false;

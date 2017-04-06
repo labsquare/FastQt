@@ -45,8 +45,9 @@ int main(int argc, char *argv[])
     QString locale = QLocale::system().name().section('_', 0, 0);
 
     QTranslator translator;
-    translator.load(QString("localization/fastqc_")+locale);
+    translator.load(QStringLiteral("localization/fastqc_")+locale);
     a.installTranslator(&translator);
+
 
     qRegisterMetaType<Sequence>();
 
