@@ -29,7 +29,7 @@ bool is_gz(QIODevice* file)
         QByteArray magic_number = file->read(2);
         file->close();
 
-        if (magic_number.isEmpty())
+        if (magic_number.length() < 2)
             return false;
 
         return (unsigned char) magic_number.at(0) == 0x1f && (unsigned char) (unsigned char) magic_number.at(1) == 0x8b;
@@ -47,7 +47,7 @@ bool is_bz2(QIODevice* file)
         QByteArray magic_number = file->read(2);
         file->close();
 
-        if (magic_number.isEmpty())
+        if (magic_number.length() < 2)
             return false;
 
         return (unsigned char) magic_number.at(0) == 'B' && (unsigned char) magic_number.at(1) == 'Z';
@@ -65,7 +65,7 @@ bool is_xz(QIODevice* file)
         QByteArray magic_number = file->read(6);
         file->close();
 
-        if (magic_number.isEmpty())
+        if (magic_number.length() < 6)
             return false;
 
         return (unsigned char) magic_number.at(0) == 0xFD && (unsigned char) magic_number.at(1) == '7'\
@@ -84,7 +84,7 @@ bool is_fastq(QIODevice* file)
     {
         QByteArray line;
         line = file->readLine();
-        if (line[0] != '@')
+        if ((line.length() < 1)||(line[0] != '@'))
         {
             file->close();
             return false;
@@ -92,20 +92,20 @@ bool is_fastq(QIODevice* file)
 
         line = file->readLine();
         // Some not alphabetic caractere are in range but you know isn't a problem
-        if (line[0] < 'A' || line[0] > 'z'){
+        if ((line.length() < 1)||(line[0] < 'A' || line[0] > 'z')){
             file->close();
             return false;
         }
 
         line = file->readLine();
-        if (line[0] != '+')
+        if ((line.length() < 1)||(line[0] != '+'))
         {
             file->close();
             return false;
         }
 
         line = file->readLine();
-        if (line[0] < '!' || line[0] > '~'){
+        if ((line.length() < 1)||(line[0] < '!' || line[0] > '~')){
             file->close();
             return false;
         }
