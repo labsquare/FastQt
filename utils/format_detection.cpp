@@ -32,7 +32,7 @@ bool is_gz(QIODevice* file)
         if (magic_number.length() < 2)
             return false;
 
-        return (unsigned char) magic_number.at(0) == 0x1f && (unsigned char) (unsigned char) magic_number.at(1) == 0x8b;
+        return static_cast<unsigned char>(magic_number.at(0)) == 0x1f && static_cast<unsigned char>(magic_number.at(1)) == 0x8b;
     }
     else
     {
@@ -50,7 +50,7 @@ bool is_bz2(QIODevice* file)
         if (magic_number.length() < 2)
             return false;
 
-        return (unsigned char) magic_number.at(0) == 'B' && (unsigned char) magic_number.at(1) == 'Z';
+        return static_cast<unsigned char>(magic_number.at(0)) == 'B' && static_cast<unsigned char>(magic_number.at(1)) == 'Z';
     }
     else
     {
@@ -68,9 +68,9 @@ bool is_xz(QIODevice* file)
         if (magic_number.length() < 6)
             return false;
 
-        return (unsigned char) magic_number.at(0) == 0xFD && (unsigned char) magic_number.at(1) == '7'\
-               && (unsigned char) magic_number.at(2) == 'z' && (unsigned char) magic_number.at(3) == 'X'\
-               && (unsigned char) magic_number.at(4) == 'Z' && (unsigned char) magic_number.at(5) == 0x00;
+        return static_cast<unsigned char>(magic_number.at(0)) == 0xFD && static_cast<unsigned char>(magic_number.at(1)) == '7'\
+               && static_cast<unsigned char>(magic_number.at(2)) == 'z' && static_cast<unsigned char>(magic_number.at(3)) == 'X'\
+               && static_cast<unsigned char>(magic_number.at(4)) == 'Z' && static_cast<unsigned char>(magic_number.at(5)) == 0x00;
     }
     else
     {
