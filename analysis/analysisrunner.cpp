@@ -61,33 +61,33 @@ void AnalysisRunner::run()
 
     QFileInfo fileInfo(mFilename);
 
-    QIODevice * file    = Q_NULLPTR;
+    QIODevice * file    = nullptr;
     QIODevice * rawFile = new QFile(mFilename);
 
     if (is_gz(rawFile))
     {
         file = new KCompressionDevice(rawFile,true,KCompressionDevice::GZip);
         if (!is_fastq(file))
-            file = Q_NULLPTR;
+            file = nullptr;
     }
     else if (is_bz2(rawFile))
     {
         file = new KCompressionDevice(rawFile, true, KCompressionDevice::BZip2);
         if (!is_fastq(file))
-            file = Q_NULLPTR;
+            file = nullptr;
     }
     else if (is_xz(rawFile))
     {
         file = new KCompressionDevice(rawFile,true, KCompressionDevice::Xz);
         if (!is_fastq(file))
-            file = Q_NULLPTR;
+            file = nullptr;
     }
     else if (is_fastq(rawFile))
     {
         file = rawFile;
     }
 
-    if (file == Q_NULLPTR)
+    if (file == nullptr)
     {
         qDebug()<<Q_FUNC_INFO<<fileInfo.suffix()<< " file is not supported";
         setStatus(Canceled);
@@ -262,7 +262,7 @@ Analysis *AnalysisRunner::analysis(const QString &className)
 {
     if (mAnalysisHash.contains(className))
         return mAnalysisHash[className];
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 

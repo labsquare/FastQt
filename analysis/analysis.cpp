@@ -24,7 +24,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 Analysis::Analysis(QObject * parent)
     :QObject(parent)
 {
-    mParentRunner = Q_NULLPTR;
+    mParentRunner = nullptr;
 }
 
 Analysis::~Analysis()

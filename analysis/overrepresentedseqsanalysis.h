@@ -11,7 +11,7 @@ class OverRepresentedSeqsAnalysis : public Analysis
 {
     Q_OBJECT
 public:
-    OverRepresentedSeqsAnalysis(QObject * parent = Q_NULLPTR);
+    OverRepresentedSeqsAnalysis(QObject * parent = nullptr);
 
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
@@ -52,7 +52,7 @@ class ResultsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    ResultsModel(QObject * parent = Q_NULLPTR);
+    ResultsModel(QObject * parent = nullptr);
     ~ResultsModel();
 
     void add(const QByteArray& seq, quint64 count, double percentage);

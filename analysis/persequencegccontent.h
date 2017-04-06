@@ -40,7 +40,7 @@ class PerSequenceGCContent : public Analysis
 {
     Q_OBJECT
 public:
-    PerSequenceGCContent(QObject * parent = Q_NULLPTR);
+    PerSequenceGCContent(QObject * parent = nullptr);
 
     virtual void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     virtual void reset() Q_DECL_OVERRIDE;
