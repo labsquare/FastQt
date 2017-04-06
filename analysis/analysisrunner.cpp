@@ -230,7 +230,7 @@ void AnalysisRunner::cancel()
     mStatus = Canceled;
 }
 
-quint64 AnalysisRunner::fileSize() const
+qint64 AnalysisRunner::fileSize() const
 {
     return mFileSize;
 }
@@ -239,7 +239,7 @@ QString AnalysisRunner::humanFileSize() const
 {
     int unit;
     const char *units [] = {" Bytes", " kB", " MB", " GB"};
-    quint64 size = fileSize(); // or whatever
+    qint64 size = fileSize(); // or whatever
 
     for (unit=-1; (++unit<3) && (size>1023); size/=1024);
 
