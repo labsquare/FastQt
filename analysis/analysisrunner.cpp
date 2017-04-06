@@ -243,7 +243,7 @@ QString AnalysisRunner::humanFileSize() const
 
     for (unit=-1; (++unit<3) && (size>1023); size/=1024);
 
-    return QString::number(size, 'f', 1) + QString(units[unit]);
+    return QString::number(size, 'f', 1) + QString::fromLatin1(units[unit]);
 
 }
 
