@@ -30,14 +30,13 @@ script:
   - make 
   - # Generate AppImage
   - sudo apt-get -y install checkinstall
-  - sudo checkinstall --pkgname=app --pkgversion="1" --pkgrelease="1" --backup=no --fstrans=no --default --deldoc 
-  - mkdir -p appdir/usr/bin ; cd appdir
-  - dpkg -x ../app_1-1_amd64.deb . ; find .
-  - mv ./usr/local/bin/* ./usr/bin/ # Why is this needed despite PREFIX=/usr? Bug?
+  - make INSTALL_ROOT=appdir install ; find appdir/
+  - cd appdir
+  - mv ./usr/local/bin/* ./usr/bin/ || true # Why is this needed despite PREFIX=/usr? Bug?
   - cp ./usr/share/icons/hicolor/48x48/apps/fastqt.png .
   - cp ./usr/share/applications/fastqt.desktop .
   - cd .. 
-  - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/3/linuxdeployqt-3-x86_64.AppImage" 
+  - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" 
   - chmod a+x linuxdeployqt*.AppImage
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -bundle-non-qt-libs
