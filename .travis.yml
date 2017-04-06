@@ -30,7 +30,7 @@ script:
   - # Generate AppImage
   - make INSTALL_ROOT=appdir install ; find appdir/
   - cd appdir
-  - mv ./usr/local/bin/* ./usr/bin/ || true # Why is this needed despite PREFIX=/usr? Bug?
+  - mkdir -p ./usr/bin ; mv ./usr/local/bin/* ./usr/bin/ || true # Why is this needed despite PREFIX=/usr? Bug?
   - cp ./usr/share/icons/hicolor/48x48/apps/fastqt.png .
   - cp ./usr/share/applications/fastqt.desktop .
   - cd .. 
