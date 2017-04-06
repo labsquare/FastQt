@@ -77,7 +77,7 @@ QWidget *BasicStatsAnalysis::createResultWidget()
     KeyValueModel * model = new KeyValueModel(view);
     view->setModel(model);
 
-    QString length = mMinLength == mMaxLength ? QString("%1").arg(mMaxLength) :  QString("%1-%2").arg(mMinLength).arg(mMaxLength);
+    QString length = mMinLength == mMaxLength ? QString::number(mMaxLength) :  QString("%1-%2").arg(mMinLength).arg(mMaxLength);
 
 
     model->addValue(tr("Total Sequences"), QLocale::system().toString(mReadCount));
