@@ -93,8 +93,7 @@ void AnalysisRunner::run()
     }
     else if (is_fastq(&rawFile))
     {
-        rawFile.close();
-        file = new QFile(mFilename);
+        file = &rawFile;
     }
 
     if (file == nullptr)
@@ -145,7 +144,7 @@ void AnalysisRunner::run()
             // this is critcal and can decrease the speed. Send message only 1 sequence / 1000
             if (mSequenceCount % 1000 == 0)
             {
-                int percentNow = qRound(static_cast<qreal>(file->pos()) / fileInfo.size() * 100);
+                int percentNow = qRound(static_cast<qreal>(rawFile.pos()) / fileInfo.size() * 100);
                 // if percentNow is still null, return empty percent ...
                 if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
@@ -179,7 +178,7 @@ void AnalysisRunner::run()
     }
 
     file->close();
-    delete file;
+    file->deleteLater();
 
 
 }
