@@ -19,7 +19,7 @@ QMAKE_CXXFLAGS += -std=c++11
 unix {
 # COMPILE HTSLIB
 mytarget.target = $$PWD/htslib/libhts.so
-mytarget.commands = cd $$PWD/htslib; make -j4
+mytarget.commands = cd $$PWD/htslib; make -j 4
 mytarget_clean.commands = cd $$PWD/htslib; make clean
 QMAKE_EXTRA_TARGETS += mytarget
 PRE_TARGETDEPS += $$PWD/htslib/libhts.so

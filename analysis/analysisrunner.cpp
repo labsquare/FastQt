@@ -64,7 +64,13 @@ void AnalysisRunner::run()
     QIODevice * file = Q_NULLPTR;
 
     file = new QFile(mFilename);
-    if (is_gz(file))
+    bool ubam = false;
+    if (is_ubam(file))
+    {
+        file = new QFile(mFilename);
+        ubam = true;
+    }
+    else if (is_gz(file))
     {
         file = new KCompressionDevice(mFilename, KCompressionDevice::GZip);
         if (!is_fastq(file))
@@ -105,12 +111,20 @@ void AnalysisRunner::run()
         mSequenceCount = 0;
         mProgression   = 0;
 
-        FastqReader reader(file);
+        AbstractSequenceReader* reader = nullptr;
+        if (ubam)
+        {
+            reader = new BamReader(static_cast<QFile*>(file));
+        }
+        else
+        {
+            reader = new FastqReader(file);
+        }
         mStartTime.start();
 
         // pre compute total size for sequencial access .
         //emitUpdate(tr("Analysis ..."));
-        reader.computeTotalSize();
+        reader->computeTotalSize();
 
 
 
@@ -118,13 +132,13 @@ void AnalysisRunner::run()
             a->before();
 
 
-        while (reader.next() && !mCancel)
+        while (reader->next() && !mCancel)
         {
 
             // check if first sequence is valid..Means it's probably a good file
             if (mSequenceCount == 0)
             {
-                if (!reader.sequence().isValid())
+                if (!reader->sequence().isValid())
                 {
                     qCritical()<<Q_FUNC_INFO<<"Cannot read sequence. Are you sure it's a Fastq file ?";
                     setStatus(Canceled);
@@ -137,7 +151,7 @@ void AnalysisRunner::run()
             // this is critcal and can decrease the speed. Send message only 1 sequence / 1000
             if (mSequenceCount % 1000 == 0)
             {
-                int percentNow = reader.percentComplete();
+                int percentNow = reader->percentComplete();
                 // if percentNow is still null, return empty percent ...
                 if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
@@ -149,7 +163,7 @@ void AnalysisRunner::run()
 
             for (Analysis * a : mAnalysisHash)
             {
-                a->processSequence(reader.sequence());
+                a->processSequence(reader->sequence());
             }
         }
 
@@ -163,6 +177,7 @@ void AnalysisRunner::run()
 
         mDuration = mStartTime.elapsed();
 
+        delete reader;
     }
 
     else

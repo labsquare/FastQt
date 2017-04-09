@@ -1,3 +1,4 @@
+
 /*
 Copyright Copyright 2016-17 Sacha Schutz
 
@@ -29,7 +30,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include "cliparser.h"
 #include "maincli.h"
 
-#include "bamreader.h"
+#include "htslib/hfile.h"
 
 int main(int argc, char *argv[])
 {

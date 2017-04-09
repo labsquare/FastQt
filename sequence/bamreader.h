@@ -7,7 +7,7 @@
 class BamReader : public AbstractSequenceReader
 {
 public:
-    BamReader(QFile * device);
+    BamReader(QFile *device);
     bool next() Q_DECL_OVERRIDE;
 
 

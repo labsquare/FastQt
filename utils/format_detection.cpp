@@ -113,3 +113,34 @@ bool is_fastq(QIODevice* file)
         return false;
     }
 }
+
+bool is_ubam(QIODevice* file)
+{
+    /*Check is a gzip file*/
+    if(is_gz(file))
+    {
+        if (file->open(QIODevice::ReadOnly))
+        {
+            /*Check is a bgzp file*/
+            /*We use https://samtools.github.io/hts-specs/SAMv1.pdf page 10*/
+            file->seek(12);
+            QByteArray magic_number = file->read(3);
+            file->close();
+
+            if(magic_number.length() != 3)
+                return false;
+
+            return static_cast<unsigned char>(magic_number.at(0)) == 'B' \
+                   && static_cast<unsigned char>(magic_number.at(1)) == 'C' \
+                   && static_cast<unsigned char>(magic_number.at(2)) == 2;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+}

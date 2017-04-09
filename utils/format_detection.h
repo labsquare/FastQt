@@ -32,4 +32,6 @@ bool is_xz(QIODevice* file);
 
 bool is_fastq(QIODevice* file);
 
+bool is_ubam(QIODevice* file);
+
 #endif // FORMAT_DETECTION_H
