@@ -1,14 +1,12 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-10-27T15:00:28
+# Project created by QtCreator 2017-04-13T21:32:57
 #
 #-------------------------------------------------
+
 QT       += core gui concurrent charts svg
-#QMAKE_CXXFLAGS  += -Ofast
 CONFIG   += c++11
-
-CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
-
+#CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
 # METHOD 1 : If KArchive is not installed as a Qt Module then copy to your Qt installation :
 #exemple
@@ -34,10 +32,7 @@ message($$LIBS)
 }
 
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-
-TARGET = fastqt
+TARGET = app
 TEMPLATE = app
 
 # Installation
@@ -46,10 +41,14 @@ desktop.path = /usr/share/applications
 desktop.files += fastqt.desktop
 icons.path = /usr/share/icons/hicolor/48x48/apps
 icons.files += fastqt.png
-
 INSTALLS += target desktop icons
 
-SOURCES += main.cpp
+
+SOURCES += main.cpp\
+        mainwindow.cpp
+
+HEADERS  += mainwindow.h
+
 include("sequence/sequence.pri")
 include("analysis/analysis.pri")
 include("ui/ui.pri")
@@ -63,5 +62,3 @@ RESOURCES += \
 
 
 TRANSLATIONS = localization/fastqc_fr.ts
-
-
