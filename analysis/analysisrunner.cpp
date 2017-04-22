@@ -61,62 +61,56 @@ void AnalysisRunner::run()
 
     QFileInfo fileInfo(mFilename);
 
-    QIODevice * file    = nullptr;
     QFile rawFile(mFilename);
+    QScopedPointer<QIODevice>  uncompressFile;
 
     if (is_gz(&rawFile))
     {
-        file = new KCompressionDevice(&rawFile,true,KCompressionDevice::GZip);
-        if (!is_fastq(file))
-        {
-            delete file;
-            file = nullptr;
-        }
+        uncompressFile.reset(new KCompressionDevice(&rawFile,false,KCompressionDevice::GZip));
+        if (!is_fastq(uncompressFile.data()))
+        return;
+
     }
     else if (is_bz2(&rawFile))
     {
-        file = new KCompressionDevice(&rawFile, true, KCompressionDevice::BZip2);
-        if (!is_fastq(file))
-        {
-            delete file;
-            file = nullptr;
-        }
+       uncompressFile.reset(new KCompressionDevice(&rawFile, false, KCompressionDevice::BZip2));
+        if (!is_fastq(uncompressFile.data()))
+        return;
     }
     else if (is_xz(&rawFile))
     {
-        file = new KCompressionDevice(&rawFile,true, KCompressionDevice::Xz);
-        if (!is_fastq(file))
-        {
-            delete file;
-            file = nullptr;
-        }
+        uncompressFile.reset(new KCompressionDevice(&rawFile,false, KCompressionDevice::Xz));
+        if (!is_fastq(uncompressFile.data()))
+        return;
     }
     else if (is_fastq(&rawFile))
     {
-        file = &rawFile;
+        uncompressFile.reset(new KCompressionDevice(&rawFile,false, KCompressionDevice::None));
+        if (!is_fastq(uncompressFile.data()))
+        return;
+
     }
 
-    if (file == nullptr)
+    if (uncompressFile.isNull())
     {
         qDebug()<<Q_FUNC_INFO<<fileInfo.suffix()<< " file is not supported";
         setStatus(Canceled);
-        delete file;
         return;
     }
 
     if (fileInfo.size() == 0)
     {
         setStatus(Canceled);
-        delete file;
         return;
     }
 
-    if (file->open(QIODevice::ReadOnly))
+
+    if (uncompressFile.data()->open(QIODevice::ReadOnly))
     {
         mSequenceCount = 0;
         mProgression   = 0;
 
-        FastqReader reader(file);
+        FastqReader reader(uncompressFile.data());
         mStartTime.start();
 
 
@@ -134,7 +128,6 @@ void AnalysisRunner::run()
                 {
                     qCritical()<<Q_FUNC_INFO<<"Cannot read sequence. Are you sure it's a Fastq file ?";
                     setStatus(Canceled);
-                    delete file;
                     return ;
                 }
             }
@@ -177,8 +170,6 @@ void AnalysisRunner::run()
         qDebug()<<Q_FUNC_INFO<<"Cannot open file";
     }
 
-    file->close();
-    file->deleteLater();
 
 
 }
