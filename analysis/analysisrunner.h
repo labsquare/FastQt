@@ -89,6 +89,7 @@ public:
     int sequenceCount() const;
 
     void cancel();
+    bool isCanceled();
 
     qint64 fileSize() const;
 
@@ -127,6 +128,7 @@ private:
     int mDuration  = 0;
     Status mStatus = Waiting;
     bool mCancel = false;
+    QMutex mMutex;
 
 
 

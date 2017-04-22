@@ -118,7 +118,7 @@ void AnalysisRunner::run()
             a->before();
 
 
-        while (reader.next() && !mCancel)
+        while (reader.next() && !isCanceled())
         {
 
             // check if first sequence is valid..Means it's probably a good file
@@ -217,8 +217,15 @@ int AnalysisRunner::sequenceCount() const
 
 void AnalysisRunner::cancel()
 {
+    QMutexLocker locker(&mMutex);
     mCancel = true;
     mStatus = Canceled;
+}
+
+bool AnalysisRunner::isCanceled()
+{
+    QMutexLocker locker(&mMutex);
+    return mCancel;
 }
 
 qint64 AnalysisRunner::fileSize() const
