@@ -33,8 +33,8 @@ bool BamReader::next()
             qseq[i] = seq_nt16_str[bam_seqi(q,i)]; //gets nucleotide id and converts them into IUPAC id.
         }
 
-        seq.setSequence(QByteArray(qseq));
-        seq.setQuality(QByteArray(qseq));
+        seq.setSequence(QByteArray(qseq, len));
+        seq.setQuality(QByteArray(qseq, len));
 
 
         // update sequence
