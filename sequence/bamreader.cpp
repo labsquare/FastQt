@@ -24,17 +24,19 @@ bool BamReader::next()
         char *chr = bamHdr->target_name[aln->core.tid] ; //contig name (chromosome)
         uint32_t len = aln->core.l_qseq; //length of the read.
 
-        uint8_t *q = bam_get_seq(aln); //quality string
-        uint32_t q2 = aln->core.qual ; //mapping quality
+        uint8_t *q = bam_get_seq(aln); //sequence string
+        uint8_t *q2 = bam_get_qual(aln); //sequence quality
 
-        char *qseq = (char *)malloc(len);
+        char *qseq = static_cast<char *>(malloc(len));
+        char* qqua = static_cast<char *>(malloc(len));
 
         for(int i=0; i< len ; i++){
             qseq[i] = seq_nt16_str[bam_seqi(q,i)]; //gets nucleotide id and converts them into IUPAC id.
+            qqua[i] = static_cast<char>(q2[i]);
         }
 
         seq.setSequence(QByteArray(qseq, len));
-        seq.setQuality(QByteArray(qseq, len));
+        seq.setQuality(QByteArray(qqua, len));
 
 
         // update sequence
