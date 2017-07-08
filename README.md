@@ -1,6 +1,6 @@
 # FastQt
 
-![travis](https://api.travis-ci.org/labsquare/fastQt.svg?branch=master) [![Gitter](https://badges.gitter.im/labsquare/fastQt.svg)](https://gitter.im/labsquare/fastQt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Build status](https://ci.appveyor.com/api/projects/status/skmgugijflggfq4x?svg=true)](https://ci.appveyor.com/project/dridk/fastqt) [![Coverage Status](https://coveralls.io/repos/github/labsquare/fastQt/badge.svg?branch=master)](https://coveralls.io/github/labsquare/fastQt?branch=master) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.824550.svg)](https://doi.org/10.5281/zenodo.824550)
+![travis](https://api.travis-ci.org/labsquare/fastQt.svg?branch=master) [![Gitter](https://badges.gitter.im/labsquare/fastQt.svg)](https://gitter.im/labsquare/fastQt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Build status](https://ci.appveyor.com/api/projects/status/skmgugijflggfq4x?svg=true)](https://ci.appveyor.com/project/dridk/fastqt) [![Coverage Status](https://coveralls.io/repos/github/labsquare/fastQt/badge.svg?branch=master)](https://coveralls.io/github/labsquare/fastQt?branch=master) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.824549.svg)](https://doi.org/10.5281/zenodo.824549)
 
 FastQt is the clone of [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) application ported
 from Java to [C++/Qt5](https://www.qt.io/)
@@ -97,4 +97,4 @@ fastqt file1.fastq -t 2 # Fastqt run maximal two process this option is valid fo
 ```
 
 ## How to cite FastQt
-Labsquare Team, et al (2017). FastQt: a quality control tool for high throughput sequence data. Available online at: https://github.com/labsquare/fastQt doi:10.5281/zenodo.824550
+Labsquare Team, et al (2017). FastQt: a quality control tool for high throughput sequence data. Available online at: https://github.com/labsquare/fastQt doi:10.5281/zenodo.824549
