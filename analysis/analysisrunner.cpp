@@ -61,33 +61,38 @@ void AnalysisRunner::run()
 
     QFileInfo fileInfo(mFilename);
 
-    QFile rawFile(mFilename);
     QScopedPointer<QIODevice>  uncompressFile;
+    QFile * rawFile = new QFile(mFilename);
 
-    if (is_gz(&rawFile))
+    if (is_gz(rawFile))
     {
-        uncompressFile.reset(new KCompressionDevice(&rawFile,false,KCompressionDevice::GZip));
+        // true  : mean delete rawFile with KCompressionDevice.
+        // KcompressionDevice is a QScopedPointer and will be deleted at the end
+        uncompressFile.reset(new KCompressionDevice(rawFile,true,KCompressionDevice::GZip));
         if (!is_fastq(uncompressFile.data()))
         return;
 
     }
-    else if (is_bz2(&rawFile))
+    else if (is_bz2(rawFile))
     {
-       uncompressFile.reset(new KCompressionDevice(&rawFile, false, KCompressionDevice::BZip2));
+       uncompressFile.reset(new KCompressionDevice(rawFile, true, KCompressionDevice::BZip2));
         if (!is_fastq(uncompressFile.data()))
         return;
     }
-    else if (is_xz(&rawFile))
+    else if (is_xz(rawFile))
     {
-        uncompressFile.reset(new KCompressionDevice(&rawFile,false, KCompressionDevice::Xz));
+        uncompressFile.reset(new KCompressionDevice(rawFile,true, KCompressionDevice::Xz));
         if (!is_fastq(uncompressFile.data()))
         return;
     }
-    else if (is_fastq(&rawFile))
+    else if (is_fastq(rawFile))
     {
-        uncompressFile.reset(new KCompressionDevice(&rawFile,false, KCompressionDevice::None));
+        // rawFile is QScopedPointer in the case
+        uncompressFile.reset(rawFile);
         if (!is_fastq(uncompressFile.data()))
         return;
+
+
 
     }
 
@@ -137,7 +142,7 @@ void AnalysisRunner::run()
             // this is critcal and can decrease the speed. Send message only 1 sequence / 1000
             if (mSequenceCount % 1000 == 0)
             {
-                int percentNow = qRound(static_cast<qreal>(rawFile.pos()) / fileInfo.size() * 100);
+                int percentNow = qRound(static_cast<qreal>(rawFile->pos()) / fileInfo.size() * 100);
                 // if percentNow is still null, return empty percent ...
                 if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
