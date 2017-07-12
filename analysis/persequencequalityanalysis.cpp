@@ -68,6 +68,8 @@ QWidget *PerSequenceQualityAnalysis::createResultWidget()
     QList<int> keys       = mAverageScoreCounts.keys();
     QList<quint64> values = mAverageScoreCounts.values();
 
+
+
     QChartView * view = new QChartView;
     view->setRenderHint(QPainter::Antialiasing);
 
@@ -78,9 +80,13 @@ QWidget *PerSequenceQualityAnalysis::createResultWidget()
     qSort(keys);
     qSort(values);
 
+    mEncodingScheme = PhredEncoding::fastqEncodingOffset(keys.first());
+
+
+
     for (int key : keys )
     {
-        lineseries->append(QPoint(key, mAverageScoreCounts[key]));
+        lineseries->append(QPoint(key-mEncodingScheme.offset(), mAverageScoreCounts[key]));
     }
 
 
@@ -91,7 +97,7 @@ QWidget *PerSequenceQualityAnalysis::createResultWidget()
 
     QValueAxis * axisX= new QValueAxis;
     axisX->setTickCount(10);
-    axisX->setRange(keys.first(), keys.last());
+    axisX->setRange(keys.first()-mEncodingScheme.offset(), keys.last()-mEncodingScheme.offset());
     axisX->setLabelFormat("%i");
     axisX->setTitleText(tr("Score quality (phred)"));
     chart->setAxisX(axisX);

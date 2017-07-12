@@ -26,6 +26,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QtCore>
 #include <QtCharts>
 #include "analysis.h"
+#include "phredencoding.h"
 
 using namespace QT_CHARTS_NAMESPACE;
 /*!
@@ -47,7 +48,7 @@ public:
 
 private:
     QHash<int, quint64> mAverageScoreCounts;
-
+    PhredEncoding mEncodingScheme;
 };
 
 #endif // PERSEQUENCEQUALITYANALYSIS_H
