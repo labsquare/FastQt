@@ -10,11 +10,27 @@ MainCLI::MainCLI(QCommandLineParser* parser, QObject *parent) : QEventLoop(paren
 
 int MainCLI::exec()
 {
+    // check cite option if is set return citation in bibtex format and stop
+    if (mParser->isSet("cite"))
+    {
+        cout<<"@misc{FastQt,"<<endl;
+        cout<<"      author = {Labsquare Team et al},"<<endl;
+        cout<<"      title = {FastQt: a quality control tool for high throughput sequence data.},"<<endl;
+        cout<<"      year = {2017},"<<endl;
+        cout<<"      publisher = {GitHub},"<<endl;
+        cout<<"      journal = {GitHub repository},"<<endl;
+        cout<<"      howpublished = {\\url{https://github.com/labsquare/fastQt},"<<endl;
+        cout<<"      doi = {doi:10.5281/zenodo.824549}"<<endl;
+        cout<<"}"<<endl;
+        exit();
+        return 0;
+    }
 
     if (mParser->positionalArguments().isEmpty())
     {
         qDebug()<<"No fastq provided";
-        quit();
+        exit();
+        return 0;
     }
 
 //    QString tmp = mParser->value("out-img-format");

@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
     parser.process(a);
 
-    if(parser.positionalArguments().empty())
+    if(parser.positionalArguments().empty() && !parser.isSet("cite"))
     {
         MainWindow window;
         window.show();
