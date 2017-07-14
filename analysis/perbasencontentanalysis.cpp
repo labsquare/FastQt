@@ -64,7 +64,7 @@ QWidget *PerBaseNContentAnalysis::createResultWidget()
 
     QLineSeries * NSerie = new QLineSeries ();
 
-    qreal xMul = mNCounts.size()/nPercent.size();
+    qreal xMul = mNCounts.size()/static_cast<qreal>(nPercent.size());
     for (int i=0; i<nPercent.size(); ++i)
     {
         NSerie->append(i * xMul, nPercent[i]);
