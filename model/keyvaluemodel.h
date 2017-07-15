@@ -34,7 +34,7 @@ class KeyValueModel : public QAbstractListModel
 public:
     KeyValueModel(QObject * parent = 0);
 
-    void addValue(const QString& label, const QVariant& value, const QString& description = QString());
+    void addValue(const QString& label, const QVariant& value, const QString& description = QStringLiteral());
 
 
 

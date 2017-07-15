@@ -26,6 +26,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QtCore>
 #include <QtCharts>
 #include "analysis.h"
+#include "phredencoding.h"
 
 using namespace QT_CHARTS_NAMESPACE;
 /*!
@@ -38,7 +39,7 @@ class PerSequenceQualityAnalysis : public Analysis
 {
     Q_OBJECT
 public:
-    PerSequenceQualityAnalysis(QObject * parent = Q_NULLPTR);
+    PerSequenceQualityAnalysis(QObject * parent = nullptr);
 
     virtual void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     virtual void reset() Q_DECL_OVERRIDE;
@@ -47,7 +48,7 @@ public:
 
 private:
     QHash<int, quint64> mAverageScoreCounts;
-
+    PhredEncoding mEncodingScheme;
 };
 
 #endif // PERSEQUENCEQUALITYANALYSIS_H

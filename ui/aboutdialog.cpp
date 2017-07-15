@@ -31,7 +31,7 @@ AboutDialog::AboutDialog(QWidget * parent)
     addTab(":/text/CHANGELOG");
 
     mTitle = qApp->applicationName();
-    mSubtitle = QString("Version %1\nGPL3 Copyright (C) 2017\nLabsquare.org").arg(qApp->applicationVersion());
+    mSubtitle = QStringLiteral("Version %1\nGPL3 Copyright (C) 2017\nLabsquare.org").arg(qApp->applicationVersion());
     drawHeader();
 
     setWindowTitle(tr("About %1").arg(qApp->applicationName()));

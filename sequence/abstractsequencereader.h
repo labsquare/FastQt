@@ -45,16 +45,13 @@ class AbstractSequenceReader
 public:
     AbstractSequenceReader(QIODevice * device);
 
+    virtual ~AbstractSequenceReader() {};
+
     /*!
      * \brief Move to the next sequence
      * \return false if the file end has been reach.
      */
     virtual bool next() = 0;
-    /*!
-     * \brief percentComplete return percent of bytes processed
-     * \return a a value between 0 and 100
-     */
-    virtual int percentComplete() const;
 
     /*!
      * \brief Return the current sequence.
@@ -63,10 +60,6 @@ public:
      */
     const Sequence& sequence() const;
 
-
-    void computeTotalSize() ;
-    long long totalSize() const;
-
 protected:
     void setSequence(const Sequence& seq);
     QIODevice * device() const;
@@ -74,7 +67,6 @@ protected:
 private:
     QIODevice * mDevice;
     Sequence mSequence;
-    long long mTotalSize = 0;
 };
 
 #endif // ABSTRACTSEQUENCEREADER_H

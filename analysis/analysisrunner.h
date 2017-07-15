@@ -25,6 +25,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 #include <QtCore>
 #include <KCompressionDevice>
 #include "bamreader.h"
+#include <KFilterBase>
 #include "analysis.h"
 #include "fastqreader.h"
 #include "imageformatdefinition.h"
@@ -50,7 +51,7 @@ public:
     AnalysisRunner();
     AnalysisRunner(const QString& filename);
 
-    ~AnalysisRunner();
+    virtual ~AnalysisRunner();
 
     /*!
      * \brief run all analyis asynchronously
@@ -89,8 +90,9 @@ public:
     int sequenceCount() const;
 
     void cancel();
+    bool isCanceled();
 
-    quint64 fileSize() const;
+    qint64 fileSize() const;
 
     QString humanFileSize() const;
 
@@ -123,10 +125,11 @@ private:
     QString mMessage;
     int mProgression = 0;
     int mSequenceCount = 0;
-    int mFileSize  = 0;
+    qint64 mFileSize  = 0;
     int mDuration  = 0;
     Status mStatus = Waiting;
     bool mCancel = false;
+    QMutex mMutex;
 
 
 

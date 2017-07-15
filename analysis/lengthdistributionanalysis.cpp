@@ -29,10 +29,10 @@ QWidget *LengthDistributionAnalysis::createResultWidget()
     QChartView * view = new QChartView;
     view->setRenderHint(QPainter::Antialiasing);
 
-    QLineSeries * serie = new QLineSeries;
-
     if (mGraphCounts.isEmpty())
         return view;
+
+    QLineSeries * serie = new QLineSeries;
 
     int yMax = 0;
     auto graph_count_it = mGraphCounts.begin();

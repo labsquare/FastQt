@@ -38,6 +38,8 @@ void populateCLIParser(QCommandLineParser &parser)
     QCommandLineOption threadOption(QStringList() << "t" << "threads",
                                     QCoreApplication::tr("Specifies the number of files which can be processed simultaneously. Use by default all avaible CPU"),
                                     "threads");
+    QCommandLineOption citeOption("cite",
+                                       QCoreApplication::tr("Get in bibtex format to cite FastQt"));
 
 //    QCommandLineOption outImgFormatOption(QStringList() << "out-img-format",
 //                                          QCoreApplication::tr("Specifies the format image output. By default value is \"svg\". Possible value is \"svg\" and \"png\"."),
@@ -47,5 +49,6 @@ void populateCLIParser(QCommandLineParser &parser)
 
     parser.addOption(outputOption);
     parser.addOption(threadOption);
+    parser.addOption(citeOption);
 //    parser.addOption(outImgFormatOption);
 }

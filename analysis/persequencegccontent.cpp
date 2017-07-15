@@ -34,10 +34,10 @@ QWidget* PerSequenceGCContent::createResultWidget()
     /* Compute gc% not reacheable value */
     QSet<int> not_reacheable;
     QSet<int> reacheable;
-    for(int i = 0; i != mXMax; i++)
+    for(quint64 i = 0; i != mXMax; i++)
         reacheable << qRound((i/75.0) * 100);
 
-    for(int i = 0; i != 101; i++)
+    for(quint64 i = 0; i != 101; i++)
         not_reacheable << i;
 
     not_reacheable -= reacheable;

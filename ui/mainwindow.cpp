@@ -45,17 +45,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::addFiles()
 {
-    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Extension (*.fq *.fq.* *.fastq *.fastq.* *.trim *.trim.*);; Any Extension (*)"));
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,tr("Open Fastq file"), QDir::homePath(), tr("Fastq Extension (*.fq *.fq.* *.fastq *.fastq.* *.trim *.trim.* *.bam *.ubam);; Any Extension (*)"));
     if (!fileNames.isEmpty())
     {
         for (QString file : fileNames)
         {
+            qDebug()<<"add file ";
             mView->addFile(file);
+            addRecent(file);
         }
     }
 
-    statusBar()->showMessage(QString(tr("Running on %1 threads")).arg(QThreadPool::globalInstance()->activeThreadCount()));
-
+    statusBar()->showMessage(tr("Running on %1 threads").arg(QThreadPool::globalInstance()->activeThreadCount()));
+    updateRecentMenu();
 }
 
 void MainWindow::remFiles()
@@ -134,9 +136,15 @@ void MainWindow::setupActions()
     // File menu
     QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
     QAction * openAction = fileMenu->addAction(QFontIcon::icon(0xf067), tr("&Add files"),this, SLOT(addFiles()), QKeySequence::Open);
-    QAction * exportSelAction = fileMenu->addAction(QFontIcon::icon(0xf0c7),tr("&Export selection"),this, SLOT(exportSelection()), QKeySequence::Save);
 
-    fileMenu->addSeparator();
+    mRecentMenu = fileMenu->addMenu(tr("Fichiers récents"));
+    updateRecentMenu();
+
+
+    QAction * exportSelAction = fileMenu->addAction(QFontIcon::icon(0xf0c7),tr("&Export"),this, SLOT(exportSelection()), QKeySequence::Save);
+    openAction->setToolTip(tr("Add Fastq(s) files for analysis"));
+    exportSelAction->setToolTip(tr("Export selected analyses" ));
+
     fileMenu->addAction(QFontIcon::icon(0xf00d),tr("&Close"),qApp, SLOT(closeAllWindows()), QKeySequence::Close);
 
 
@@ -144,7 +152,12 @@ void MainWindow::setupActions()
     QMenu * editMenu = menuBar()->addMenu(tr("&Edit"));
     QAction * remAction  = editMenu->addAction(QFontIcon::icon(0xf068), tr("&Remove"),this, SLOT(remFiles()), QKeySequence::Delete);
     QAction * stopAction = editMenu->addAction(QFontIcon::icon(0xf04d), tr("&Stop"),this, SLOT(stopFiles()));
-    QAction * clearAction= editMenu->addAction(QFontIcon::icon(0xf1f8), tr("&Clear all"),this, SLOT(clearFiles()));
+    QAction * clearAction= editMenu->addAction(QFontIcon::icon(0xf1f8), tr("&Clear"),this, SLOT(clearFiles()));
+
+    remAction->setToolTip(tr("Remove selected analyses"));
+    stopAction->setToolTip(tr("Cancel selected analyses"));
+    clearAction->setToolTip(tr("Clear completed analyses"));
+
     editMenu->addSeparator();
     editMenu->addAction(tr("&Select all"),mView,SLOT(selectAll()), QKeySequence::SelectAll);
 
@@ -152,6 +165,7 @@ void MainWindow::setupActions()
     //View menu
     QMenu * viewMenu = menuBar()->addMenu(tr("&View"));
     QAction * showAction = viewMenu->addAction(QFontIcon::icon(0xf06e), tr("&Show analysis"),this, SLOT(showAnalysis()));
+    showAction->setToolTip(tr("Show selected analysis"));
 
 
 
@@ -164,7 +178,7 @@ void MainWindow::setupActions()
 
     QToolBar * bar = addToolBar(tr("Open"));
     bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-   // bar->setIconSize(QSize(22,22));
+    // bar->setIconSize(QSize(22,22));
     bar->addAction(openAction);
     bar->addAction(remAction);
     bar->addSeparator();
@@ -177,6 +191,53 @@ void MainWindow::setupActions()
 
 
 
+}
+
+void MainWindow::addRecent(const QString &path)
+{
+    QStringList recents = loadRecent();
+    recents.prepend(path);
+    recents.removeDuplicates();
+
+    QSettings settings;
+    settings.beginWriteArray("recents");
+    settings.clear();
+    int max = recents.size() > MAX_RECENT ? MAX_RECENT : recents.size();
+
+    for (int i=0; i<max; ++i)
+    {
+        settings.setArrayIndex(i);
+        settings.setValue("path",recents.at(i));
+    }
+
+    settings.endArray();
+}
+
+QStringList MainWindow::loadRecent()
+{
+    QStringList recents;
+    QSettings settings;
+    int size  = settings.beginReadArray("recents");
+    int max   = size > MAX_RECENT ? MAX_RECENT : size;
+
+    for (int i=0; i<max; ++i)
+    {
+        settings.setArrayIndex(i);
+        recents.append(settings.value("path").toString());
+    }
+
+    settings.endArray();
+
+    return recents;
+}
+
+void MainWindow::updateRecentMenu()
+{
+    mRecentMenu->clear();
+    for (QString recent : loadRecent())
+    {
+        mRecentMenu->addAction(recent,this, [recent,this](){mView->addFile(recent);});
+    }
 }
 
 

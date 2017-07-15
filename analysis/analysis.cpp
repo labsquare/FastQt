@@ -24,7 +24,7 @@ Copyright Copyright 2016-17 Sacha Schutz
 Analysis::Analysis(QObject * parent)
     :QObject(parent)
 {
-    mParentRunner = Q_NULLPTR;
+    mParentRunner = nullptr;
 }
 
 Analysis::~Analysis()
@@ -36,8 +36,8 @@ void Analysis::save(const QString &path)
 {
     QString name = metaObject()->className();
     QDir dir(path);
-    QString svgPath = dir.filePath(QString("%1.svg").arg(name));
-    QString pngPath = dir.filePath(QString("%1.png").arg(name));
+    QString svgPath = dir.filePath(QStringLiteral("%1.svg").arg(name));
+    QString pngPath = dir.filePath(QStringLiteral("%1.png").arg(name));
 
     capture(svgPath);
     capture(pngPath, ImageFormat::PngFormat);

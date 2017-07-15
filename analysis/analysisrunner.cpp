@@ -61,39 +61,48 @@ void AnalysisRunner::run()
 
     QFileInfo fileInfo(mFilename);
 
-    QIODevice * file = Q_NULLPTR;
+    QScopedPointer<QIODevice>  uncompressFile;
+    QFile * rawFile = new QFile(mFilename);
 
-    file = new QFile(mFilename);
     bool ubam = false;
-    if (is_ubam(file))
+    if (is_ubam(rawFile))
     {
-        file = new QFile(mFilename);
+        uncompressFile.reset(new QFile(mFilename));
         ubam = true;
     }
-    else if (is_gz(file))
+    else if (is_gz(rawFile))
     {
-        file = new KCompressionDevice(mFilename, KCompressionDevice::GZip);
-        if (!is_fastq(file))
-            file = Q_NULLPTR;
+        // true  : mean delete rawFile with KCompressionDevice.
+        // KcompressionDevice is a QScopedPointer and will be deleted at the end
+        uncompressFile.reset(new KCompressionDevice(rawFile,true,KCompressionDevice::GZip));
+        if (!is_fastq(uncompressFile.data()))
+        return;
+
     }
-    else if (is_bz2(file))
+    else if (is_bz2(rawFile))
     {
-        file = new KCompressionDevice(mFilename, KCompressionDevice::BZip2);
-        if (!is_fastq(file))
-            file = Q_NULLPTR;
+       uncompressFile.reset(new KCompressionDevice(rawFile, true, KCompressionDevice::BZip2));
+        if (!is_fastq(uncompressFile.data()))
+        return;
     }
-    else if (is_xz(file))
+    else if (is_xz(rawFile))
     {
-        file = new KCompressionDevice(mFilename, KCompressionDevice::Xz);
-        if (!is_fastq(file))
-            file = Q_NULLPTR;
+        uncompressFile.reset(new KCompressionDevice(rawFile,true, KCompressionDevice::Xz));
+        if (!is_fastq(uncompressFile.data()))
+        return;
     }
-    else if (is_fastq(file))
+    else if (is_fastq(rawFile))
     {
-        file = new QFile(mFilename);
+        // rawFile is QScopedPointer in the case
+        uncompressFile.reset(rawFile);
+        if (!is_fastq(uncompressFile.data()))
+        return;
+
+
+
     }
 
-    if (file == Q_NULLPTR)
+    if (uncompressFile.isNull())
     {
         qDebug()<<Q_FUNC_INFO<<fileInfo.suffix()<< " file is not supported";
         setStatus(Canceled);
@@ -106,7 +115,8 @@ void AnalysisRunner::run()
         return;
     }
 
-    if (file->open(QIODevice::ReadOnly))
+
+    if (uncompressFile.data()->open(QIODevice::ReadOnly))
     {
         mSequenceCount = 0;
         mProgression   = 0;
@@ -114,25 +124,18 @@ void AnalysisRunner::run()
         AbstractSequenceReader* reader = nullptr;
         if (ubam)
         {
-            reader = new BamReader(static_cast<QFile*>(file));
+            reader = new BamReader(static_cast<QFile*>(rawFile));
         }
         else
         {
-            reader = new FastqReader(file);
+            reader = new FastqReader(rawFile);
         }
         mStartTime.start();
-
-        // pre compute total size for sequencial access .
-        //emitUpdate(tr("Analysis ..."));
-        reader->computeTotalSize();
-
-
 
         for (Analysis * a : mAnalysisHash)
             a->before();
 
-
-        while (reader->next() && !mCancel)
+        while (reader->next() && !isCanceled())
         {
 
             // check if first sequence is valid..Means it's probably a good file
@@ -151,12 +154,13 @@ void AnalysisRunner::run()
             // this is critcal and can decrease the speed. Send message only 1 sequence / 1000
             if (mSequenceCount % 1000 == 0)
             {
-                int percentNow = reader->percentComplete();
+                int percentNow = qRound(static_cast<qreal>(rawFile->pos()) / fileInfo.size() * 100);
+
                 // if percentNow is still null, return empty percent ...
                 if ( (percentNow >= mProgression + 5) || (percentNow == 0))
                 {
                     mProgression = percentNow;
-                    //emitUpdate(QString(tr("%1 Sequences procceed ( %2 \% )")).arg(mSequenceCount).arg(mProgression));
+                    //emitUpdate(tr("%1 Sequences procceed ( %2 \% )").arg(mSequenceCount).arg(mProgression));
                 }
             }
 
@@ -185,8 +189,6 @@ void AnalysisRunner::run()
         qDebug()<<Q_FUNC_INFO<<"Cannot open file";
     }
 
-    file->close();
-    delete file;
 
 
 }
@@ -234,24 +236,31 @@ int AnalysisRunner::sequenceCount() const
 
 void AnalysisRunner::cancel()
 {
+    QMutexLocker locker(&mMutex);
     mCancel = true;
     mStatus = Canceled;
 }
 
-quint64 AnalysisRunner::fileSize() const
+bool AnalysisRunner::isCanceled()
+{
+    QMutexLocker locker(&mMutex);
+    return mCancel;
+}
+
+qint64 AnalysisRunner::fileSize() const
 {
     return mFileSize;
 }
 
 QString AnalysisRunner::humanFileSize() const
 {
-    char unit;
+    int unit;
     const char *units [] = {" Bytes", " kB", " MB", " GB"};
-    quint64 size = fileSize(); // or whatever
+    qint64 size = fileSize(); // or whatever
 
     for (unit=-1; (++unit<3) && (size>1023); size/=1024);
 
-    return QString::number(size, 'f', 1) + QString(units[unit]);
+    return QString::number(size, 'f', 1) + QString::fromLatin1(units[unit]);
 
 }
 
@@ -282,7 +291,7 @@ Analysis *AnalysisRunner::analysis(const QString &className)
 {
     if (mAnalysisHash.contains(className))
         return mAnalysisHash[className];
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 

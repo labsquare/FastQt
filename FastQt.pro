@@ -5,8 +5,9 @@
 #-------------------------------------------------
 QT       += core gui concurrent charts svg
 #QMAKE_CXXFLAGS  += -Ofast
-QMAKE_CXXFLAGS += -std=c++11
-#CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
+CONFIG   += c++11
+
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
 
 # METHOD 1 : If KArchive is not installed as a Qt Module then copy to your Qt installation :

@@ -20,8 +20,6 @@ bool BamReader::next()
     {
         Sequence seq;
 
-        int32_t pos = aln->core.pos +1; //left most position of alignment in zero based coordianate (+1)
-        char *chr = bamHdr->target_name[aln->core.tid] ; //contig name (chromosome)
         uint32_t len = aln->core.l_qseq; //length of the read.
 
         uint8_t *q = bam_get_seq(aln); //sequence string
@@ -30,7 +28,7 @@ bool BamReader::next()
         char *qseq = static_cast<char *>(malloc(len));
         char* qqua = static_cast<char *>(malloc(len));
 
-        for(int i=0; i< len ; i++){
+        for(unsigned int i=0; i< len ; i++){
             qseq[i] = seq_nt16_str[bam_seqi(q,i)]; //gets nucleotide id and converts them into IUPAC id.
             qqua[i] = static_cast<char>(q2[i]);
         }

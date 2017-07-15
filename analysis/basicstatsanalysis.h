@@ -42,7 +42,7 @@ class BasicStatsAnalysis : public Analysis
     Q_PROPERTY(int readCount READ readCount)
 
 public:
-    BasicStatsAnalysis(QObject * parent = Q_NULLPTR);
+    BasicStatsAnalysis(QObject * parent = nullptr);
     void processSequence(const Sequence& sequence) Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
     QWidget * createResultWidget() Q_DECL_OVERRIDE;

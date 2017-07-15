@@ -9,7 +9,7 @@ MainAnalyseModel::MainAnalyseModel(QObject * parent)
     //    connect(mSignalMapper,SIGNAL(mapped(int)),this,SLOT(updated(int)));
     connect(mTimer,SIGNAL(timeout()),this,SLOT(timeUpdated()));
 
-    mTimer->setInterval(1000);
+    mTimer->setInterval(300);
 
 }
 
@@ -55,6 +55,7 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
 
         if (index.column() == ProgressColumn)
             return mRunners.at(index.row())->progression();
+
 
         if (index.column() == ReadsColumn)
             return mRunners.at(index.row())->sequenceCount();
@@ -109,6 +110,7 @@ QVariant MainAnalyseModel::data(const QModelIndex &index, int role) const
             case AnalysisRunner::Waiting : return QColor(Qt::lightGray); break;
             case AnalysisRunner::Canceled: return QColor(Qt::darkRed); break;
             case AnalysisRunner::Finished: return QColor(Qt::darkGreen); break;
+            default: break;
             }
         }
 
@@ -197,7 +199,7 @@ void MainAnalyseModel::addFile(const QString &filename)
 AnalysisRunner *MainAnalyseModel::runner(const QModelIndex &index)
 {
     if (!index.isValid())
-        return Q_NULLPTR;
+        return nullptr;
 
     return mRunners.at(index.row());
 }

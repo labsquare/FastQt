@@ -44,13 +44,14 @@ int main(int argc, char *argv[])
     a.setApplicationName("FastQt");
     a.setOrganizationName("Labsquare");
     a.setOrganizationDomain("labsquare.org");
-    a.setApplicationVersion("0.2.2");
+    a.setApplicationVersion("0.2.3");
 
     QString locale = QLocale::system().name().section('_', 0, 0);
 
     QTranslator translator;
-    translator.load(QString("translations/fastqc_")+locale);
+    translator.load(QStringLiteral("localization/fastqc_")+locale);
     a.installTranslator(&translator);
+
 
     qRegisterMetaType<Sequence>();
 
@@ -61,7 +62,7 @@ int main(int argc, char *argv[])
 
     parser.process(a);
 
-    if(parser.positionalArguments().empty())
+    if(parser.positionalArguments().empty() && !parser.isSet("cite"))
     {
         MainWindow window;
         window.show();

@@ -31,38 +31,9 @@ AbstractSequenceReader::AbstractSequenceReader(QIODevice *device)
 
 }
 
-int AbstractSequenceReader::percentComplete() const
-{
-    if (totalSize() == 0)
-        return 0;
-
-    quint64 percent = qFloor(qreal(mDevice->pos()) / totalSize() * 100);
-    return percent;
-
-}
-
 const Sequence &AbstractSequenceReader::sequence() const
 {
     return mSequence;
-}
-
-void AbstractSequenceReader::computeTotalSize()
-{
-    if (mDevice->size() == 0) // sequential
-    {
-        while (!mDevice->atEnd())
-            mDevice->readLine();
-        mTotalSize = mDevice->pos();
-        mDevice->seek(0);
-    }
-    else { // Random access
-        mTotalSize = mDevice->size();
-    }
-}
-
-long long AbstractSequenceReader::totalSize() const
-{
-    return mTotalSize;
 }
 
 QIODevice *AbstractSequenceReader::device() const
