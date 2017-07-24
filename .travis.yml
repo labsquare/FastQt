@@ -6,6 +6,7 @@ sudo: required
 before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt58-trusty -y
   - sudo apt-get update
+  - git submodule update --init --recursive
 
 install:
   - sudo apt-get install qt58base qt58svg qt58charts-no-lgpl
@@ -40,7 +41,7 @@ script:
   - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" 
   - chmod a+x linuxdeployqt*.AppImage
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-  - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/htslib/
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/htslib/
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -bundle-non-qt-libs
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -appimage 
   - curl --upload-file ./FastQt*.AppImage https://transfer.sh/FastQt-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
