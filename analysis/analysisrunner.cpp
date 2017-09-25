@@ -128,7 +128,7 @@ void AnalysisRunner::run()
         }
         else
         {
-            reader = new FastqReader(rawFile);
+            reader = new FastqReader(uncompressFile.data());
         }
         mStartTime.start();
 
@@ -256,7 +256,7 @@ QString AnalysisRunner::humanFileSize() const
 {
     int unit;
     const char *units [] = {" Bytes", " kB", " MB", " GB"};
-    qint64 size = fileSize(); // or whatever
+    float size = float(fileSize()); // or whatever
 
     for (unit=-1; (++unit<3) && (size>1023); size/=1024);
 
