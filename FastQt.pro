@@ -41,7 +41,7 @@ TARGET = fastqt
 TEMPLATE = app
 
 # Installation
-target.path  = /usr/local/bin
+target.path  = /usr/bin
 desktop.path = /usr/share/applications
 desktop.files += fastqt.desktop
 icons.path = /usr/share/icons/hicolor/48x48/apps
