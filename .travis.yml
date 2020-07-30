@@ -12,13 +12,13 @@ install:
   - source /opt/qt58/bin/qt58-env.sh
 
 script:
-  - git clone git://anongit.kde.org/extra-cmake-modules
+  - git clone https://anongit.kde.org/extra-cmake-modules
   - cd extra-cmake-modules
   - mkdir build && cd build    
   - cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
   - make && sudo make install
   - cd ../..
-  - git clone git://anongit.kde.org/karchive.git
+  - git clone https://anongit.kde.org/karchive.git
   - cd karchive
   - mkdir build && cd build 
   - cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
