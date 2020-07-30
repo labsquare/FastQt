@@ -14,13 +14,13 @@ install:
 
 
 script:
-  - git clone https://invent.kde.org/frameworks/extra-cmake-modules.git
+  - git clone https://github.com/KDE/extra-cmake-modules.git
   - cd extra-cmake-modules
   - mkdir build && cd build    
   - cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
   - make && sudo make install
   - cd ../..
-  - git clone https://invent.kde.org/frameworks/karchive.git
+  - git clone https://github.com/KDE/karchive.git
   - cd karchive
   - mkdir build && cd build 
   - cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
