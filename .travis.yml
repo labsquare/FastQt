@@ -27,7 +27,7 @@ script:
   - make 
   - sudo make install
   - cd ../..
-  - /opt/qt58/bin/qmake PREFIX=/usr
+  - /opt/qt512/bin/qmake PREFIX=/usr
   - make 
   - # Generate AppImage
   - sudo apt-get -y install checkinstall
