@@ -10,6 +10,7 @@ before_install:
 
 install:
   - sudo apt-get install qt512base qt512svg qt512charts-no-lgpl
+  - sudo apt-get install libgl-dev
   - source /opt/qt512/bin/qt512-env.sh 
 
 
